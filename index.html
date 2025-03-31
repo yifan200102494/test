@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奇闻异事 - 沉浸式剧本杀体验</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-cn">奇闻异事</span>
+            <span class="logo-en">Strange Tales</span>
+            <img src="#" alt="Logo" />
+          </a>
+        </div>
+        <!-- 直接添加onclick事件处理 -->
+        <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
+            <span class="current-lang">中</span>
+            <span class="lang-divider">/</span>
+            <span>EN</span>
+        </div>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menu">
+            <ul>
+                <li><a href="index.html" data-en="Home">首页</a></li>
+                <li><a href="#about" data-en="About Us">关于我们</a></li>
+                <li><a href="#introduction" data-en="Game Intro">剧本杀介绍</a></li>
+                <li><a href="scripts.html" data-en="Scripts">主题剧本</a></li>
+                <li><a href="contact.html" data-en="Contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 英雄区域 -->
+    <section class="hero" id="home">
+        <h1 data-en="Immersive Murder Mystery Experience">沉浸式剧本杀体验</h1>
+        <p data-en="Explore mysteries, uncover truths, experience a different world of reasoning and deduction">探索谜题，揭开真相，体验不一样的推理世界</p>
+        <a href="#introduction" class="btn" data-en="Learn More">了解剧本杀</a>
+    </section>
+    
+    <!-- 关于我们 -->
+    <section class="section" id="about">
+        <h2 class="section-title fade-in" data-en="About Us">关于我们</h2>
+        <div class="about-content fade-in">
+            <p data-en="'Strange Tales' is a specialized establishment offering high-quality immersive murder mystery experiences. We feature meticulously designed themed rooms and professional game hosts dedicated to providing each player with an authentic detective experience.">「奇闻异事」是一家专注于提供高质量沉浸式剧本杀体验的实体店。我们拥有精心设计的主题房间和专业的游戏主持人，致力于为每位玩家带来身临其境的推理体验。</p>
+            <p data-en="Our scripts are created by a team of experienced writers, with engaging plots and interconnected clues that allow each player to immerse themselves in exciting stories and experience the joy of solving puzzles.">我们的剧本均由资深编剧团队创作，情节扣人心弦，线索环环相扣，让每位玩家都能够沉浸在精彩的故事中，体验解谜的乐趣。</p>
+            <p data-en="Whether you're a murder mystery novice or a veteran player, 'Strange Tales' can meet your needs and provide you with an unforgettable gaming experience.">无论您是剧本杀新手还是老玩家，「奇闻异事」都能满足您的需求，带给您难忘的游戏体验。</p>
+        </div>
+    </section>
+    
+    <!-- 剧本杀介绍 -->
+    <section class="section introduction" id="introduction">
+        <h2 class="section-title fade-in" data-en="What is Murder Mystery?">剧本杀是什么？</h2>
+        <div class="introduction-content fade-in">
+            <p data-en="For newcomers, murder mystery is an immersive board game that combines role-playing, reasoning, and social interaction. Each player takes on a specific character and, under the guidance of a DM (Dungeon Master), works to reconstruct a complete story and solve puzzles through reading scripts, collecting clues, and communicating with others.">对于初次接触的朋友，剧本杀是一种沉浸式的桌游娱乐活动，融合了角色扮演、推理解谜和社交互动等元素。每位玩家将扮演一个特定角色，在DM（游戏主持人）的引导下，通过阅读剧本、收集线索、互相交流，共同还原一个完整的故事，解开谜题。</p>
+            
+            <div class="intro-card fade-in">
+                <h3><i class="fas fa-users"></i> <span data-en="Role Playing">角色扮演</span></h3>
+                <p data-en="Each player receives a unique character identity and background story. In the game, you need to 'embody' this character, ensuring your thoughts and actions align with the character's personality traits and goals. This sense of role immersion is one of the core attractions of murder mystery games.">每位玩家将获得一个独特的角色身份和背景故事，在游戏中你需要"化身"为这个角色，思考和行动都要符合角色的性格特点和目标。这种角色代入感是剧本杀的核心魅力之一。</p>
+            </div>
+            
+            <div class="intro-card fade-in">
+                <h3><i class="fas fa-search"></i> <span data-en="Reasoning & Puzzle Solving">推理解谜</span></h3>
+                <p data-en="Scripts often contain one or more puzzles (usually murder cases, theft cases, etc.). Players need to deduce the truth of events by collecting and analyzing clues. This process requires logical thinking and careful observation, making it challenging and engaging.">剧本中往往包含一个或多个谜题（通常是凶杀案、盗窃案等），玩家需要通过收集和分析线索，推理出事件的真相。这个过程需要逻辑思维和细致观察，充满挑战性。</p>
+            </div>
+            
+            <div class="intro-card fade-in">
+                <h3><i class="fas fa-comments"></i> <span data-en="Communication & Interaction">交流互动</span></h3>
+                <p data-en="Murder mystery is a social game where communication between players is crucial. You need to gather information through conversations with other players while also protecting your own secrets. This social interaction fills the game with variables and fun.">剧本杀是一项社交游戏，玩家之间的交流至关重要。你需要通过与其他玩家的对话来获取信息，同时也要保护自己的秘密。这种社交互动让游戏充满变数和乐趣。</p>
+            </div>
+            
+            <div class="intro-card fade-in">
+                <h3><i class="fas fa-dice"></i> <span data-en="Game Process">游戏流程</span></h3>
+                <p data-en="Generally, the murder mystery game process includes: self-introduction, reading personal scripts, collecting clues, discussion and analysis, and revealing the truth. The entire game usually lasts 3-5 hours, and even beginners can quickly get the hang of it under the guidance of a professional DM.">一般来说，剧本杀的游戏流程包括：自我介绍、阅读个人剧本、收集线索、讨论分析、公布真相等环节。整个游戏通常持续3-5小时，在专业DM的引导下，即使是新手也能很快上手。</p>
+            </div>
+            
+            <div class="intro-video fade-in">
+                <div class="video-placeholder">
+                    <i class="fas fa-play-circle"></i>
+                    <p data-en="Murder Mystery Experience Video">剧本杀体验视频展示</p>
+                </div>
+            </div>
+            
+            <div class="intro-note fade-in" data-en="At 'Strange Tales', we provide detailed game guidance and simple, friendly introductory scripts for new players, allowing you to easily enter the wonderful world of murder mystery. No experience necessary—just bring your curiosity and spirit of exploration to enjoy an unforgettable experience!">在「奇闻异事」，我们为新手玩家提供详细的游戏指导和简单友好的入门剧本，让您轻松踏入剧本杀的奇妙世界。无需任何经验，只要带着好奇心和探索精神，就能获得一次难忘的体验！</div>
+            
+            <!-- DM介绍部分 -->
+            <div class="dm-intro fade-in">
+                <h3><i class="fas fa-user-tie"></i> <span data-en="What is a DM?">什么是DM?</span></h3>
+                <p data-en="DM (Dungeon Master) is a crucial role in murder mystery games. They are not just rules enforcers but also story guides and guardians of the gaming experience. An excellent DM can help players fully immerse in a carefully crafted story world, leading everyone through an unforgettable adventure.">DM（Dungeon Master，游戏主持人）是剧本杀游戏中至关重要的角色。他们不仅仅是规则的执行者，更是故事的引导者和游戏体验的守护者。一个优秀的DM能够让玩家完全沉浸在精心打造的故事世界中，带领大家体验一场难忘的冒险。</p>
+                
+                <div class="dm-skills">
+                    <div class="dm-skill">
+                        <i class="fas fa-book"></i>
+                        <h4 data-en="Story Control">剧情掌控</h4>
+                        <p data-en="The DM is familiar with every detail of the script and can flexibly adjust the game process based on players' choices and actions, ensuring the story develops smoothly.">DM熟悉剧本的每一个细节，能够根据玩家的选择和行动，灵活调整游戏进程，确保故事流畅发展。</p>
+                    </div>
+                    <div class="dm-skill">
+                        <i class="fas fa-theater-masks"></i>
+                        <h4 data-en="Character Acting">角色扮演</h4>
+                        <p data-en="The DM portrays NPC characters in the script, creating an immersive interactive experience for players through voice, expressions, and body language.">DM会扮演剧本中的NPC角色，通过声音、表情和肢体语言，为玩家创造沉浸式的互动体验。</p>
+                    </div>
+                    <div class="dm-skill">
+                        <i class="fas fa-balance-scale"></i>
+                        <h4 data-en="Rules Adjudication">规则裁定</h4>
+                        <p data-en="When disputes or special situations arise in the game, the DM is responsible for making fair rulings to maintain game balance and fun.">当游戏中出现争议或特殊情况时，DM负责做出公正的裁决，保证游戏的平衡和乐趣。</p>
+                    </div>
+                </div>
+                
+                <p data-en="At 'Strange Tales', our DM team consists of experienced veteran players who are not only well-versed in game rules but also know how to create a tense and exciting atmosphere to provide you with an unforgettable murder mystery experience. Whether you're a beginner or a veteran player, our DMs can provide professional and attentive guidance based on your needs and gaming style.">在「奇闻异事」，我们的DM团队由经验丰富的资深玩家组成，他们不仅精通游戏规则，更懂得如何营造紧张刺激的氛围，带给您难忘的剧本杀体验。无论您是新手还是老玩家，我们的DM都能根据您的需求和游戏风格，提供专业而贴心的引导服务。</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="social-links">
+            <a href="#" class="social-link">
+                <i class="fab fa-weixin"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-douyin"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            <span data-en="&copy; 2025 Strange Tales Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

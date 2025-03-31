@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们 - 奇闻异事</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-cn">奇闻异事</span>
+            <span class="logo-en">Strange Tales</span>
+            <img src="#" alt="Logo">
+          </a>
+        </div>
+        <!-- 直接添加onclick事件处理 -->
+        <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
+            <span class="current-lang">中</span>
+            <span class="lang-divider">/</span>
+            <span>EN</span>
+        </div>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menu">
+            <ul>
+                <li><a href="index.html" data-en="Home">首页</a></li>
+                <li><a href="index.html#about" data-en="About Us">关于我们</a></li>
+                <li><a href="index.html#introduction" data-en="Game Intro">剧本杀介绍</a></li>
+                <li><a href="scripts.html" data-en="Scripts">主题剧本</a></li>
+                <li><a href="contact.html" data-en="Contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 联系我们 -->
+    <section class="section" id="contact">
+        <h2 class="section-title fade-in" data-en="Contact Us">联系我们</h2>
+        <div class="contact-info fade-in">
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div>
+                    <h3 data-en="Address">地址</h3>
+                    <p data-en="123 Commercial Street, City Center (Lake View Plaza, 2nd Floor)">中国城</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div>
+                    <h3 data-en="Phone">电话</h3>
+                    <p data-en="Reservation Hotline: 123-4567-8910">预约热线: 123-4567-8910</p>
+                </div>
+            </div>
+            <div class="contact-item">
+                <div class="contact-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div>
+                    <h3 data-en="Business Hours">营业时间</h3>
+                    <p data-en="Monday to Friday: 13:00 - 22:00">周一至周五: 13:00 - 22:00</p>
+                    <p data-en="Saturday and Sunday: 10:00 - 24:00">周六至周日: 10:00 - 24:00</p>
+                </div>
+            </div>
+            <div class="map">
+                <span data-en="Map loading... (map will be embedded in actual use)">地图加载中... (实际使用时可嵌入地图)</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="social-links">
+            <a href="#" class="social-link">
+                <i class="fab fa-weixin"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-douyin"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            <span data-en="&copy; 2025 Strange Tales Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主题剧本 - 奇闻异事</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-cn">奇闻异事</span>
+            <span class="logo-en">Strange Tales</span>
+            <img src="#" alt="Logo">
+          </a>
+        </div>
+        <!-- 直接添加onclick事件处理 -->
+        <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
+            <span class="current-lang">中</span>
+            <span class="lang-divider">/</span>
+            <span>EN</span>
+        </div>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menu">
+            <ul>
+                <li><a href="index.html" data-en="Home">首页</a></li>
+                <li><a href="index.html#about" data-en="About Us">关于我们</a></li>
+                <li><a href="index.html#introduction" data-en="Game Intro">剧本杀介绍</a></li>
+                <li><a href="scripts.html" data-en="Scripts">主题剧本</a></li>
+                <li><a href="contact.html" data-en="Contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 主题剧本 -->
+    <section class="section scripts" id="scripts">
+        <h2 class="section-title fade-in" data-en="Featured Scripts">新手剧本推荐</h2>
+        <div class="script-cards">
+            <div class="script-card fade-in">
+                <img src="#" alt="剧本1" class="script-img">
+                <div class="script-info">
+                    <h3 data-en="Castle Shadows">剧本1</h3>
+                    <p data-en="Script description">剧本描述</p>
+                    <div class="script-meta">
+                        <span data-en="Difficulty: ★★★☆☆">难度: ★★★☆☆</span>
+                        <span data-en="6-8 players">6-8人</span>
+                    </div>
+                </div>
+            </div>
+            <div class="script-card fade-in">
+                <img src="#" alt="剧本2" class="script-img">
+                <div class="script-info">
+                    <h3 data-en="Deep Sea Mystery">剧本2</h3>
+                    <p data-en="Script description">剧本描述</p>
+                    <div class="script-meta">
+                        <span data-en="Difficulty: ★★★★☆">难度: ★★★★☆</span>
+                        <span data-en="7-9 players">7-9人</span>
+                    </div>
+                </div>
+            </div>
+            <div class="script-card fade-in">
+                <img src="#" alt="剧本3" class="script-img">
+                <div class="script-info">
+                    <h3 data-en="Chained Hotel">剧本3</h3>
+                    <p data-en="Script description">剧本描述</p>
+                    <div class="script-meta">
+                        <span data-en="Difficulty: ★★★★★">难度: ★★★★★</span>
+                        <span data-en="5-7 players">5-7人</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="social-links">
+            <a href="#" class="social-link">
+                <i class="fab fa-weixin"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-douyin"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            <span data-en="&copy; 2025 Strange Tales Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
