@@ -137,3 +137,65 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', checkFade);
     window.addEventListener('resize', checkFade);
 });
+// 剧本筛选功能
+const filterButtons = document.querySelectorAll('.filter-btn');
+const filterableCards = document.querySelectorAll('.filterable-cards .script-card');
+
+// 存储当前活跃的筛选器
+const activeFilters = {
+    difficulty: 'all',
+    players: 'all',
+    theme: 'all'
+};
+
+// 为所有筛选按钮添加点击事件
+filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const filterType = this.getAttribute('data-filter');
+        const filterValue = this.getAttribute('data-value');
+        
+        // 清除当前类型的所有活跃状态
+        document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`).forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // 添加活跃状态到选中的按钮
+        this.classList.add('active');
+        
+        // 更新活跃筛选器
+        activeFilters[filterType] = filterValue;
+        
+        // 应用筛选
+        applyFilters();
+    });
+});
+
+// 初始化：将所有"全部"按钮标记为活跃
+document.querySelectorAll('.filter-btn[data-value="all"]').forEach(btn => {
+    btn.classList.add('active');
+});
+
+// 应用筛选器函数
+function applyFilters() {
+    filterableCards.forEach(card => {
+        let isVisible = true;
+        
+        // 检查每个筛选条件
+        for (const [filterType, filterValue] of Object.entries(activeFilters)) {
+            if (filterValue !== 'all') {
+                const cardValue = card.getAttribute(`data-${filterType}`);
+                if (cardValue !== filterValue) {
+                    isVisible = false;
+                    break;
+                }
+            }
+        }
+        
+        // 根据筛选结果显示或隐藏
+        if (isVisible) {
+            card.classList.remove('hidden');
+        } else {
+            card.classList.add('hidden');
+        }
+    });
+}

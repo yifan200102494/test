@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主营业务 - 奇闻异事</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-cn">奇闻异事</span>
+            <span class="logo-en">Strange Tales</span>
+            <img src="#" alt="Logo" />
+          </a>
+        </div>
+        <!-- 直接添加onclick事件处理 -->
+        <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
+            <span class="current-lang">中</span>
+            <span class="lang-divider">/</span>
+            <span>EN</span>
+        </div>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menu">
+            <ul>
+                <li><a href="index.html" data-en="Home">首页</a></li>
+                <li><a href="business.html" data-en="main business">主营业务</a></li>
+                <li><a href="index.html#introduction" data-en="Game Intro">剧本杀介绍</a></li>
+                <li><a href="scripts.html" data-en="Scripts">剧本</a></li>
+                <li><a href="contact.html" data-en="Contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 主营业务标题 -->
+    <section class="hero business-hero">
+        <h1 data-en="Our Main Business">我们的主营业务</h1>
+        <p data-en="Explore our diverse entertainment offerings">探索我们多元化的娱乐体验</p>
+    </section>
+    
+    <!-- 业务介绍概述 -->
+    <section class="section" id="business-overview">
+        <h2 class="section-title fade-in" data-en="Business Overview">业务概述</h2>
+        <div class="about-content fade-in">
+            <p data-en="'Strange Tales' is not just a murder mystery venue. We offer a variety of entertainment experiences to meet different needs and preferences. From traditional board games to mahjong tables and a stylish bar, we aim to create a comprehensive social and entertainment space.">「奇闻异事」不仅仅是一家剧本杀场所，我们提供多种娱乐体验，满足不同需求和喜好。从传统桌游到麻将桌，再到时尚酒吧，我们致力于打造一个全方位的社交娱乐空间。</p>
+        </div>
+    </section>
+    
+    <!-- 桌面游戏介绍 -->
+    <section class="section business-section" id="board-games">
+        <div class="business-container fade-in">
+            <div class="business-image">
+                <img src="/api/placeholder/500/300" alt="桌面游戏" />
+            </div>
+            <div class="business-content">
+                <h2 class="business-title" data-en="Board Games">桌面游戏</h2>
+                <p data-en="Our board game collection features over 200 carefully selected titles from around the world, catering to both casual players and enthusiasts. From classic strategy games to the latest party games, we have something for everyone.">我们的桌游收藏包含200多种精心挑选的全球桌游，既满足休闲玩家也适合桌游发烧友。从经典策略游戏到最新派对游戏，总有一款适合您。</p>
+                
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-users"></i>
+                        <h4 data-en="Game Categories">游戏类别</h4>
+                        <p data-en="Strategy, Party, Card Games, Cooperative, Family-friendly, and more.">策略、派对、卡牌、合作、家庭友好型等多种类别。</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <h4 data-en="Game Tutorials">游戏教学</h4>
+                        <p data-en="Our game hosts can explain rules and guide you through your first games.">我们的游戏主持人可以解释规则并指导您的首次游戏体验。</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h4 data-en="Game Nights">主题游戏夜</h4>
+                        <p data-en="Regular themed game nights and tournaments for the community.">定期举办主题游戏之夜和锦标赛活动。</p>
+                    </div>
+                </div>
+                
+                <div class="business-pricing">
+                    <h4 data-en="Pricing">价格信息</h4>
+                    <p data-en="Hourly rate: ¥30 per person | All-day pass: ¥88 per person">按小时计费：每人¥30/小时 | 全天通票：每人¥88</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 麻将介绍 -->
+    <section class="section business-section alt-bg" id="mahjong">
+        <div class="business-container fade-in reverse">
+            <div class="business-content">
+                <h2 class="business-title" data-en="Mahjong Tables">麻将室</h2>
+                <p data-en="Experience the traditional Chinese game of Mahjong in our premium private rooms. Each room is equipped with automatic Mahjong tables and comfortable seating for extended play sessions.">在我们高级私密包间体验传统中国麻将游戏。每个房间都配备自动麻将桌和舒适座椅，适合长时间游戏。</p>
+                
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-door-closed"></i>
+                        <h4 data-en="Private Rooms">私密包间</h4>
+                        <p data-en="Five themed private rooms of different sizes to accommodate groups of 4-8 people.">五个不同大小的主题私密包间，可容纳4-8人。</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-magic"></i>
+                        <h4 data-en="Automatic Tables">自动麻将桌</h4>
+                        <p data-en="Premium automatic tables for effortless gameplay and tile management.">高级自动麻将桌，轻松游戏，自动理牌。</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-concierge-bell"></i>
+                        <h4 data-en="Service">服务</h4>
+                        <p data-en="In-room service for food and drinks from our bar menu.">提供包间内食品和饮料服务，可从我们的酒吧菜单中选择。</p>
+                    </div>
+                </div>
+                
+                <div class="business-pricing">
+                    <h4 data-en="Pricing">价格信息</h4>
+                    <p data-en="Standard room: ¥100/hour | Premium room: ¥150/hour | VIP room: ¥200/hour">标准间：¥100/小时 | 高级间：¥150/小时 | VIP间：¥200/小时</p>
+                </div>
+            </div>
+            <div class="business-image">
+                <img src="/api/placeholder/500/300" alt="麻将室" />
+            </div>
+        </div>
+    </section>
+    
+    <!-- 酒吧介绍 -->
+    <section class="section business-section" id="bar">
+        <div class="business-container fade-in">
+            <div class="business-image">
+                <img src="/api/placeholder/500/300" alt="酒吧" />
+            </div>
+            <div class="business-content">
+                <h2 class="business-title" data-en="Bar & Lounge">酒吧休息区</h2>
+                <p data-en="Our stylish bar area serves as both a relaxing lounge and a social hub. Enjoy craft cocktails, local beers, and a selection of wines while socializing or unwinding after a game.">我们时尚的酒吧区既是放松休息的场所，也是社交中心。游戏之余，您可以享用精酿鸡尾酒、当地啤酒和精选葡萄酒，同时社交或放松。</p>
+                
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-cocktail"></i>
+                        <h4 data-en="Craft Cocktails">精酿鸡尾酒</h4>
+                        <p data-en="Signature mystery-themed cocktails created by our experienced bartenders.">由我们经验丰富的调酒师创造的招牌神秘主题鸡尾酒。</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-utensils"></i>
+                        <h4 data-en="Food Menu">美食菜单</h4>
+                        <p data-en="Light snacks and shareable plates perfect for gaming sessions.">轻食小吃和可分享的拼盘，完美搭配游戏体验。</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-music"></i>
+                        <h4 data-en="Atmosphere">氛围体验</h4>
+                        <p data-en="Curated music and ambient lighting to enhance your experience.">精心挑选的音乐和环境照明，提升您的体验。</p>
+                    </div>
+                </div>
+                
+                <div class="business-pricing">
+                    <h4 data-en="Happy Hour">欢乐时光</h4>
+                    <p data-en="Monday to Thursday, 5:00PM - 7:00PM: Buy one get one free on selected drinks">周一至周四，下午5点至7点：指定饮品买一送一</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="social-links">
+            <a href="contact.html" class="social-link">
+                <i class="fab fa-weixin"></i>
+            </a>
+            <a href="#" class="social-link">
+                <i class="fab fa-douyin"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            <span data-en="&copy; 2025 Strange Tales Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

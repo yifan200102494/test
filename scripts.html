@@ -31,14 +31,47 @@
         <div class="menu" id="menu">
             <ul>
                 <li><a href="index.html" data-en="Home">首页</a></li>
-                <li><a href="index.html#about" data-en="About Us">关于我们</a></li>
+                <li><a href="business.html" data-en="main business">主营业务</a></li>
                 <li><a href="index.html#introduction" data-en="Game Intro">剧本杀介绍</a></li>
-                <li><a href="scripts.html" data-en="Scripts">主题剧本</a></li>
+                <li><a href="scripts.html" data-en="Scripts">剧本</a></li>
                 <li><a href="contact.html" data-en="Contact">联系我们</a></li>
             </ul>
         </div>
     </nav>
-    
+    <section class="section filter-section" id="filter">
+        <h2 class="section-title fade-in" data-en="Script Filter">剧本筛选</h2>
+        <div class="filter-container fade-in">
+            <div class="filter-group">
+                <label data-en="Difficulty">难度:</label>
+                <div class="filter-options">
+                    <button class="filter-btn" data-filter="difficulty" data-value="all" data-en="All">全部</button>
+                    <button class="filter-btn" data-filter="difficulty" data-value="easy" data-en="Easy">简单</button>
+                    <button class="filter-btn" data-filter="difficulty" data-value="medium" data-en="Medium">中等</button>
+                    <button class="filter-btn" data-filter="difficulty" data-value="hard" data-en="Hard">困难</button>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <label data-en="Players">人数:</label>
+                <div class="filter-options">
+                    <button class="filter-btn" data-filter="players" data-value="all" data-en="All">全部</button>
+                    <button class="filter-btn" data-filter="players" data-value="small" data-en="4-6">4-6人</button>
+                    <button class="filter-btn" data-filter="players" data-value="medium" data-en="7-9">7-9人</button>
+                    <button class="filter-btn" data-filter="players" data-value="large" data-en="10+">10人以上</button>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <label data-en="Theme">主题:</label>
+                <div class="filter-options">
+                    <button class="filter-btn" data-filter="theme" data-value="all" data-en="All">全部</button>
+                    <button class="filter-btn" data-filter="theme" data-value="mystery" data-en="Mystery">悬疑</button>
+                    <button class="filter-btn" data-filter="theme" data-value="horror" data-en="Horror">恐怖</button>
+                    <button class="filter-btn" data-filter="theme" data-value="fantasy" data-en="Fantasy">奇幻</button>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- 主题剧本 -->
     <section class="section scripts" id="scripts">
         <h2 class="section-title fade-in" data-en="Featured Scripts">新手剧本推荐</h2>
@@ -78,11 +111,34 @@
             </div>
         </div>
     </section>
-    
+    <section class="section scripts" id="all-scripts">
+        <h2 class="section-title fade-in" data-en="All Scripts">所有剧本</h2>
+        <div class="script-cards filterable-cards">
+            <!-- 示例剧本，添加data-属性用于筛选 -->
+            <div class="script-card fade-in" data-difficulty="easy" data-players="small" data-theme="mystery">
+                <img src="/api/placeholder/400/200" alt="新手入门" class="script-img">
+                <div class="script-info">
+                    <h3 data-en="Beginner's Quest">新手入门</h3>
+                    <p data-en="A perfect script for beginners to learn the basics of murder mystery games.">非常适合初学者了解剧本杀基础规则的入门剧本。</p>
+                    <div class="script-meta">
+                        <span data-en="Difficulty: ★★☆☆☆">难度: ★★☆☆☆</span>
+                        <span data-en="4-6 players">4-6人</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 添加更多剧本，确保每个都有适当的data-属性 -->
+            <div class="script-card fade-in" data-difficulty="medium" data-players="medium" data-theme="horror">
+                <!-- 剧本内容 -->
+            </div>
+            
+            <!-- 继续添加更多剧本 -->
+        </div>
+    </section>
     <!-- 页脚 -->
     <footer>
         <div class="social-links">
-            <a href="#" class="social-link">
+            <a href="contact.html" class="social-link">
                 <i class="fab fa-weixin"></i>
             </a>
             <a href="#" class="social-link">
