@@ -499,3 +499,44 @@ document.addEventListener('keydown', function(e) {
         closeDmPopup();
     }
 });
+// 搜索功能
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('scriptSearchInput');
+    const searchButton = document.getElementById('searchButton');
+    const scriptCards = document.querySelectorAll('.script-cards .script-card');
+    
+    // 执行搜索
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        
+        scriptCards.forEach(card => {
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            const description = card.querySelector('p').textContent.toLowerCase();
+            
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    }
+    
+    // 按钮点击搜索
+    if (searchButton) {
+        searchButton.addEventListener('click', performSearch);
+    }
+    
+    // 输入时实时搜索
+    if (searchInput) {
+        searchInput.addEventListener('input', performSearch);
+    }
+    
+    // 按回车键搜索
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
+});
