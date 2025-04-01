@@ -55,13 +55,17 @@ function toggleLanguage() {
 const logoCn = document.querySelector('.logo-cn');
 const logoEn = document.querySelector('.logo-en');
 
-if (isEnglish) {
-    logoCn.style.display = 'none';
-    logoEn.style.display = 'inline-block';
-} else {
-    logoCn.style.display = 'inline-block';
-    logoEn.style.display = 'none';
-}
+if (logoCn && logoEn) {
+    if (isEnglish) {
+      // 英文模式：显示英文logo，隐藏中文logo
+      logoCn.style.display = 'none';
+      logoEn.style.display = 'inline-block';
+    } else {
+      // 中文模式：显示中文logo，隐藏英文logo
+      logoCn.style.display = 'inline-block';
+      logoEn.style.display = 'none';
+    }
+  }
 
     console.log("语言已切换为:", isEnglish ? "英文" : "中文");
 }
@@ -74,19 +78,89 @@ document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.getElementById('navbar');
     const links = document.querySelectorAll('.menu ul li a');
     
-    if (menuBtn) {
-        menuBtn.addEventListener('click', function() {
-            menuBtn.classList.toggle('active');
-            menu.classList.toggle('active');
-        });
+// 二级菜单处理
+const subMenuParents = document.querySelectorAll('.has-submenu');
+    
+function toggleSubmenu(e) {
+    e.preventDefault();
+    const parent = this.parentElement;
+    console.log("切换子菜单状态");
+    
+    // 关闭其他打开的子菜单
+    subMenuParents.forEach(item => {
+        if (item !== parent && item.classList.contains('active')) {
+            item.classList.remove('active');
+        }
+    });
+    
+    // 切换当前子菜单
+    parent.classList.toggle('active');
+    console.log("子菜单状态:", parent.classList.contains('active'));
+}
+
+// 为带子菜单的链接添加点击事件
+subMenuParents.forEach(parent => {
+    const link = parent.querySelector('a');
+    
+    // 添加点击事件（移动设备）
+    if (window.innerWidth <= 991) {
+        link.addEventListener('click', toggleSubmenu);
     }
+});
+
+// 窗口大小变化时重新添加事件
+window.addEventListener('resize', function() {
+    subMenuParents.forEach(parent => {
+        const link = parent.querySelector('a');
+        
+        // 先移除所有事件
+        link.removeEventListener('click', toggleSubmenu);
+        
+        // 重新添加事件（如果是移动设备）
+        if (window.innerWidth <= 991) {
+            link.addEventListener('click', toggleSubmenu);
+        }
+    });
+});
+
+    
+// 为菜单按钮添加点击事件 - 修复
+if (menuBtn) {
+    // 移除可能存在的旧事件监听器
+    const newMenuBtn = menuBtn.cloneNode(true);
+    menuBtn.parentNode.replaceChild(newMenuBtn, menuBtn);
+    
+    // 绑定点击事件
+    newMenuBtn.addEventListener('click', function() {
+        this.classList.toggle('active');
+        menu.classList.toggle('active');
+        console.log('菜单按钮被点击了!');
+        
+        // 当菜单关闭时，同时关闭所有打开的二级菜单
+        if (!menu.classList.contains('active')) {
+            // 找到所有打开的二级菜单并关闭它们
+            const openSubmenus = document.querySelectorAll('.has-submenu.active');
+            openSubmenus.forEach(submenu => {
+                submenu.classList.remove('active');
+            });
+        }
+    });
+}
     
     links.forEach(link => {
-        link.addEventListener('click', function() {
-            menuBtn.classList.remove('active');
-            menu.classList.remove('active');
+        link.addEventListener('click', function(e) {
+            // 检查这个链接是否是子菜单的父项
+            const parentLi = this.parentElement;
+            const isSubmenuParent = parentLi.classList.contains('has-submenu');
+            
+            // 如果不是子菜单的父项，正常收起菜单
+            if (!isSubmenuParent) {
+                menuBtn.classList.remove('active');
+                menu.classList.remove('active');
+            }
         });
     });
+    
     
     // 导航栏滚动效果
     window.addEventListener('scroll', function() {

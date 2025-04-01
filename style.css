@@ -13,39 +13,34 @@ body {
 }
 
 /* 导航栏 */
-nav {
+#navbar, nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #29b6b0; /* 蓝绿色导航栏 */
-    z-index: 100;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-#navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
     background-color: #22b3a7;
-    padding: 10px 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    transition: box-shadow 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+#navbar {
+    right: 0;
+    padding: 10px 5%;
+}
+
+nav {
+    padding: 15px 20px;
 }
 
 .nav-scrolled {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+/* Logo样式 */
 .logo {
     font-size: 24px;
     font-weight: bold;
@@ -58,11 +53,11 @@ nav {
     gap: 6px;
     text-decoration: none;
     color: #fff; /* 避免链接紫色问题 */
-  }
-  
-  .logo a:visited {
+}
+
+.logo a:visited {
     color: #fff; /* 再保险一下 */
-  }
+}
 
 .logo a:hover {
     opacity: 0.85;
@@ -121,6 +116,7 @@ nav {
     100% { transform: scale(1); }
 }
 
+/* 菜单按钮 */
 .menu-btn {
     width: 30px;
     height: 20px;
@@ -164,6 +160,7 @@ nav {
     top: 9px;
 }
 
+/* 菜单样式 */
 .menu {
     position: fixed;
     top: 60px;
@@ -232,6 +229,7 @@ nav {
     max-width: 600px;
 }
 
+/* 按钮样式 */
 .btn {
     display: inline-block;
     padding: 12px 30px;
@@ -244,6 +242,8 @@ nav {
     text-decoration: none;
     transition: all 0.3s ease;
     font-weight: bold;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn:hover {
@@ -269,7 +269,7 @@ nav {
 }
 
 /* 关于我们 */
-.about-content {
+.about-content, .introduction-content, .contact-info {
     max-width: 800px;
     margin: 0 auto;
 }
@@ -283,33 +283,34 @@ nav {
     background-color: #fff;
 }
 
-.introduction-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
 .introduction-content > p {
     margin-bottom: 30px;
     font-size: 18px;
     line-height: 1.8;
 }
 
-.intro-card {
+/* 卡片样式 */
+.intro-card, .dm-intro, .script-card {
     background-color: #f5fafa;
     border-radius: 10px;
-    padding: 25px;
-    margin-bottom: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.intro-card, .dm-intro {
+    padding: 25px;
+    margin-bottom: 20px;
     border-left: 4px solid #29b6b0;
 }
 
-.intro-card:hover {
+.intro-card:hover, .dm-intro:hover, .script-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(41, 182, 176, 0.2);
 }
 
-.intro-card h3 {
+.intro-card h3, .dm-intro h3 {
     color: #29b6b0;
     margin-bottom: 15px;
     font-size: 20px;
@@ -317,8 +318,9 @@ nav {
     align-items: center;
 }
 
-.intro-card h3 i {
+.intro-card h3 i, .dm-intro h3 i, .dm-skill i {
     margin-right: 10px;
+    color: #29b6b0;
 }
 
 .intro-video {
@@ -360,23 +362,11 @@ nav {
 /* DM介绍部分 */
 .dm-intro {
     margin-top: 40px;
-    padding: 20px;
-    background-color: #f5fafa;
-    border-radius: 10px;
-    border-left: 4px solid #29b6b0;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .dm-intro h3 {
-    color: #29b6b0;
-    margin-bottom: 20px;
     font-size: 22px;
-    display: flex;
-    align-items: center;
-}
-
-.dm-intro h3 i {
-    margin-right: 10px;
+    margin-bottom: 20px;
 }
 
 .dm-intro p {
@@ -406,7 +396,6 @@ nav {
 }
 
 .dm-skill i {
-    color: #29b6b0;
     font-size: 24px;
     margin-bottom: 10px;
 }
@@ -436,11 +425,8 @@ nav {
 }
 
 .script-card {
-    background-color: #f5fafa;
-    border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
 }
 
 .script-card:hover {
@@ -477,11 +463,6 @@ nav {
 }
 
 /* 联系我们 */
-.contact-info {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
 .contact-item {
     display: flex;
     align-items: center;
@@ -545,6 +526,8 @@ footer {
     align-items: center;
     margin: 0 10px;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .social-link:hover {
@@ -591,157 +574,7 @@ footer {
     transition: all 0.3s ease;
 }
 
-/* 媒体查询 - 针对平板和桌面设备 */
-@media (min-width: 768px) {
-    .script-cards {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-    
-    .script-card {
-        flex: 0 0 calc(50% - 15px);
-    }
-    
-    .hero h1 {
-        font-size: 48px;
-    }
-    
-    .hero p {
-        font-size: 20px;
-    }
-    
-    .intro-card {
-        margin-left: 15px;
-        margin-right: 15px;
-    }
-    
-    .dm-skills {
-        flex-direction: row;
-    }
-}
-
-@media (min-width: 992px) {
-    .script-card {
-        flex: 0 0 calc(33.333% - 20px);
-    }
-    
-    .section-title {
-        font-size: 36px;
-    }
-    
-    .menu-btn {
-        display: none;
-    }
-    
-    .menu {
-        position: static;
-        background: none;
-        padding: 0;
-        transform: none;
-        opacity: 1;
-        width: auto;
-    }
-    
-    .menu ul {
-        display: flex;
-    }
-    
-    .menu ul li {
-        margin: 0 15px;
-    }
-    
-    .menu ul li a {
-        font-size: 16px;
-    }
-    
-    nav {
-        padding: 20px 40px;
-    }
-}
-
-/* 移动端优化 */
-@media (max-width: 767px) {
-    .lang-switch {
-        right: 60px;
-        padding: 4px 10px;
-        font-size: 14px;
-    }
-    
-    .hero h1 {
-        font-size: 32px;
-    }
-    
-    .hero p {
-        font-size: 16px;
-    }
-    
-    .section {
-        padding: 60px 15px;
-    }
-    
-    .section-title {
-        font-size: 24px;
-    }
-    
-    .intro-card, .dm-skill {
-        padding: 15px;
-    }
-    
-    .contact-icon {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .contact-icon i {
-        font-size: 18px;
-    }
-}
-
-/* 加载动画 */
-.loader {
-    width: 100%;
-    height: 100vh;
-    background: #e8f7f6;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: all 0.6s ease;
-}
-
-.loader.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.loader-inner {
-    width: 60px;
-    height: 60px;
-    border: 3px solid transparent;
-    border-top-color: #29b6b0;
-    border-bottom-color: #29b6b0;
-    border-radius: 50%;
-    animation: spin 1.5s linear infinite;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
 /* 微动画效果 */
-.btn, .script-card, .social-link, .intro-card {
-    position: relative;
-    overflow: hidden;
-}
-
 .btn:after, .script-card:after, .social-link:after, .intro-card:after {
     content: '';
     position: absolute;
@@ -781,60 +614,166 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
     background: #1d9c97;
 }
 
-/* 大屏幕（电脑端）导航优化 */
-@media (min-width: 992px) {
-    nav {
-        padding: 20px 40px;
-    }
-    .menu-btn {
-        display: none !important;
-    }
-    .menu {
-        position: static !important;
-        background: none !important;
-        padding: 0 !important;
-        transform: none !important;
-        opacity: 1 !important;
-        width: auto !important;
-        box-shadow: none !important;
-    }
-    .menu ul {
-        display: flex !important;
-        gap: 20px;
-    }
-    .menu ul li {
-        margin: 0 !important;
-    }
-    .menu ul li a {
-        font-size: 16px;
-    }
+/* 加载动画 */
+.loader {
+    width: 100%;
+    height: 100vh;
+    background: #e8f7f6;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: all 0.6s ease;
 }
 
-/* 保证移动端仍正常显示 */
-@media (max-width: 991px) {
-    .menu-btn {
-        display: block !important;
-    }
-    .menu {
-        display: none !important;
-    }
-    .menu.active {
-        display: block !important;
-    }
+.loader.hidden {
+    opacity: 0;
+    visibility: hidden;
 }
 
+.loader-inner {
+    width: 60px;
+    height: 60px;
+    border: 3px solid transparent;
+    border-top-color: #29b6b0;
+    border-bottom-color: #29b6b0;
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
+}
 
-/* 最终导航栏布局修复 - 避免语言按钮和菜单项重叠 */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 筛选器样式 */
+.filter-section {
+    margin-bottom: 0;
+    border-radius: 10px 10px 0 0;
+}
+
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-group label {
+    font-weight: bold;
+    color: #333;
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background-color: #f5fafa;
+    border: 1px solid #29b6b0;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #333;
+}
+
+.filter-btn:hover {
+    background-color: rgba(41, 182, 176, 0.1);
+}
+
+.filter-btn.active {
+    background-color: #29b6b0;
+    color: white;
+}
+
+/* 隐藏不匹配的剧本 */
+.filterable-cards .script-card.hidden {
+    display: none;
+}
+
+/* 二级菜单样式 - 水平显示 */
+.has-submenu {
+    position: relative;
+}
+
+.submenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(15px);
+    background-color: #22b3a7;
+    border-radius: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 990;
+    width: max-content;
+}
+
+.has-submenu:hover .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(5px);
+}
+
+.submenu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 15px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.submenu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+/* 修复字体问题 */
+@font-face {
+    font-family: 'PingFang SC';
+    src: local('PingFang SC'),
+         local('PingFang-SC-Regular'),
+         local('Microsoft YaHei'),
+         local('SimHei'),
+         local('sans-serif');
+    font-display: swap;
+}
+
+/* 响应式布局 - 移动端、平板和桌面设备的媒体查询 */
+/* 桌面设备 */
 @media (min-width: 992px) {
-    nav {
-        padding: 20px 40px;
-        position: relative;
+    .script-card {
+        flex: 0 0 calc(33.333% - 20px);
     }
-
+    
+    .section-title {
+        font-size: 36px;
+    }
+    
     .menu-btn {
         display: none !important;
     }
-
+    
     .menu {
         position: static !important;
         background: none !important;
@@ -845,43 +784,220 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
         box-shadow: none !important;
         margin-right: 180px !important; /* 留出空间给语言切换按钮 */
     }
-
+    
     .menu ul {
         display: flex !important;
         gap: 15px !important;
         justify-content: flex-end;
         align-items: center;
     }
-
+    
     .menu ul li {
         margin: 0 !important;
     }
-
+    
     .menu ul li a {
         font-size: 16px !important;
     }
-
+    
+    nav {
+        padding: 20px 40px;
+        position: relative;
+    }
+    
     .lang-switch {
         position: absolute;
         right: 20px !important;
         top: 50% !important;
         transform: translateY(-50%) !important;
     }
+    
+    .dm-skills {
+        flex-direction: row;
+    }
 }
 
-/* 移动端导航菜单优化 */
+/* 平板设备 */
+@media (min-width: 768px) and (max-width: 991px) {
+    .script-cards {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .script-card {
+        flex: 0 0 calc(50% - 15px);
+    }
+    
+    .hero h1 {
+        font-size: 48px;
+    }
+    
+    .hero p {
+        font-size: 20px;
+    }
+    
+    .intro-card {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    
+    .filter-container {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .filter-group {
+        flex: 1;
+    }
+}
+
+/* 移动端设备 */
+@media (max-width: 767px) {
+    .lang-switch {
+        right: 60px;
+        padding: 4px 10px;
+        font-size: 14px;
+    }
+    
+    .hero h1 {
+        font-size: 32px;
+    }
+    
+    .hero p {
+        font-size: 16px;
+    }
+    
+    .section {
+        padding: 60px 15px;
+    }
+    
+    .section-title {
+        font-size: 24px;
+    }
+    
+    .intro-card, .dm-skill {
+        padding: 15px;
+    }
+    
+    .contact-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .contact-icon i {
+        font-size: 18px;
+    }
+}
+
+/* 移动端导航菜单 */
 @media (max-width: 991px) {
     .menu-btn {
         display: block !important;
+        z-index: 1001;
     }
-
+    
     .menu {
         display: none !important;
         margin-right: 0 !important;
+        position: fixed !important;
+        top: 60px !important;
+        left: 0 !important;
+        width: 100% !important;
+        background-color: #1d9c97 !important;
+        padding: 20px !important;
+        z-index: 1000 !important;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+        transition: all 0.3s ease !important;
+        transform: translateY(-150%) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
     }
-
+    
     .menu.active {
         display: block !important;
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    /* 修复子菜单 */
+    .has-submenu .submenu {
+        position: static !important;
+        width: 100% !important;
+        opacity: 1 !important;
+        visibility: hidden !important;
+        display: none !important;
+        background-color: rgba(0, 0, 0, 0.1) !important;
+        transform: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+    
+    .has-submenu.active .submenu {
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    .menu ul li.has-submenu .submenu {
+        position: static;
+        display: none;
+        flex-direction: column;
+        background-color: #1D9C97;
+        width: 100%;
+        box-shadow: none;
+        padding: 10px 0;
+        margin: 5px 0;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        list-style: none; /* 重要：去除列表样式 */
+        align-items: center;
+    }
+    
+    .menu ul li.has-submenu.active .submenu {
+        display: flex;
+    }
+    
+    .menu ul li.has-submenu .submenu li {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .menu ul li.has-submenu .submenu li a {
+        display: block;
+        width: 100%;
+        padding: 12px 0;
+        color: #fff;
+        text-align: center;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .menu ul li.has-submenu .submenu li:last-child a {
+        border-bottom: none;
+    }
+    
+    /* 主营业务按钮的加号/减号指示器 */
+    .menu ul li.has-submenu > a::after {
+        content: " -";
+        font-weight: bold;
+    }
+    
+    .menu ul li.has-submenu:not(.active) > a::after {
+        content: " +";
+    }
+    
+    /* 确保文本可见 */
+    body, p, h1, h2, h3, h4, a, span:not(.logo-en) {
+        visibility: visible !important;
+        opacity: 1 !important;
+        display: block !important;
+    }
+    
+    /* 语言切换按钮 */
+    .lang-switch {
+        z-index: 1001 !important;
     }
 }
 /* 筛选器样式 */
@@ -948,4 +1064,193 @@ a:focus, button:focus, input:focus, select:focus, textarea:focus {
     .filter-group {
         flex: 1;
     }
+}
+
+/* 二级菜单样式 - 水平显示 */
+.has-submenu {
+    position: relative;
+}
+
+.submenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background-color: #22b3a7;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    transform: translateX(-50%) translateY(15px); /* 初始位置稍微下移 */
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1); /* 平滑的过渡效果 */
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 990;
+    width: max-content;
+}
+
+.has-submenu:hover .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(5px);
+}
+
+.submenu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 15px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.submenu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+/* 移动端二级菜单样式 - 更加具体的选择器 */
+@media (max-width: 991px) {
+    .menu ul li.has-submenu .submenu {
+        position: static;
+        display: none;
+        flex-direction: column;
+        background-color: #1D9C97;
+        width: 100%;
+        box-shadow: none;
+        padding: 10px 0;
+        margin: 5px 0;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        list-style: none; /* 重要：去除列表样式 */
+        align-items: center;
+    }
+    
+    .menu ul li.has-submenu.active .submenu {
+        display: flex;
+    }
+    
+    .menu ul li.has-submenu .submenu li {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .menu ul li.has-submenu .submenu li a {
+        display: block;
+        width: 100%;
+        padding: 12px 0;
+        color: #fff;
+        text-align: center;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .menu ul li.has-submenu .submenu li:last-child a {
+        border-bottom: none;
+    }
+    
+    /* 主营业务按钮的加号/减号指示器 */
+    .menu ul li.has-submenu > a::after {
+        content: " -";
+        font-weight: bold;
+    }
+    
+    .menu ul li.has-submenu:not(.active) > a::after {
+        content: " +";
+    }
+}
+
+/* 移动端CSS修复 - 添加到style.css文件的底部 */
+/* 确保移动端菜单正确显示 */
+@media (max-width: 991px) {
+    .menu-btn {
+        display: block !important;
+        z-index: 1001;
+    }
+    
+    .menu {
+        position: fixed !important;
+        top: 60px !important;
+        left: 0 !important;
+        width: 100% !important;
+        background-color: #1d9c97 !important;
+        padding: 20px !important;
+        z-index: 1000 !important;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+        transition: all 0.3s ease !important;
+        transform: translateY(-150%) !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    
+    .menu.active {
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+    
+    /* 修复子菜单 */
+    .has-submenu .submenu {
+        position: static !important;
+        width: 100% !important;
+        opacity: 1 !important;
+        visibility: hidden !important;
+        display: none !important;
+        background-color: rgba(0, 0, 0, 0.1) !important;
+        transform: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+    
+    .has-submenu.active .submenu {
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    /* 确保文本可见 - 修复：排除logo-en以解决logo显示问题 */
+    body, p, h1, h2, h3, h4, a, span:not(.logo-en) {
+        visibility: visible !important;
+        opacity: 1 !important;
+        display: block !important;
+    }
+    
+    /* 语言切换按钮 */
+    .lang-switch {
+        z-index: 1001 !important;
+    }
+}
+
+/* 修复字体问题 */
+@font-face {
+    font-family: 'PingFang SC';
+    src: local('PingFang SC'),
+         local('PingFang-SC-Regular'),
+         local('Microsoft YaHei'),
+         local('SimHei'),
+         local('sans-serif');
+    font-display: swap;
+}
+
+/* Logo语言切换样式 - 解决同时显示中英文的问题 */
+html.lang-en .logo-cn {
+    display: none !important;
+}
+
+html.lang-en .logo-en {
+    display: inline-block !important;
+}
+
+html:not(.lang-en) .logo-cn {
+    display: inline-block !important;
+}
+
+html:not(.lang-en) .logo-en {
+    display: none !important;
 }
