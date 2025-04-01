@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>酒吧休息区 - 奇闻异事</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-cn">奇闻异事</span>
+            <span class="logo-en">Social Box</span>
+            <img src="#" alt="Logo" />
+          </a>
+        </div>
+        <!-- 直接添加onclick事件处理 -->
+        <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
+            <span class="current-lang">中</span>
+            <span class="lang-divider">/</span>
+            <span>EN</span>
+        </div>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menu">
+            <ul>
+                <li><a href="index.html" data-en="Home">首页</a></li>
+                <li class="has-submenu">
+                    <a href="business.html" data-en="Main Business">主营业务</a>
+                    <ul class="submenu">
+                        <li><a href="business.html" data-en="Board Games">桌面游戏</a></li>
+                        <li><a href="mahjong.html" data-en="Mahjong">麻将</a></li>
+                        <li><a href="bar.html" data-en="Bar">酒吧</a></li>
+                    </ul>
+                </li>
+                <li><a href="events.html" data-en="Events">活动</a></li>
+                <li><a href="scripts.html" data-en="Scripts">剧本</a></li>
+                <li><a href="feedback.html" data-en="Feedback">顾客反馈</a></li>
+                <li><a href="contact.html" data-en="Contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 酒吧标题 -->
+    <section class="hero business-hero">
+        <h1 data-en="Bar & Lounge">酒吧休息区</h1>
+        <p data-en="Relax, socialize, and enjoy our selection of drinks and snacks">放松、社交，享受我们精选的饮品和小食</p>
+    </section>
+    
+    <!-- 酒吧概述 -->
+    <section class="section" id="bar-overview">
+        <h2 class="section-title fade-in" data-en="Bar Overview">酒吧概述</h2>
+        <div class="about-content fade-in">
+            <p data-en="Our bar is more than just a place to grab a drink – it's a carefully designed social hub where players can relax between games, discuss strategies, and make new friends. With a unique mystery theme, our bar offers a distinctive atmosphere that complements your gaming experience.">我们的酒吧不仅仅是一个喝酒的地方——它是精心设计的社交中心，玩家可以在游戏之间放松，讨论策略，结交新朋友。以独特的神秘主题，我们的酒吧提供与游戏体验相辅相成的独特氛围。</p>
+        </div>
+    </section>
+    
+    <!-- 酒吧介绍 -->
+    <section class="section business-section" id="bar-detail">
+        <div class="business-container fade-in">
+            <div class="business-image">
+                <img src="/api/placeholder/500/300" alt="酒吧" />
+            </div>
+            <div class="business-content">
+                <h2 class="business-title" data-en="Our Bar Experience">我们的酒吧体验</h2>
+                <p data-en="Our stylish bar area serves as both a relaxing lounge and a social hub. Enjoy craft cocktails, local beers, and a selection of wines while socializing or unwinding after a game.">我们时尚的酒吧区既是放松休息的场所，也是社交中心。游戏之余，您可以享用精酿鸡尾酒、当地啤酒和精选葡萄酒，同时社交或放松。</p>
+                
+                <div class="features-list">
+                    <div class="feature-item">
+                        <i class="fas fa-cocktail"></i>
+                        <h4 data-en="Craft Cocktails">精酿鸡尾酒</h4>
+                        <p data-en="Signature mystery-themed cocktails created by our experienced bartenders.">由我们经验丰富的调酒师创造的招牌神秘主题鸡尾酒。</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-utensils"></i>
+                        <h4 data-en="Food Menu">美食菜单</h4>
+                        <p data-en="Light snacks and shareable plates perfect for gaming sessions.">轻食小吃和可分享的拼盘，完美搭配游戏体验。</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-music"></i>
+                        <h4 data-en="Atmosphere">氛围体验</h4>
+                        <p data-en="Curated music and ambient lighting to enhance your experience.">精心挑选的音乐和环境照明，提升您的体验。</p>
+                    </div>
+                </div>
+                
+                <div class="business-pricing">
+                    <h4 data-en="Happy Hour">欢乐时光</h4>
+                    <p data-en="Monday to Thursday, 5:00PM - 7:00PM: Buy one get one free on selected drinks">周一至周四，下午5点至7点：指定饮品买一送一</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 特色饮品 -->
+    <section class="section business-section alt-bg" id="signature-drinks">
+        <h2 class="section-title fade-in" data-en="Signature Drinks">特色饮品</h2>
+        <div class="drinks-grid fade-in">
+            <div class="drink-card">
+                <div class="drink-image">
+                    <img src="/api/placeholder/300/200" alt="神秘侦探" />
+                </div>
+                <div class="drink-info">
+                    <h3 data-en="Mystery Detective">神秘侦探</h3>
+                    <p data-en="Whiskey, bitters, maple syrup, and a touch of smoke, served with a magnifying glass garnish.">威士忌、苦精、枫糖浆，加入一丝烟熏，以放大镜装饰端上。</p>
+                    <div class="drink-price">
+                        <span>¥68</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="drink-card">
+                <div class="drink-image">
+                    <img src="/api/placeholder/300/200" alt="秘密花园" />
+                </div>
+                <div class="drink-info">
+                    <h3 data-en="Secret Garden">秘密花园</h3>
+                    <p data-en="Gin, elderflower liqueur, cucumber, lime, and mint, with edible flowers.">金酒、接骨木花力娇酒、黄瓜、青柠和薄荷，配以食用花朵。</p>
+                    <div class="drink-price">
+                        <span>¥58</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="drink-card">
+                <div class="drink-image">
+                    <img src="/api/placeholder/300/200" alt="致命线索" />
+                </div>
+                <div class="drink-info">
+                    <h3 data-en="Fatal Clue">致命线索</h3>
+                    <p data-en="Tequila, blackberry liqueur, lime juice, and chili, with a mysterious dark ice cube.">龙舌兰、黑莓力娇酒、青柠汁和辣椒，配以神秘的黑色冰块。</p>
+                    <div class="drink-price">
+                        <span>¥72</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="drink-card">
+                <div class="drink-image">
+                    <img src="/api/placeholder/300/200" alt="完美不在场证明" />
+                </div>
+                <div class="drink-info">
+                    <h3 data-en="Perfect Alibi">完美不在场证明</h3>
+                    <p data-en="Non-alcoholic mocktail with passionfruit, pineapple, coconut cream, and blue spirulina.">无酒精的模拟鸡尾酒，由百香果、菠萝、椰奶和蓝色螺旋藻混合而成。</p>
+                    <div class="drink-price">
+                        <span>¥48</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 菜单预览 -->
+    <section class="section" id="menu-preview">
+        <h2 class="section-title fade-in" data-en="Menu Preview">菜单预览</h2>
+        <div class="menu-content fade-in">
+            <div class="menu-category">
+                <h3 data-en="Light Bites">轻食小吃</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-name" data-en="Mystery Platter">神秘拼盘</div>
+                        <div class="item-price">¥88</div>
+                        <div class="item-description" data-en="A selection of premium cheeses, meats, olives, and crackers.">精选高级奶酪、肉类、橄榄和饼干拼盘。</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name" data-en="Detective Dumplings">侦探饺子</div>
+                        <div class="item-price">¥48</div>
+                        <div class="item-description" data-en="Assorted steamed dumplings with special dipping sauces.">什锦蒸饺配特制蘸料。</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name" data-en="Secret Recipe Wings">秘方鸡翅</div>
+                        <div class="item-price">¥58</div>
+                        <div class="item-description" data-en="Crispy chicken wings tossed in our house special sauce.">酥脆鸡翅裹以我们的特制秘方酱汁。</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-category">
+                <h3 data-en="Desserts">甜点</h3>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <div class="item-name" data-en="Clue Cake">线索蛋糕</div>
+                        <div class="item-price">¥38</div>
+                        <div class="item-description" data-en="Chocolate cake with hidden raspberry center and edible clue.">巧克力蛋糕藏有覆盆子内馅和可食用的线索。</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="item-name" data-en="Deduction Tiramisu">推理提拉米苏</div>
+                        <div class="item-price">¥42</div>
+                        <div class="item-description" data-en="Classic tiramisu with coffee-soaked ladyfingers and mascarpone cream.">经典提拉米苏，咖啡浸泡的手指饼干和马斯卡彭奶油。</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="view-full-menu">
+                <a href="#" class="btn" data-en="View Full Menu">查看完整菜单</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 特别活动 -->
+    <section class="section business-section" id="special-events">
+        <h2 class="section-title fade-in" data-en="Special Events">特别活动</h2>
+        <div class="about-content fade-in">
+            <p data-en="Our bar hosts regular special events including themed nights, guest bartenders, tasting sessions, and live music. Check our events calendar or subscribe to our WeChat official account for the latest updates.">我们的酒吧定期举办特别活动，包括主题之夜、客座调酒师、品鉴会和现场音乐表演。查看我们的活动日历或关注我们的微信公众号获取最新信息。</p>
+            
+            <div class="events-list">
+                <div class="event-item">
+                    <div class="event-date">
+                        <span class="day">15</span>
+                        <span class="month">每月</span>
+                    </div>
+                    <div class="event-details">
+                        <h4 data-en="Mystery Cocktail Night">神秘鸡尾酒之夜</h4>
+                        <p data-en="Blind tasting of mystery cocktails with prizes for correct guesses.">盲品神秘鸡尾酒，猜对有奖品。</p>
+                    </div>
+                </div>
+                
+                <div class="event-item">
+                    <div class="event-date">
+                        <span class="day">周五</span>
+                        <span class="month">每周</span>
+                    </div>
+                    <div class="event-details">
+                        <h4 data-en="Live Jazz">现场爵士乐</h4>
+                        <p data-en="Enjoy live jazz performances from local musicians while sipping your favorite drink.">品尝您喜爱的饮品同时欣赏本地音乐人的现场爵士乐表演。</p>
+                    </div>
+                </div>
+                
+                <div class="event-item">
+                    <div class="event-date">
+                        <span class="day">最后</span>
+                        <span class="month">周六</span>
+                    </div>
+                    <div class="event-details">
+                        <h4 data-en="Mixology Workshop">调酒工作坊</h4>
+                        <p data-en="Learn to make your own cocktails under the guidance of our expert bartenders.">在我们专业调酒师的指导下学习制作您自己的鸡尾酒。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="social-links">
+            <a href="contact.html" class="social-link">
+                <i class="fab fa-weixin"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            <span data-en="&copy; 2025 Social Box Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

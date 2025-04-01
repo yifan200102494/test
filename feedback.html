@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>顾客反馈 - 奇闻异事</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-cn">奇闻异事</span>
+            <span class="logo-en">Social Box</span>
+            <img src="#" alt="Logo" />
+          </a>
+        </div>
+        <!-- 直接添加onclick事件处理 -->
+        <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
+            <span class="current-lang">中</span>
+            <span class="lang-divider">/</span>
+            <span>EN</span>
+        </div>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menu">
+            <ul>
+                <li><a href="index.html" data-en="Home">首页</a></li>
+                <li class="has-submenu">
+                    <a href="business.html" data-en="Main Business">主营业务</a>
+                    <ul class="submenu">
+                        <li><a href="business.html" data-en="Board Games">桌面游戏</a></li>
+                        <li><a href="mahjong.html" data-en="Mahjong">麻将</a></li>
+                        <li><a href="bar.html" data-en="Bar">酒吧</a></li>
+                    </ul>
+                </li>
+                <li><a href="events.html" data-en="Events">活动</a></li>
+                <li><a href="scripts.html" data-en="Scripts">剧本</a></li>
+                
+                <li><a href="feedback.html" data-en="Feedback">顾客反馈</a></li>
+                <li><a href="contact.html" data-en="Contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 反馈标题 -->
+    <section class="hero business-hero">
+        <h1 data-en="Customer Feedback">顾客反馈</h1>
+        <p data-en="See what our customers have to say about their experiences">了解顾客对他们体验的评价</p>
+    </section>
+    
+    <!-- 反馈概述 -->
+    <section class="section" id="feedback-overview">
+        <h2 class="section-title fade-in" data-en="Our Customers Speak">顾客心声</h2>
+        <div class="about-content fade-in">
+            <p data-en="At 'Strange Tales', we value our customers' opinions and constantly strive to improve our services based on their feedback. Here are some testimonials from our guests who have experienced our murder mystery games, board games, mahjong rooms, and bar services.">在「奇闻异事」，我们重视顾客的意见，并不断根据他们的反馈改进我们的服务。以下是一些体验过我们的剧本杀游戏、桌面游戏、麻将室和酒吧服务的顾客的感言。</p>
+        </div>
+    </section>
+    
+    <!-- 反馈展示区 -->
+    <section class="section" id="feedback-showcase">
+        <!-- 反馈1 -->
+        <div class="feedback-container fade-in">
+            <div class="feedback-header">
+                <div class="feedback-avatar">
+                    <img src="/api/placeholder/80/80" alt="顾客头像" />
+                </div>
+                <div class="feedback-info">
+                    <h3 class="feedback-name" data-en="Customer 1">顾客1</h3>
+                    <div class="feedback-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="feedback-date" data-en="March 10, 2025">2025年3月10日</div>
+                </div>
+            </div>
+            <div class="feedback-content">
+                <p data-en="This is Feedback 1. The experience was amazing! The staff was very professional and friendly. The mystery script was engaging and challenging. We had so much fun solving the case together. I highly recommend this place to anyone who enjoys puzzle solving and teamwork.">这是反馈1。体验太棒了！工作人员非常专业友好。剧本引人入胜且具有挑战性。我们一起解谜非常有趣。我强烈推荐这个地方给任何喜欢解谜和团队合作的人。</p>
+            </div>
+            <div class="feedback-tags">
+                <span class="tag" data-en="Murder Mystery">剧本杀</span>
+                <span class="tag" data-en="Team Building">团建活动</span>
+            </div>
+        </div>
+        
+        <!-- 反馈2 -->
+        <div class="feedback-container fade-in">
+            <div class="feedback-header">
+                <div class="feedback-avatar">
+                    <img src="/api/placeholder/80/80" alt="顾客头像" />
+                </div>
+                <div class="feedback-info">
+                    <h3 class="feedback-name" data-en="Customer 2">顾客2</h3>
+                    <div class="feedback-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <div class="feedback-date" data-en="February 25, 2025">2025年2月25日</div>
+                </div>
+            </div>
+            <div class="feedback-content">
+                <p data-en="This is Feedback 2. The board game selection is impressive, and the host was very helpful in explaining the rules. The bar offers excellent drinks that complement the gaming experience. I've been here multiple times and always have a great time.">这是反馈2。桌游选择令人印象深刻，主持人非常热心地解释规则。酒吧提供与游戏体验相得益彰的优质饮品。我已经来过多次，每次都玩得很开心。</p>
+            </div>
+            <div class="feedback-tags">
+                <span class="tag" data-en="Board Games">桌面游戏</span>
+                <span class="tag" data-en="Bar">酒吧</span>
+            </div>
+        </div>
+        
+        <!-- 反馈3 -->
+        <div class="feedback-container fade-in">
+            <div class="feedback-header">
+                <div class="feedback-avatar">
+                    <img src="/api/placeholder/80/80" alt="顾客头像" />
+                </div>
+                <div class="feedback-info">
+                    <h3 class="feedback-name" data-en="Customer 3">顾客3</h3>
+                    <div class="feedback-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="feedback-date" data-en="April 5, 2025">2025年4月5日</div>
+                </div>
+            </div>
+            <div class="feedback-content">
+                <p data-en="This is Feedback 3. The VIP mahjong room exceeded our expectations. The automatic table was top-notch, and the service was impeccable. We appreciated the privacy and comfortable seating. The in-room food service was a nice touch. Will definitely return for our monthly mahjong sessions.">这是反馈3。VIP麻将室超出了我们的期望。自动麻将桌一流，服务无可挑剔。我们很欣赏这里的隐私和舒适的座位。房间内的送餐服务是一个很好的细节。我们一定会回来参加每月的麻将聚会。</p>
+            </div>
+            <div class="feedback-tags">
+                <span class="tag" data-en="Mahjong">麻将</span>
+                <span class="tag" data-en="VIP Room">VIP包间</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 反馈统计 -->
+    <section class="section business-section alt-bg" id="feedback-stats">
+        <h2 class="section-title fade-in" data-en="Feedback at a Glance">反馈一览</h2>
+        <div class="stats-container fade-in">
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-number">4.8</div>
+                <div class="stat-label" data-en="Average Rating">平均评分</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-comment"></i>
+                </div>
+                <div class="stat-number">500+</div>
+                <div class="stat-label" data-en="Reviews">评论数</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-thumbs-up"></i>
+                </div>
+                <div class="stat-number">95%</div>
+                <div class="stat-label" data-en="Customer Satisfaction">顾客满意度</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-redo"></i>
+                </div>
+                <div class="stat-number">80%</div>
+                <div class="stat-label" data-en="Return Rate">回客率</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 分类反馈 -->
+    <section class="section" id="feedback-categories">
+        <h2 class="section-title fade-in" data-en="Feedback by Category">分类反馈</h2>
+        
+        <div class="category-tabs fade-in">
+            <div class="tab active" data-category="all" data-en="All">全部</div>
+            <div class="tab" data-category="murder-mystery" data-en="Murder Mystery">剧本杀</div>
+            <div class="tab" data-category="board-games" data-en="Board Games">桌面游戏</div>
+            <div class="tab" data-category="mahjong" data-en="Mahjong">麻将</div>
+            <div class="tab" data-category="bar" data-en="Bar & Food">酒吧餐饮</div>
+        </div>
+        
+        <div class="category-feedback fade-in">
+            <div class="category-rating">
+                <div class="rating-item">
+                    <div class="rating-label" data-en="Atmosphere">氛围</div>
+                    <div class="rating-bar">
+                        <div class="rating-fill" style="width: 90%;"></div>
+                    </div>
+                    <div class="rating-value">4.5</div>
+                </div>
+                
+                <div class="rating-item">
+                    <div class="rating-label" data-en="Service">服务</div>
+                    <div class="rating-bar">
+                        <div class="rating-fill" style="width: 96%;"></div>
+                    </div>
+                    <div class="rating-value">4.8</div>
+                </div>
+                
+                <div class="rating-item">
+                    <div class="rating-label" data-en="Value">性价比</div>
+                    <div class="rating-bar">
+                        <div class="rating-fill" style="width: 86%;"></div>
+                    </div>
+                    <div class="rating-value">4.3</div>
+                </div>
+                
+                <div class="rating-item">
+                    <div class="rating-label" data-en="Experience">体验</div>
+                    <div class="rating-bar">
+                        <div class="rating-fill" style="width: 94%;"></div>
+                    </div>
+                    <div class="rating-value">4.7</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+   
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="social-links">
+            <a href="contact.html" class="social-link">
+                <i class="fab fa-weixin"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            <span data-en="&copy; 2025 Social Box Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

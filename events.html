@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动中心 - 奇闻异事</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-cn">奇闻异事</span>
+            <span class="logo-en">Social Box</span>
+            <img src="#" alt="Logo" />
+          </a>
+        </div>
+        <!-- 直接添加onclick事件处理 -->
+        <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
+            <span class="current-lang">中</span>
+            <span class="lang-divider">/</span>
+            <span>EN</span>
+        </div>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menu">
+            <ul>
+                <li><a href="index.html" data-en="Home">首页</a></li>
+                <li class="has-submenu">
+                    <a href="business.html" data-en="Main Business">主营业务</a>
+                    <ul class="submenu">
+                        <li><a href="business.html" data-en="Board Games">桌面游戏</a></li>
+                        <li><a href="mahjong.html" data-en="Mahjong">麻将</a></li>
+                        <li><a href="bar.html" data-en="Bar">酒吧</a></li>
+                    </ul>
+                </li>
+                <li><a href="events.html" data-en="Events">活动</a></li>
+                <li><a href="scripts.html" data-en="Scripts">剧本</a></li>
+                <li><a href="feedback.html" data-en="Feedback">顾客反馈</a></li>
+                <li><a href="contact.html" data-en="Contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 活动标题 -->
+    <section class="hero business-hero">
+        <h1 data-en="Events Calendar">活动日历</h1>
+        <p data-en="Join our exciting events and make new friends">参加我们精彩的活动，结交新朋友</p>
+    </section>
+    
+    <!-- 活动概述 -->
+    <section class="section" id="events-overview">
+        <h2 class="section-title fade-in" data-en="Events Overview">活动概述</h2>
+        <div class="about-content fade-in">
+            <p data-en="At 'Strange Tales', we regularly host various events for our customers. From murder mystery nights to board game tournaments, we offer a diverse range of activities to enhance your gaming experience and build our community. Check out our upcoming events below and sign up to join the fun!">在「奇闻异事」，我们定期为顾客举办各种活动。从剧本杀之夜到桌游比赛，我们提供多样化的活动，以增强您的游戏体验并建立我们的社区。查看下方即将举行的活动，报名参加吧！</p>
+        </div>
+    </section>
+    
+    <!-- 活动列表 -->
+    <section class="section" id="events-list">
+        <h2 class="section-title fade-in" data-en="Upcoming Events">即将举行的活动</h2>
+        
+        <!-- 活动1 -->
+        <div class="event-container fade-in">
+            <div class="event-date">
+                <div class="date-box">
+                    <span class="month" data-en="MAR">3月</span>
+                    <span class="day">15</span>
+                    <span class="year">2025</span>
+                </div>
+                <div class="time">
+                    <i class="far fa-clock"></i>
+                    <span data-en="7:00PM - 10:00PM">晚上7:00 - 10:00</span>
+                </div>
+            </div>
+            
+            <div class="event-details">
+                <div class="event-image">
+                    <img src="/api/placeholder/400/200" alt="活动1" />
+                </div>
+                <div class="event-content">
+                    <h3 class="event-title" data-en="Event 1">活动1</h3>
+                    <div class="event-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> <span data-en="Main Hall">主活动厅</span></span>
+                        <span><i class="fas fa-user-friends"></i> <span data-en="20 People">20人</span></span>
+                        <span><i class="fas fa-yuan-sign"></i> <span data-en="¥88/person">¥88/人</span></span>
+                    </div>
+                    <p class="event-description" data-en="This is Event 1, join us for an exciting experience! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Phasellus euismod, nisi vel ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.">这是活动1，加入我们，享受精彩体验！活动将包括团队合作、解谜挑战和丰富的奖品。我们精心准备了特色场景和专业主持，保证您度过一个难忘的夜晚。无论您是新手还是老玩家，都能在这里找到乐趣。</p>
+                    <div class="event-action">
+                        <a href="#" class="btn" data-en="Sign Up">立即报名</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 活动2 -->
+        <div class="event-container fade-in">
+            <div class="event-date">
+                <div class="date-box">
+                    <span class="month" data-en="APR">4月</span>
+                    <span class="day">05</span>
+                    <span class="year">2025</span>
+                </div>
+                <div class="time">
+                    <i class="far fa-clock"></i>
+                    <span data-en="2:00PM - 5:00PM">下午2:00 - 5:00</span>
+                </div>
+            </div>
+            
+            <div class="event-details">
+                <div class="event-image">
+                    <img src="/api/placeholder/400/200" alt="活动2" />
+                </div>
+                <div class="event-content">
+                    <h3 class="event-title" data-en="Event 2">活动2</h3>
+                    <div class="event-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> <span data-en="Board Game Area">桌游区</span></span>
+                        <span><i class="fas fa-user-friends"></i> <span data-en="30 People">30人</span></span>
+                        <span><i class="fas fa-yuan-sign"></i> <span data-en="¥68/person">¥68/人</span></span>
+                    </div>
+                    <p class="event-description" data-en="This is Event 2, perfect for all game enthusiasts! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Phasellus euismod, nisi vel ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.">这是活动2，适合所有游戏爱好者！参与者将分组进行多种桌游比赛，体验不同类型的游戏乐趣。活动全程有经验丰富的主持人指导，并提供茶点和饮料。获胜队伍将获得精美奖品和会员积分奖励。</p>
+                    <div class="event-action">
+                        <a href="#" class="btn" data-en="Sign Up">立即报名</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 活动3 -->
+        <div class="event-container fade-in">
+            <div class="event-date">
+                <div class="date-box">
+                    <span class="month" data-en="APR">4月</span>
+                    <span class="day">20</span>
+                    <span class="year">2025</span>
+                </div>
+                <div class="time">
+                    <i class="far fa-clock"></i>
+                    <span data-en="6:00PM - 9:00PM">晚上6:00 - 9:00</span>
+                </div>
+            </div>
+            
+            <div class="event-details">
+                <div class="event-image">
+                    <img src="/api/placeholder/400/200" alt="活动3" />
+                </div>
+                <div class="event-content">
+                    <h3 class="event-title" data-en="Event 3">活动3</h3>
+                    <div class="event-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> <span data-en="Bar Area">酒吧区</span></span>
+                        <span><i class="fas fa-user-friends"></i> <span data-en="25 People">25人</span></span>
+                        <span><i class="fas fa-yuan-sign"></i> <span data-en="¥108/person">¥108/人</span></span>
+                    </div>
+                    <p class="event-description" data-en="This is Event 3, a special night you won't forget! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Phasellus euismod, nisi vel ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.">这是活动3，一个您不会忘记的特别之夜！活动将融合社交游戏、调酒品鉴和互动环节，营造轻松愉快的氛围。每位参与者都将获得一份特别定制的纪念品，并有机会赢取大奖。场地布置精美，适合拍照留念。</p>
+                    <div class="event-action">
+                        <a href="#" class="btn" data-en="Sign Up">立即报名</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 月度活动日历 -->
+    <section class="section" id="monthly-calendar">
+        <h2 class="section-title fade-in" data-en="Monthly Calendar">月度活动日历</h2>
+        <div class="calendar-content fade-in">
+            <div class="calendar-header">
+                <h3 data-en="March - April 2025">2025年3月 - 4月</h3>
+            </div>
+            <div class="calendar-grid">
+                <div class="calendar-row header">
+                    <div class="calendar-cell" data-en="Monday">周一</div>
+                    <div class="calendar-cell" data-en="Tuesday">周二</div>
+                    <div class="calendar-cell" data-en="Wednesday">周三</div>
+                    <div class="calendar-cell" data-en="Thursday">周四</div>
+                    <div class="calendar-cell" data-en="Friday">周五</div>
+                    <div class="calendar-cell" data-en="Saturday">周六</div>
+                    <div class="calendar-cell" data-en="Sunday">周日</div>
+                </div>
+                <!-- 日历内容简化，只显示有活动的日期 -->
+                <div class="calendar-dates">
+                    <div class="date-marker" style="grid-column: 5; grid-row: 3;">
+                        <div class="date">15</div>
+                        <div class="date-event" data-en="Event 1">活动1</div>
+                    </div>
+                    <div class="date-marker" style="grid-column: 2; grid-row: 6;">
+                        <div class="date">5</div>
+                        <div class="date-event" data-en="Event 2">活动2</div>
+                    </div>
+                    <div class="date-marker" style="grid-column: 7; grid-row: 7;">
+                        <div class="date">20</div>
+                        <div class="date-event" data-en="Event 3">活动3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="social-links">
+            <a href="contact.html" class="social-link">
+                <i class="fab fa-weixin"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            <span data-en="&copy; 2025 Social Box Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>

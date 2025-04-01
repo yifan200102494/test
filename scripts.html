@@ -39,8 +39,9 @@
                         <li><a href="business.html#bar" data-en="Bar">酒吧</a></li>
                     </ul>
                 </li>
-                <li><a href="index.html#introduction" data-en="Game Intro">剧本杀介绍</a></li>
+                <li><a href="events.html" data-en="Events">活动</a></li>
                 <li><a href="scripts.html" data-en="Scripts">剧本</a></li>
+                <li><a href="feedback.html" data-en="Feedback">顾客反馈</a></li>
                 <li><a href="contact.html" data-en="Contact">联系我们</a></li>
             </ul>
         </div>
@@ -118,6 +119,54 @@
             </div>
         </div>
     </section>
+     <!-- DM介绍部分 -->
+<section class="section dm-intro" id="dm-intro">
+    <h2 class="section-title fade-in" data-en="Our DMs">我们的DM</h2>
+    <div class="dm-cards">
+        <div class="dm-card fade-in" onclick="openDmPopup('dm1')">
+            <img src="/api/placeholder/200/200" alt="DM1" class="dm-img">
+            <div class="dm-info">
+                <h3 data-en="DM Zhang">彩虹（特色）</h3>
+                <p data-en="Specializes in mystery and suspense scripts. 5 years of experience.">擅长悬疑推理类剧本，拥有5年带本经验。</p>
+                <div class="dm-meta">
+                    <span data-en="Style: Atmospheric">风格: 氛围营造</span>
+                </div>
+                <div class="dm-more" data-en="Click for details">点击查看详情</div>
+            </div>
+        </div>
+        <div class="dm-card fade-in" onclick="openDmPopup('dm2')">
+            <img src="/api/placeholder/200/200" alt="DM2" class="dm-img">
+            <div class="dm-info">
+                <h3 data-en="DM Li">雪花</h3>
+                <p data-en="Horror script expert. Creates immersive gaming experiences.">恐怖剧本专家，善于打造沉浸式游戏体验。</p>
+                <div class="dm-meta">
+                    <span data-en="Style: Interactive">风格: 互动性强</span>
+                </div>
+                <div class="dm-more" data-en="Click for details">点击查看详情</div>
+            </div>
+        </div>
+        <div class="dm-card fade-in" onclick="openDmPopup('dm3')">
+            <img src="/api/placeholder/200/200" alt="DM3" class="dm-img">
+            <div class="dm-info">
+                <h3 data-en="DM Wang">早早</h3>
+                <p data-en="Fantasy specialist. Perfect for beginners and newcomers.">奇幻类剧本专家，非常适合新手玩家。</p>
+                <div class="dm-meta">
+                    <span data-en="Style: Beginner-friendly">风格: 新手友好</span>
+                </div>
+                <div class="dm-more" data-en="Click for details">点击查看详情</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DM弹出卡片 -->
+<div class="dm-popup-overlay" id="dmPopupOverlay" onclick="closeDmPopup()"></div>
+<div class="dm-popup" id="dmPopup">
+    <div class="dm-popup-close" onclick="closeDmPopup()">×</div>
+    <div class="dm-popup-content" id="dmPopupContent">
+        <!-- 动态内容将通过JavaScript填充 -->
+    </div>
+</div>
     <section class="section scripts" id="all-scripts">
         <h2 class="section-title fade-in" data-en="All Scripts">所有剧本</h2>
         <div class="script-cards filterable-cards">
@@ -134,23 +183,163 @@
                 </div>
             </div>
             
-            <!-- 添加更多剧本，确保每个都有适当的data-属性 -->
-            <div class="script-card fade-in" data-difficulty="medium" data-players="medium" data-theme="horror">
-                <!-- 剧本内容 -->
-            </div>
-            
-            <!-- 继续添加更多剧本 -->
+            <!-- 悬疑类剧本 -->
+<div class="script-card fade-in" data-difficulty="medium" data-players="small" data-theme="mystery">
+    <img src="/api/placeholder/400/200" alt="古宅谜案" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Mansion Mystery">古宅谜案</h3>
+        <p data-en="Solve the murder in an old mansion with hidden secrets and family conflicts.">在一座充满秘密与家族矛盾的古宅中解开谋杀之谜。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★★☆☆">难度: ★★★☆☆</span>
+            <span data-en="5-6 players">5-6人</span>
+        </div>
+    </div>
+</div>
+
+<div class="script-card fade-in" data-difficulty="hard" data-players="medium" data-theme="mystery">
+    <img src="/api/placeholder/400/200" alt="迷雾小镇" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Foggy Town">迷雾小镇</h3>
+        <p data-en="A complex mystery that unfolds in a town shrouded in fog, with multiple storylines and red herrings.">复杂的悬疑故事在一个被迷雾笼罩的小镇上展开，包含多条故事线和误导线索。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★★★☆">难度: ★★★★☆</span>
+            <span data-en="7-9 players">7-9人</span>
+        </div>
+    </div>
+</div>
+
+<div class="script-card fade-in" data-difficulty="hard" data-players="large" data-theme="mystery">
+    <img src="/api/placeholder/400/200" alt="失落档案" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Lost Files">失落档案</h3>
+        <p data-en="An intricate mystery involving government conspiracies and classified information. Multiple characters with intertwined stories.">涉及政府阴谋和机密信息的复杂谜案，多角色交织的情节。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★★★★">难度: ★★★★★</span>
+            <span data-en="10-12 players">10-12人</span>
+        </div>
+    </div>
+</div>
+
+<!-- 恐怖类剧本 -->
+<div class="script-card fade-in" data-difficulty="easy" data-players="small" data-theme="horror">
+    <img src="/api/placeholder/400/200" alt="午夜医院" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Midnight Hospital">午夜医院</h3>
+        <p data-en="A beginners' horror script set in an abandoned hospital, with moderate scares and simple mechanics.">初级恐怖剧本，设定在一家废弃医院内，惊吓程度适中，规则简单。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★☆☆☆">难度: ★★☆☆☆</span>
+            <span data-en="4-5 players">4-5人</span>
+        </div>
+    </div>
+</div>
+
+<div class="script-card fade-in" data-difficulty="medium" data-players="medium" data-theme="horror">
+    <img src="/api/placeholder/400/200" alt="禁忌森林" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Forbidden Forest">禁忌森林</h3>
+        <p data-en="A horror story about a group of campers who encounter supernatural forces in an ancient forest.">一群露营者在古老森林中遭遇超自然力量的恐怖故事。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★★☆☆">难度: ★★★☆☆</span>
+            <span data-en="7-8 players">7-8人</span>
+        </div>
+    </div>
+</div>
+
+<div class="script-card fade-in" data-difficulty="hard" data-players="large" data-theme="horror">
+    <img src="/api/placeholder/400/200" alt="噩梦小区" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Nightmare Complex">噩梦小区</h3>
+        <p data-en="A psychological horror experience where residents of an apartment complex face their deepest fears.">心理恐怖体验，一个小区的居民们面对自己最深的恐惧。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★★★★">难度: ★★★★★</span>
+            <span data-en="10-14 players">10-14人</span>
+        </div>
+    </div>
+</div>
+
+<!-- 奇幻类剧本 -->
+<div class="script-card fade-in" data-difficulty="easy" data-players="small" data-theme="fantasy">
+    <img src="/api/placeholder/400/200" alt="魔法学院" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Magic Academy">魔法学院</h3>
+        <p data-en="A light-hearted fantasy adventure in a school of magic, perfect for new players.">轻松愉快的奇幻冒险，发生在魔法学校，非常适合新玩家。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★☆☆☆">难度: ★★☆☆☆</span>
+            <span data-en="4-6 players">4-6人</span>
+        </div>
+    </div>
+</div>
+
+<div class="script-card fade-in" data-difficulty="medium" data-players="medium" data-theme="fantasy">
+    <img src="/api/placeholder/400/200" alt="龙与宝藏" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Dragons & Treasures">龙与宝藏</h3>
+        <p data-en="An adventurous fantasy script where players embark on a quest to find legendary treasures.">冒险奇幻剧本，玩家们踏上寻找传说中宝藏的任务。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★★☆☆">难度: ★★★☆☆</span>
+            <span data-en="7-9 players">7-9人</span>
+        </div>
+    </div>
+</div>
+
+<div class="script-card fade-in" data-difficulty="hard" data-players="large" data-theme="fantasy">
+    <img src="/api/placeholder/400/200" alt="时空旅途" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Time Travelers">时空旅途</h3>
+        <p data-en="An epic fantasy adventure across different time periods with complex mechanics and storylines.">跨越不同时期的史诗奇幻冒险，拥有复杂的机制和故事线。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★★★☆">难度: ★★★★☆</span>
+            <span data-en="10-12 players">10-12人</span>
+        </div>
+    </div>
+</div>
+
+<!-- 混合类型剧本 -->
+<div class="script-card fade-in" data-difficulty="medium" data-players="small" data-theme="horror">
+    <img src="/api/placeholder/400/200" alt="灵异公寓" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Haunted Apartment">灵异公寓</h3>
+        <p data-en="A horror script with supernatural elements set in a modern apartment building.">带有超自然元素的恐怖剧本，设定在现代公寓楼。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★★☆☆">难度: ★★★☆☆</span>
+            <span data-en="5-6 players">5-6人</span>
+        </div>
+    </div>
+</div>
+
+<div class="script-card fade-in" data-difficulty="hard" data-players="medium" data-theme="fantasy">
+    <img src="/api/placeholder/400/200" alt="星际迷航" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Star Voyage">星际迷航</h3>
+        <p data-en="A sci-fi fantasy adventure on a spacecraft with alien encounters and futuristic technology.">太空船上的科幻奇幻冒险，包含外星人接触和未来科技。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★★★☆">难度: ★★★★☆</span>
+            <span data-en="7-9 players">7-9人</span>
+        </div>
+    </div>
+</div>
+
+<div class="script-card fade-in" data-difficulty="easy" data-players="large" data-theme="mystery">
+    <img src="/api/placeholder/400/200" alt="晚宴疑云" class="script-img">
+    <div class="script-info">
+        <h3 data-en="Dinner Mystery">晚宴疑云</h3>
+        <p data-en="A classic murder mystery dinner party script, easy to follow with clear roles.">经典晚宴谋杀之谜，容易上手，角色明确。</p>
+        <div class="script-meta">
+            <span data-en="Difficulty: ★★☆☆☆">难度: ★★☆☆☆</span>
+            <span data-en="10-12 players">10-12人</span>
+        </div>
+    </div>
+</div>
         </div>
     </section>
+ 
     <!-- 页脚 -->
     <footer>
         <div class="social-links">
             <a href="contact.html" class="social-link">
                 <i class="fab fa-weixin"></i>
             </a>
-            <a href="#" class="social-link">
-                <i class="fab fa-douyin"></i>
-            </a>
+           
         </div>
         <div class="copyright">
             <span data-en="&copy; 2025 Social Box Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>
