@@ -200,9 +200,9 @@ nav {
     color: #fff; /* 白色高亮 */
 }
 
-/* 英雄区域 */
+
 .hero {
-    height: 100vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
