@@ -303,7 +303,7 @@ function applyFilters() {
 const dmData = {
     dm1: {
         name: "彩虹（特色）",
-        nameEn: "DM 彩虹",
+        nameEn: "Rainbow",
         title: "悬疑推理专家",
         titleEn: "Mystery & Suspense Expert",
         image: "/api/placeholder/400/400",
@@ -330,7 +330,7 @@ const dmData = {
     },
     dm2: {
         name: "雪花",
-        nameEn: "DM 雪花",
+        nameEn: "snowflake",
         title: "恐怖剧本专家",
         titleEn: "Horror Script Expert",
         image: "/api/placeholder/400/400",
@@ -357,7 +357,7 @@ const dmData = {
     },
     dm3: {
         name: "早早",
-        nameEn: "DM 早早",
+        nameEn: "zaozao",
         title: "奇幻剧本专家",
         titleEn: "Fantasy Script Expert",
         image: "/api/placeholder/400/400",
