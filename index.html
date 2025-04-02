@@ -13,11 +13,10 @@
         <div class="logo">
             <a href="index.html">
               <span class="logo-cn">奇闻异事</span>
-              <!-- 英文logo默认隐藏 -->
-              <span class="logo-en" style="display: none;">Social Box</span>
+              <span class="logo-en">Social Box</span>
               <img src="#" alt="Logo" />
             </a>
-          </div>
+        </div>
         <!-- 直接添加onclick事件处理 -->
         <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
             <span class="current-lang">中</span>
@@ -35,7 +34,7 @@
                 <li class="has-submenu">
                     <a href="business.html" data-en="Main Business">主营业务</a>
                     <ul class="submenu">
-                        <li><a href="business.html#board-games" data-en="board-games">桌面游戏</a></li>
+                        <li><a href="business.html#board-games" data-en="Board Games">桌面游戏</a></li>
                         <li><a href="business.html#mahjong" data-en="Mahjong">麻将</a></li>
                         <li><a href="business.html#bar" data-en="Bar">酒吧</a></li>
                     </ul>
@@ -48,15 +47,15 @@
         </div>
     </nav>
     
-    
-    <section class="hero" id="home">
+    <!-- 首页标题区域 - 修改为与business.html相同的结构 -->
+    <section class="hero business-hero">
         <h1 data-en="Immersive Murder Mystery Experience">沉浸式剧本杀体验</h1>
         <p data-en="Explore mysteries, uncover truths, experience a different world of reasoning and deduction">探索谜题，揭开真相，体验不一样的推理世界</p>
         <a href="#introduction" class="btn" data-en="Learn More">了解剧本杀</a>
     </section>
     
     <!-- 关于我们 -->
-    <section class="section" id="about">
+    <section class="section" id="business-overview">
         <h2 class="section-title fade-in" data-en="About Us">关于我们</h2>
         <div class="about-content fade-in">
             <p data-en="'Strange Tales' is a specialized establishment offering high-quality immersive murder mystery experiences. We feature meticulously designed themed rooms and professional game hosts dedicated to providing each player with an authentic detective experience.">「奇闻异事」是一家专注于提供高质量沉浸式剧本杀体验的实体店。我们拥有精心设计的主题房间和专业的游戏主持人，致力于为每位玩家带来身临其境的推理体验。</p>
@@ -134,7 +133,6 @@
             <a href="contact.html" class="social-link">
                 <i class="fab fa-weixin"></i>
             </a>
-           
         </div>
         <div class="copyright">
             <span data-en="&copy; 2025 Social Box Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>

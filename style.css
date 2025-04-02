@@ -765,60 +765,6 @@ nav {
     border: 2px dashed #29b6b0;
 }
 
-/* 筛选器样式 */
-.filter-section {
-    margin-bottom: 0;
-    border-radius: 10px 10px 0 0;
-}
-
-.filter-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.filter-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.filter-group label {
-    font-weight: bold;
-    color: #333;
-}
-
-.filter-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.filter-btn {
-    padding: 8px 16px;
-    background-color: #f5fafa;
-    border: 1px solid #29b6b0;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: #333;
-}
-
-.filter-btn:hover {
-    background-color: rgba(41, 182, 176, 0.1);
-}
-
-.filter-btn.active {
-    background-color: #29b6b0;
-    color: white;
-}
-
-/* 隐藏不匹配的剧本 */
-.filterable-cards .script-card.hidden {
-    display: none;
-}
 
 /* 页脚 */
 footer {
@@ -1097,7 +1043,7 @@ html:not(.lang-en) .logo-en {
     
     .menu {
         position: fixed !important;
-        top: 60px !important;
+        top: 58px !important;
         left: 0 !important;
         width: 100% !important;
         background-color: #1d9c97 !important;
