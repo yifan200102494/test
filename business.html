@@ -40,7 +40,7 @@
                     </ul>
                 </li>
                 <li><a href="events.html" data-en="Events">活动</a></li>
-                <li><a href="scripts.html" data-en="Scripts">剧本</a></li>
+                <li><a href="environment.html" data-en="Environment">店铺环境</a></li>
                 <li><a href="feedback.html" data-en="Feedback">顾客反馈</a></li>
                 <li><a href="contact.html" data-en="Contact">联系我们</a></li>
             </ul>
@@ -60,6 +60,92 @@
             <p data-en="At 'Strange Tales', we've curated an extensive collection of board games to suit all preferences and skill levels. Our board game area offers a welcoming space for both casual gatherings and serious gaming sessions.">在「奇闻异事」，我们精心策划了丰富多样的桌面游戏收藏，适合各种偏好和技能水平。我们的桌游区为休闲聚会和严肃的游戏环节提供了一个温馨的空间。</p>
         </div>
     </section>
+    <section class="section scripts" id="scripts">
+        <h2 class="section-title fade-in" data-en="Featured Scripts">新手剧本推荐</h2>
+        <div class="script-cards">
+            <div class="script-card fade-in">
+                <img src="#" alt="剧本1" class="script-img">
+                <div class="script-info">
+                    <h3 data-en="Castle Shadows">剧本1</h3>
+                    <p data-en="Script description">剧本描述</p>
+                    <div class="script-meta">
+                        <span data-en="Difficulty: ★★★☆☆">难度: ★★★☆☆</span>
+                        <span data-en="6-8 players">6-8人</span>
+                    </div>
+                </div>
+            </div>
+            <div class="script-card fade-in">
+                <img src="#" alt="剧本2" class="script-img">
+                <div class="script-info">
+                    <h3 data-en="Deep Sea Mystery">剧本2</h3>
+                    <p data-en="Script description">剧本描述</p>
+                    <div class="script-meta">
+                        <span data-en="Difficulty: ★★★★☆">难度: ★★★★☆</span>
+                        <span data-en="7-9 players">7-9人</span>
+                    </div>
+                </div>
+            </div>
+            <div class="script-card fade-in">
+                <img src="#" alt="剧本3" class="script-img">
+                <div class="script-info">
+                    <h3 data-en="Chained Hotel">剧本3</h3>
+                    <p data-en="Script description">剧本描述</p>
+                    <div class="script-meta">
+                        <span data-en="Difficulty: ★★★★★">难度: ★★★★★</span>
+                        <span data-en="5-7 players">5-7人</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+     <!-- DM介绍部分 -->
+<section class="section dm-intro" id="dm-intro">
+    <h2 class="section-title fade-in" data-en="Our DMs">我们的DM</h2>
+    <div class="dm-cards">
+        <div class="dm-card fade-in" onclick="openDmPopup('dm1')">
+            <img src="/api/placeholder/200/200" alt="DM1" class="dm-img">
+            <div class="dm-info">
+                <h3 data-en="Rainbow">彩虹（特色）</h3>
+                <p data-en="Specializes in mystery and suspense scripts. 5 years of experience.">擅长悬疑推理类剧本，拥有5年带本经验。</p>
+                <div class="dm-meta">
+                    <span data-en="Style: Atmospheric">风格: 氛围营造</span>
+                </div>
+                <div class="dm-more" data-en="Click for details">点击查看详情</div>
+            </div>
+        </div>
+        <div class="dm-card fade-in" onclick="openDmPopup('dm2')">
+            <img src="/api/placeholder/200/200" alt="DM2" class="dm-img">
+            <div class="dm-info">
+                <h3 data-en="snowflake">雪花</h3>
+                <p data-en="Horror script expert. Creates immersive gaming experiences.">恐怖剧本专家，善于打造沉浸式游戏体验。</p>
+                <div class="dm-meta">
+                    <span data-en="Style: Interactive">风格: 互动性强</span>
+                </div>
+                <div class="dm-more" data-en="Click for details">点击查看详情</div>
+            </div>
+        </div>
+        <div class="dm-card fade-in" onclick="openDmPopup('dm3')">
+            <img src="/api/placeholder/200/200" alt="DM3" class="dm-img">
+            <div class="dm-info">
+                <h3 data-en="zaozao">早早</h3>
+                <p data-en="Fantasy specialist. Perfect for beginners and newcomers.">奇幻类剧本专家，非常适合新手玩家。</p>
+                <div class="dm-meta">
+                    <span data-en="Style: Beginner-friendly">风格: 新手友好</span>
+                </div>
+                <div class="dm-more" data-en="Click for details">点击查看详情</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DM弹出卡片 -->
+<div class="dm-popup-overlay" id="dmPopupOverlay" onclick="closeDmPopup()"></div>
+<div class="dm-popup" id="dmPopup">
+    <div class="dm-popup-close" onclick="closeDmPopup()">×</div>
+    <div class="dm-popup-content" id="dmPopupContent">
+        <!-- 动态内容将通过JavaScript填充 -->
+    </div>
+</div>
     
     <!-- 桌面游戏介绍 -->
     <section class="section business-section" id="board-games-detail">

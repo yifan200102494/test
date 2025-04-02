@@ -308,14 +308,14 @@ const dmData = {
         titleEn: "Mystery & Suspense Expert",
         image: "/api/placeholder/400/400",
         specialties: [
-            { zh: "密室逃脱", en: "Escape Room" },
+            { zh: "狼人杀", en: "Werewolves of Miller's Hollow" },
             { zh: "侦探推理", en: "Detective" },
-            { zh: "心理thriller", en: "Psychological Thriller" }
+            { zh: "情感演绎", en: "Emotional deduction" }
         ],
         scripts: [
-            { zh: "深海迷航", en: "Deep Sea Mystery" },
-            { zh: "古堡疑云", en: "Castle Shadows" },
-            { zh: "暗夜追凶", en: "Night Hunter" }
+            { zh: "剧本", en: "script" },
+            { zh: "剧本", en: "script" },
+            { zh: "剧本", en: "script" }
         ],
         gallery: [
             "/api/placeholder/300/200",
@@ -340,9 +340,9 @@ const dmData = {
             { zh: "沉浸式体验", en: "Immersive Experience" }
         ],
         scripts: [
-            { zh: "午夜医院", en: "Midnight Hospital" },
-            { zh: "禁忌森林", en: "Forbidden Forest" },
-            { zh: "鬼魂旅馆", en: "Ghost Inn" }
+            { zh: "剧本", en: "script" },
+            { zh: "剧本", en: "script" },
+            { zh: "剧本", en: "script" }
         ],
         gallery: [
             "/api/placeholder/300/200",
@@ -358,18 +358,18 @@ const dmData = {
     dm3: {
         name: "早早",
         nameEn: "zaozao",
-        title: "奇幻剧本专家",
-        titleEn: "Fantasy Script Expert",
+        title: "剧本专家",
+        titleEn: "Script Expert",
         image: "/api/placeholder/400/400",
         specialties: [
-            { zh: "奇幻冒险", en: "Fantasy Adventure" },
+            { zh: "体验满分", en: "Experience full score" },
             { zh: "新手友好", en: "Beginner-friendly" },
             { zh: "团队合作", en: "Team Cooperation" }
         ],
         scripts: [
-            { zh: "龙与魔法", en: "Dragons & Magic" },
-            { zh: "时间旅人", en: "Time Travelers" },
-            { zh: "星际迷途", en: "Lost in Space" }
+            { zh: "剧本", en: "script" },
+            { zh: "剧本", en: "script" },
+            { zh: "剧本", en: "script" }
         ],
         gallery: [
             "/api/placeholder/300/200",
@@ -500,43 +500,3 @@ document.addEventListener('keydown', function(e) {
     }
 });
 // 搜索功能
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('scriptSearchInput');
-    const searchButton = document.getElementById('searchButton');
-    const scriptCards = document.querySelectorAll('.script-cards .script-card');
-    
-    // 执行搜索
-    function performSearch() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        
-        scriptCards.forEach(card => {
-            const title = card.querySelector('h3').textContent.toLowerCase();
-            const description = card.querySelector('p').textContent.toLowerCase();
-            
-            if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                card.classList.remove('hidden');
-            } else {
-                card.classList.add('hidden');
-            }
-        });
-    }
-    
-    // 按钮点击搜索
-    if (searchButton) {
-        searchButton.addEventListener('click', performSearch);
-    }
-    
-    // 输入时实时搜索
-    if (searchInput) {
-        searchInput.addEventListener('input', performSearch);
-    }
-    
-    // 按回车键搜索
-    if (searchInput) {
-        searchInput.addEventListener('keyup', function(event) {
-            if (event.key === 'Enter') {
-                performSearch();
-            }
-        });
-    }
-});

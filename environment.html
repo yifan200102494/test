@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店铺环境 - 奇闻异事</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-cn">奇闻异事</span>
+            <span class="logo-en">Social Box</span>
+            <img src="#" alt="Logo" />
+          </a>
+        </div>
+        <!-- 直接添加onclick事件处理 -->
+        <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
+            <span class="current-lang">中</span>
+            <span class="lang-divider">/</span>
+            <span>EN</span>
+        </div>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menu">
+            <ul>
+                <li><a href="index.html" data-en="Home">首页</a></li>
+                <li class="has-submenu">
+                    <a href="business.html" data-en="Main Business">主营业务</a>
+                    <ul class="submenu">
+                        <li><a href="business.html" data-en="Board Games">桌面游戏</a></li>
+                        <li><a href="mahjong.html" data-en="Mahjong">麻将</a></li>
+                        <li><a href="bar.html" data-en="Bar">酒吧</a></li>
+                    </ul>
+                </li>
+                <li><a href="events.html" data-en="Events">活动</a></li>
+                
+                <li><a href="environment.html" data-en="Environment">店铺环境</a></li>
+                <li><a href="feedback.html" data-en="Feedback">顾客反馈</a></li>
+                <li><a href="contact.html" data-en="Contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 环境介绍标题 -->
+    <section class="hero business-hero">
+        <h1 data-en="Our Environment">店铺环境</h1>
+        <p data-en="Discover our unique atmosphere and themed rooms">探索我们独特的氛围和主题房间</p>
+    </section>
+    
+    <!-- 环境概述 -->
+    <section class="section" id="environment-overview">
+        <h2 class="section-title fade-in" data-en="Our Unique Style">我们的独特风格</h2>
+        <div class="about-content fade-in">
+            <p data-en="At 'Strange Tales', we've created a special space where mystery, fun, and social interaction come together. Our venue combines modern design elements with vintage touches that create the perfect ambiance for our murder mystery games, board games, mahjong sessions, and bar experience.">在「奇闻异事」，我们创造了一个融合神秘感、娱乐性和社交互动的特别空间。我们的场所结合了现代设计元素和复古风格，为剧本杀游戏、桌面游戏、麻将和酒吧体验营造了完美的氛围。</p>
+        </div>
+    </section>
+    
+    <!-- 主要区域展示 -->
+    <section class="section alt-bg" id="main-areas">
+        <h2 class="section-title fade-in" data-en="Main Areas">主要区域</h2>
+        
+        <div class="area-container fade-in">
+            <div class="area-image">
+                <img src="/api/placeholder/500/300" alt="接待区" />
+            </div>
+            <div class="area-info">
+                <h3 data-en="Reception & Lounge">接待区与休息厅</h3>
+                <p data-en="Our welcoming reception area features comfortable seating, subtle lighting, and an intriguing display of our most popular mystery scripts. The lounge area is perfect for gathering before your game or relaxing afterward with a drink from our bar.">我们温馨的接待区配有舒适的座椅、柔和的灯光，以及展示我们最受欢迎剧本的有趣展示柜。休息厅是您在游戏前聚集或游戏后从我们的酒吧享用饮品放松的理想场所。</p>
+            </div>
+        </div>
+        
+        <div class="area-container fade-in reverse">
+            <div class="area-image">
+                <img src="/api/placeholder/500/300" alt="酒吧区" />
+            </div>
+            <div class="area-info">
+                <h3 data-en="Bar & Dining">酒吧与餐饮区</h3>
+                <p data-en="Our stylish bar offers a wide selection of cocktails, wines, craft beers, and non-alcoholic beverages. The bar area features elegant wood paneling, ambient lighting, and comfortable seating where you can enjoy drinks and light meals while socializing or waiting for your next game.">我们时尚的酒吧提供各种鸡尾酒、葡萄酒、精酿啤酒和无酒精饮料。酒吧区域拥有优雅的木质镶板、氛围灯光和舒适的座位，您可以在此享用饮品和轻食，同时社交或等待下一场游戏。</p>
+            </div>
+        </div>
+        
+        <div class="area-container fade-in">
+            <div class="area-image">
+                <img src="/api/placeholder/500/300" alt="桌游区" />
+            </div>
+            <div class="area-info">
+                <h3 data-en="Board Game Zone">桌游区</h3>
+                <p data-en="Our spacious board game zone features multiple tables designed for different group sizes. With over 200 games in our collection, this area combines functionality with comfort. Soft but adequate lighting ensures you can see your game pieces clearly while maintaining the cozy atmosphere.">我们宽敞的桌游区设有为不同规模团体设计的多张桌子。我们的收藏有超过200种游戏，这个区域兼具功能性和舒适度。柔和但充足的照明确保您能清晰地看到游戏棋子，同时保持舒适的氛围。</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 主题房间展示 -->
+    <section class="section" id="themed-rooms">
+        <h2 class="section-title fade-in" data-en="Themed Rooms">主题房间</h2>
+        <p class="section-subtitle fade-in" data-en="Each of our themed rooms offers a unique atmosphere for your murder mystery adventures">我们的每个主题房间都为您的剧本杀探险提供独特的氛围</p>
+        
+        <div class="rooms-grid fade-in">
+            <!-- 房间1 -->
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="/api/placeholder/400/250" alt="古董书房" />
+                </div>
+                <div class="room-content">
+                    <h3 data-en="room1">房间4</h3>
+                    <p data-en="Some description">一些描述</p>
+                    <div class="room-features">
+                        <span class="feature" data-en="Capacity: 6-8 people">容纳: 6-8人</span>
+                        <span class="feature" data-en="Perfect for: Classic mysteries">适合: 经典悬疑</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 房间2 -->
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="/api/placeholder/400/250" alt="东方密室" />
+                </div>
+                <div class="room-content">
+                    <h3 data-en="room2">房间4</h3>
+                    <p data-en="Some description">一些描述</p>
+                    <div class="room-features">
+                        <span class="feature" data-en="Capacity: 6-10 people">容纳: 6-10人</span>
+                        <span class="feature" data-en="Perfect for: Eastern mysteries">适合: 东方悬疑</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 房间3 -->
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="/api/placeholder/400/250" alt="未来实验室" />
+                </div>
+                <div class="room-content">
+                    <h3 data-en="room3">房间4</h3>
+                    <p data-en="Our most modern themed room features sleek design, LED lighting, and high-tech furnishings. This futuristic setting is ideal for sci-fi mysteries and contemporary crime stories.">我们最现代的主题房间拥有流线型设计、LED照明和高科技家具。这个未来主义的场景非常适合科幻悬疑和当代犯罪故事。</p>
+                    <div class="room-features">
+                        <span class="feature" data-en="Capacity: 8-12 people">容纳: 8-12人</span>
+                        <span class="feature" data-en="Perfect for: Sci-fi mysteries">适合: 科幻悬疑</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 房间4 -->
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="/api/placeholder/400/250" alt="VIP麻将室" />
+                </div>
+                <div class="room-content">
+                    <h3 data-en="room14">房间4</h3>
+                    <p data-en="Some description">一些描述</p>
+                    <div class="room-features">
+                        <span class="feature" data-en="Capacity: 4-6 people">容纳: 4-6人</span>
+                        <span class="feature" data-en="Perfect for: Premium mahjong experience">适合: 高端麻将体验</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 环境设施亮点 -->
+    <section class="section alt-bg" id="amenities">
+        <h2 class="section-title fade-in" data-en="Amenities & Features">设施与特色</h2>
+        
+        <div class="amenities-grid fade-in">
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <h3 data-en="Free WiFi">免费WiFi</h3>
+                <p data-en="High-speed internet throughout our venue">全场高速互联网</p>
+            </div>
+            
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-cocktail"></i>
+                </div>
+                <h3 data-en="Full Service Bar">全方位服务酒吧</h3>
+                <p data-en="Wide selection of drinks and cocktails">各种饮品和鸡尾酒选择</p>
+            </div>
+            
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3 data-en="Food Service">餐饮服务</h3>
+                <p data-en="Light meals and snacks available">提供轻食和小吃</p>
+            </div>
+            
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+                <h3 data-en="Sound Systems">音响系统</h3>
+                <p data-en="High-quality audio in each room">每个房间高质量音响</p>
+            </div>
+            
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 data-en="Mood Lighting">氛围灯光</h3>
+                <p data-en="Adjustable lighting to set the perfect mood">可调节灯光营造完美氛围</p>
+            </div>
+            
+            <div class="amenity-item">
+                <div class="amenity-icon">
+                    <i class="fas fa-temperature-low"></i>
+                </div>
+                <h3 data-en="Climate Control">温控系统</h3>
+                <p data-en="Comfortable temperature year-round">全年舒适温度</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 预约参观 -->
+    <section class="section" id="tour-booking">
+        <h2 class="section-title fade-in" data-en="Book a Tour">预约参观</h2>
+        <div class="tour-content fade-in">
+            <p data-en="Want to see our venue before booking? Schedule a tour with one of our staff members who will show you around and answer all your questions.">想在预订前参观我们的场地？安排与我们的工作人员一起参观，他们将带您四处查看并回答您所有的问题。</p>
+            <a href="contact.html" class="btn primary-btn" data-en="Contact Us">联系我们</a>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="social-links">
+            <a href="contact.html" class="social-link">
+                <i class="fab fa-weixin"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            <span data-en="&copy; 2025 Social Box Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
