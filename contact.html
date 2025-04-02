@@ -14,7 +14,7 @@
           <a href="index.html">
             <span class="logo-cn">奇闻异事</span>
             <span class="logo-en">Social Box</span>
-            <img src="#" alt="Logo">
+            <img src="#" alt="Logo" />
           </a>
         </div>
         <!-- 直接添加onclick事件处理 -->
@@ -34,12 +34,13 @@
                 <li class="has-submenu">
                     <a href="business.html" data-en="Main Business">主营业务</a>
                     <ul class="submenu">
-                        <li><a href="business.html#board-games" data-en="board-games">桌面游戏</a></li>
-                        <li><a href="business.html#mahjong" data-en="Mahjong">麻将</a></li>
-                        <li><a href="business.html#bar" data-en="Bar">酒吧</a></li>
+                        <li><a href="business.html" data-en="Board Games">桌面游戏</a></li>
+                        <li><a href="mahjong.html" data-en="Mahjong">麻将</a></li>
+                        <li><a href="bar.html" data-en="Bar">酒吧</a></li>
                     </ul>
                 </li>
                 <li><a href="events.html" data-en="Events">活动</a></li>
+                <li><a href="scripts.html" data-en="Scripts">剧本</a></li>
                 <li><a href="environment.html" data-en="Environment">店铺环境</a></li>
                 <li><a href="feedback.html" data-en="Feedback">顾客反馈</a></li>
                 <li><a href="contact.html" data-en="Contact">联系我们</a></li>
@@ -47,44 +48,138 @@
         </div>
     </nav>
     
-    <!-- 联系我们 -->
+    <!-- 联系我们标题 -->
     <section class="hero business-hero">
         <h1 data-en="Contact Us">联系我们</h1>
-        
+        <p data-en="We're here to answer your questions and help you plan your next visit">我们随时为您解答问题并帮助您规划下次访问</p>
     </section>
-    <section class="section" id="contact">
-        
-        <div class="contact-info fade-in">
-            <div class="contact-item">
-                <div class="contact-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div>
-                    <h3 data-en="Address">地址</h3>
-                    <p data-en="123 Commercial Street, City Center (Lake View Plaza, 2nd Floor)">中国城</p>
-                </div>
-            </div>
-            <div class="contact-item">
+    
+    <!-- 联系信息概览 -->
+    <section class="section" id="contact-overview">
+        <h2 class="section-title fade-in" data-en="Get in Touch">与我们取得联系</h2>
+        <div class="about-content fade-in">
+            <p data-en="Whether you're looking to book a game session, organize a corporate event, or simply have a question about our services, our team is ready to assist you. Here are the various ways you can connect with us.">无论您是想预订游戏环节、组织企业活动，还是只是对我们的服务有疑问，我们的团队都随时准备为您提供帮助。以下是您可以与我们联系的各种方式。</p>
+        </div>
+    </section>
+    
+    <!-- 联系方式卡片 -->
+    <section class="section alt-bg" id="contact-cards">
+        <div class="contact-grid fade-in">
+            <!-- 电话联系 -->
+            <div class="contact-card">
                 <div class="contact-icon">
                     <i class="fas fa-phone"></i>
                 </div>
-                <div>
-                    <h3 data-en="Phone">电话</h3>
-                    <p data-en="Reservation Hotline: 123-4567-8910">预约热线: 123-4567-8910</p>
-                </div>
+                <h3 data-en="Call Us">致电我们</h3>
+                <p data-en="Our customer service team is available during our business hours:">客服团队在营业时间内为您服务：</p>
+                <p class="contact-info">+86 123 4567 8901</p>
+                <p class="hours" data-en="Mon-Thu: 14:00-24:00">周一至周四：14:00-24:00</p>
+                <p class="hours" data-en="Fri-Sun: 12:00-02:00">周五至周日：12:00-02:00</p>
             </div>
-            <div class="contact-item">
+            
+            <!-- 微信联系 -->
+            <div class="contact-card">
                 <div class="contact-icon">
-                    <i class="fas fa-clock"></i>
+                    <i class="fab fa-weixin"></i>
                 </div>
-                <div>
-                    <h3 data-en="Business Hours">营业时间</h3>
-                    <p data-en="Monday to Friday: 13:00 - 22:00">周一至周五: 13:00 - 22:00</p>
-                    <p data-en="Saturday and Sunday: 10:00 - 24:00">周六至周日: 10:00 - 24:00</p>
+                <h3 data-en="WeChat">微信</h3>
+                <p data-en="Scan our official WeChat QR code to follow us and get the latest updates, promotions, and events:">扫描我们的官方微信二维码关注我们并获取最新更新、促销和活动：</p>
+                <div class="qr-code">
+                    <img src="/api/placeholder/150/150" alt="微信二维码" />
+                </div>
+                <p class="contact-id" data-en="WeChat ID: SocialBox2025">微信号：奇闻异事2025</p>
+            </div>
+            
+            <!-- 电子邮件 -->
+            <div class="contact-card">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3 data-en="Email Us">给我们发邮件</h3>
+                <p data-en="For bookings, inquiries, or feedback, drop us an email:">预订、咨询或反馈，请发送电子邮件：</p>
+                <p class="contact-info">contact@socialbox.com</p>
+                <p data-en="For business cooperation:">商务合作：</p>
+                <p class="contact-info">business@socialbox.com</p>
+                <p class="response-time" data-en="We typically respond within 24 hours">我们通常在24小时内回复</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 地址和地图 -->
+    <section class="section" id="location">
+        <h2 class="section-title fade-in" data-en="Visit Us">访问我们</h2>
+        
+        <div class="location-container fade-in">
+            <div class="address-info">
+                <h3 data-en="Our Location">我们的位置</h3>
+                <address>
+                    <p data-en="123 Mysterious Street, Entertainment District">神秘街123号，娱乐区</p>
+                    <p data-en="birmingham">伯明翰</p>
+                </address>
+                
+                <div class="transportation">
+                    <h3 data-en="How to Get Here">如何到达</h3>
+                    
+                    <div class="transport-item">
+                        <i class="fas fa-bus"></i>
+                        <span data-en="Bus Lines 123, 456, 789, Bus Stop: Entertainment Center">公交线路123、456、789，站点：娱乐中心</span>
+                    </div>
+                    
                 </div>
             </div>
-            <div class="map">
-                <span data-en="Map loading... (map will be embedded in actual use)">地图加载中... (实际使用时可嵌入地图)</span>
+            
+            <div class="map-container">
+                <!-- 地图占位图，实际应用中替换为嵌入地图 -->
+                <img src="/api/placeholder/600/400" alt="店铺地图位置" class="location-map" />
+                <p class="map-note" data-en="Click on the map to get directions">点击地图获取导航</p>
+            </div>
+        </div>
+    </section>
+    
+    
+    <!-- 常见问题 -->
+    <section class="section" id="faq">
+        <h2 class="section-title fade-in" data-en="Frequently Asked Questions">常见问题</h2>
+        
+        <div class="faq-container fade-in">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3 data-en="Do I need to make a reservation?">我需要提前预约吗？</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p data-en="Yes, we highly recommend making a reservation, especially for murder mystery games and during weekends. You can book by phone, WeChat, or through our online booking system.">是的，我们强烈建议提前预约，尤其是剧本杀游戏和周末时段。您可以通过电话、微信或我们的在线预订系统进行预约。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3 data-en="What is your cancellation policy?">您的取消政策是什么？</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p data-en="Cancellations made at least 24 hours in advance receive a full refund. Cancellations made less than 24 hours in advance may be subject to a cancellation fee. Please contact us directly for specific cases.">提前至少24小时取消可获得全额退款。少于24小时取消可能会收取取消费用。具体情况请直接联系我们。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3 data-en="Do you offer private rooms for events?">您提供活动私人房间吗？</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p data-en="Yes, we have several private rooms available for corporate events, birthday parties, and special occasions. These rooms can be customized to suit your specific needs. Please contact our events team for details and pricing.">是的，我们有几个私人房间可用于企业活动、生日派对和特殊场合。这些房间可以根据您的特定需求进行定制。详情和价格请联系我们的活动团队。</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3 data-en="Do you serve food and drinks?">您提供食物和饮料吗？</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p data-en="Yes, our bar offers a wide selection of drinks including cocktails, beer, wine, and non-alcoholic beverages. We also serve light meals, snacks, and bar food. For private events, we can arrange catering services upon request.">是的，我们的酒吧提供各种饮品，包括鸡尾酒、啤酒、葡萄酒和无酒精饮料。我们还提供轻食、小吃和酒吧食品。对于私人活动，我们可以根据要求安排餐饮服务。</p>
+                </div>
             </div>
         </div>
     </section>
@@ -95,7 +190,6 @@
             <a href="contact.html" class="social-link">
                 <i class="fab fa-weixin"></i>
             </a>
-            
         </div>
         <div class="copyright">
             <span data-en="&copy; 2025 Social Box Murder Mystery. All Rights Reserved">&copy; 2025 奇闻异事剧本杀 版权所有</span>
