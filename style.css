@@ -590,6 +590,7 @@ nav {
 
 .dm-popup-content {
     padding: 30px;
+    background-color: #fff;
 }
 
 .dm-popup-header {
@@ -708,6 +709,7 @@ nav {
 
 .script-info {
     padding: 20px;
+    background-color: #fff;
 }
 
 .script-info h3 {
