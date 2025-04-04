@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    text-align: center;
 }
 
 body {
@@ -177,7 +178,7 @@ nav {
     top: 60px;
     left: 0;
     width: 100%;
-    background-color: #1d9c97;
+    background-color: #111245;
     padding: 20px;
     transform: translateY(-150%);
     transition: all 0.3s ease;
@@ -221,7 +222,7 @@ nav {
     top: 100%;
     left: 50%;
     transform: translateX(-50%) translateY(15px);
-    background-color: #22b3a7;
+    background-color: #111245;
     border-radius: 20px;
     padding: 15px;
     display: flex;
@@ -322,39 +323,35 @@ nav {
     left: 100%;
 }
 
-/* 通用部分样式 */
+/* 内容区域样式 */
 .section {
     padding: 80px 20px;
-    background-color: #fff;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    text-align: center;
 }
 
 .section-title {
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 40px;
     color: #231592;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    text-align: center;
 }
 
-.alt-bg {
-    background-color: #f5fafa;
-}
-
-/* 内容样式 */
 .about-content, .introduction-content, .contact-info {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
+    text-align: center;
 }
 
-.about-content p {
+.about-content p, .introduction-content p {
+    color: #961c93;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 /* 卡片样式 */
 .intro-card, .dm-intro, .script-card {
-    background-color: #f5fafa;
+    background-color: (rgba(72, 29, 193, 0.89), rgba(41, 182, 176, 0.6));
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -365,7 +362,7 @@ nav {
 .intro-card, .dm-intro {
     padding: 25px;
     margin-bottom: 20px;
-    border-left: 4px solid #29b6b0;
+    border-left: 4px solid #4a179b;
 }
 
 .intro-card:hover, .dm-intro:hover, .script-card:hover {
@@ -374,7 +371,7 @@ nav {
 }
 
 .intro-card h3, .dm-intro h3 {
-    color: #29b6b0;
+    color: #231592;
     margin-bottom: 15px;
     font-size: 20px;
     display: flex;
@@ -383,7 +380,7 @@ nav {
 
 .intro-card h3 i, .dm-intro h3 i, .dm-skill i {
     margin-right: 10px;
-    color: #29b6b0;
+    color: #231592;
 }
 
 /* 视频占位符 */
@@ -416,10 +413,10 @@ nav {
 
 .intro-note {
     font-style: italic;
-    color: #555;
+    color: #961c93;
     padding: 15px;
-    border-left: 3px solid #29b6b0;
-    background-color: rgba(41, 182, 176, 0.1);
+    border-left: 3px solid #231592;
+    background-color: #fff;
     border-radius: 0 5px 5px 0;
 }
 
@@ -465,13 +462,13 @@ nav {
 }
 
 .dm-skill h4 {
-    color: #333;
+    color: #231592;
     margin-bottom: 10px;
     font-size: 18px;
 }
 
 .dm-skill p {
-    color: #666;
+    color: #961c93;
     margin-bottom: 0;
 }
 
@@ -767,16 +764,12 @@ nav {
     border: 2px dashed #29b6b0;
 }
 
-
 /* 页脚 */
 footer {
-    background-color: #fff;
-    padding: 30px 20px;
+    background-color: #4a179b;
+    color: #ffffff;
+    padding: 40px 20px;
     text-align: center;
-    border-top: 1px solid #eee;
-    border-radius: 10px;
-    margin-top: 20px;
-    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .social-links {
@@ -814,8 +807,9 @@ footer {
 }
 
 .copyright {
-    color: #777;
-    font-size: 14px;
+    margin-top: 20px;
+    color: #ffffff;
+    text-align: center;
 }
 
 /* 动画效果 */
@@ -1144,4 +1138,79 @@ html:not(.lang-en) .logo-en {
     .lang-switch {
         z-index: 1001 !important;
     }
+}
+
+/* FAQ样式 */
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.faq-item {
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-question {
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #4a179b;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.faq-question h3 {
+    margin: 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+.faq-toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.faq-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-toggle i {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.faq-item.active .faq-answer {
+    padding: 20px;
+    max-height: 500px;
+}
+
+.faq-answer p {
+    margin: 0;
+    color: #961c93;
+    text-align: left;
+    line-height: 1.6;
+}
+
+.faq-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }

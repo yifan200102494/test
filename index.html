@@ -6,6 +6,7 @@
     <title>奇闻异事 - 沉浸式剧本杀体验</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 <body>
     <!-- 导航栏 -->
@@ -129,6 +130,55 @@
             </div>
         </div>
     </section>
+    
+    <!-- 新手剧本推荐部分 -->
+    <section class="section" id="beginner-scripts">
+        <h2 class="section-title fade-in" data-en="Recommended Scripts for Beginners">新手剧本推荐</h2>
+        <div class="script-cards fade-in">
+            <div class="script-card" onclick="openScriptPopup('script1')">
+                <img src="/api/placeholder/300/200" alt="新手剧本1" class="script-img">
+                <div class="script-info">
+                    <h3 data-en="The Missing Letter">消失的信</h3>
+                    <p data-en="A perfect script for beginners">适合新手的完美剧本</p>
+                    <div class="script-meta">
+                        <span class="difficulty" data-en="Difficulty: ★★★☆☆">难度：★★★☆☆</span>
+                        <span class="players" data-en="6-8 Players">6-8人</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="script-card" onclick="openScriptPopup('script2')">
+                <img src="/api/placeholder/300/200" alt="新手剧本2" class="script-img">
+                <div class="script-info">
+                    <h3 data-en="The Last Dinner">最后的晚餐</h3>
+                    <p data-en="Another great choice for beginners">新手的另一个好选择</p>
+                    <div class="script-meta">
+                        <span class="difficulty" data-en="Difficulty: ★★★★☆">难度：★★★★☆</span>
+                        <span class="players" data-en="7-9 Players">7-9人</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="script-card" onclick="openScriptPopup('script3')">
+                <img src="/api/placeholder/300/200" alt="新手剧本3" class="script-img">
+                <div class="script-info">
+                    <h3 data-en="The Secret Garden">秘密花园</h3>
+                    <p data-en="Perfect for first-time players">非常适合首次体验的玩家</p>
+                    <div class="script-meta">
+                        <span class="difficulty" data-en="Difficulty: ★★★★★">难度：★★★★★</span>
+                        <span class="players" data-en="5-7 Players">5-7人</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 新手剧本弹出层 -->
+    <div id="scriptPopupOverlay" class="popup-overlay" onclick="closeScriptPopup()"></div>
+    <div id="scriptPopup" class="popup">
+        <div class="popup-content" id="scriptPopupContent"></div>
+        <button class="close-btn" onclick="closeScriptPopup()">×</button>
+    </div>
     
     <!-- 页脚 -->
     <footer>

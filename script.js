@@ -500,3 +500,19 @@ document.addEventListener('keydown', function(e) {
     }
 });
 // 搜索功能
+
+// FAQ切换功能
+function toggleFaq(element) {
+    const faqItem = element.parentElement;
+    const wasActive = faqItem.classList.contains('active');
+    
+    // 关闭所有其他FAQ项
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    
+    // 如果当前项不是激活状态，则激活它
+    if (!wasActive) {
+        faqItem.classList.add('active');
+    }
+}
