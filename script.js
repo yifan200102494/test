@@ -516,3 +516,114 @@ function toggleFaq(element) {
         faqItem.classList.add('active');
     }
 }
+// 剧本数据
+const scriptData = {
+    script1: {
+        name: "剧本1",
+        nameEn: "剧本1",
+        duration: "3-4小时",
+        durationEn: "3-4 hours",
+        difficulty: "★★★☆☆",
+        players: "6-8人",
+        playersEn: "6-8 players",
+        image: "/api/placeholder/500/300",
+        description: "一些描述",
+        descriptionEn: "Some description"
+    },
+    script2: {
+        name: "剧本2",
+        nameEn: "剧本2",
+        duration: "4-5小时",
+        durationEn: "4-5 hours",
+        difficulty: "★★★★☆",
+        players: "7-9人",
+        playersEn: "7-9 players",
+        image: "/api/placeholder/500/300",
+        description: "一些描述",
+        descriptionEn: "Some description"
+    },
+    script3: {
+        name: "剧本3",
+        nameEn: "剧本3",
+        duration: "3-4小时",
+        durationEn: "3-4 hours",
+        difficulty: "★★★★★",
+        players: "5-7人",
+        playersEn: "5-7 players",
+        image: "/api/placeholder/500/300",
+        description: "一些描述",
+        descriptionEn: "Some description"
+    }
+};
+
+// 打开剧本弹出卡片
+function openScriptPopup(scriptId) {
+    const script = scriptData[scriptId];
+    if (!script) return;
+    
+    // 检测当前语言
+    const isEnglish = document.documentElement.classList.contains('lang-en');
+    
+    // 构建弹出卡片内容
+    let content = `
+        <div class="script-popup-header">
+            <img src="${script.image}" alt="${isEnglish ? script.nameEn : script.name}" class="script-popup-img">
+            <div class="script-popup-title">
+                <h2>${isEnglish ? script.nameEn : script.name}</h2>
+                <div class="script-popup-meta">
+                    <span class="script-meta-item"><i class="fas fa-users"></i> ${isEnglish ? script.playersEn : script.players}</span>
+                    <span class="script-meta-item"><i class="fas fa-clock"></i> ${isEnglish ? script.durationEn : script.duration}</span>
+                    <span class="script-meta-item"><i class="fas fa-star"></i> ${script.difficulty}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="script-popup-section">
+            <h3>${isEnglish ? "Description" : "剧本简介"}</h3>
+            <p>${isEnglish ? script.descriptionEn : script.description}</p>
+        </div>
+    `;
+    
+    // 填充并显示弹出卡片
+    document.getElementById('scriptPopupContent').innerHTML = content;
+    document.getElementById('scriptPopupOverlay').style.display = 'block';
+    document.getElementById('scriptPopup').style.display = 'block';
+    
+    // 防止滚动
+    document.body.style.overflow = 'hidden';
+}
+
+// 关闭剧本弹出卡片
+function closeScriptPopup() {
+    document.getElementById('scriptPopupOverlay').style.display = 'none';
+    document.getElementById('scriptPopup').style.display = 'none';
+    
+    // 恢复滚动
+    document.body.style.overflow = '';
+}
+
+// 为剧本卡片添加点击事件
+document.addEventListener('DOMContentLoaded', function() {
+    // 为所有剧本卡片添加点击事件
+    const scriptCards = document.querySelectorAll('.script-card');
+    scriptCards.forEach((card, index) => {
+        const scriptId = `script${index + 1}`;
+        card.setAttribute('data-script-id', scriptId);
+        
+        // 为详情按钮单独添加点击事件
+        const detailBtn = card.querySelector('.dm-more');
+        if (detailBtn) {
+            detailBtn.addEventListener('click', function(e) {
+                e.stopPropagation(); // 防止触发父元素的点击事件
+                openScriptPopup(card.getAttribute('data-script-id'));
+            });
+        }
+    });
+    
+    // 将点击整个卡片作为备选方案
+    scriptCards.forEach(card => {
+        card.addEventListener('click', function() {
+            openScriptPopup(this.getAttribute('data-script-id'));
+        });
+    });
+});

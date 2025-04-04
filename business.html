@@ -132,6 +132,7 @@
             </div>
         </div>
     </section>
+    <!-- 新手剧本推荐 -->
     <section class="section scripts" id="scripts">
         <h2 class="section-title fade-in" data-en="Featured Scripts">新手剧本推荐</h2>
         <div class="script-cards">
@@ -144,6 +145,7 @@
                         <span data-en="Difficulty: ★★★☆☆">难度: ★★★☆☆</span>
                         <span data-en="6-8 players">6-8人</span>
                     </div>
+                    <div class="dm-more" data-en="Click for details">点击查看详情</div>
                 </div>
             </div>
             <div class="script-card fade-in">
@@ -155,6 +157,7 @@
                         <span data-en="Difficulty: ★★★★☆">难度: ★★★★☆</span>
                         <span data-en="7-9 players">7-9人</span>
                     </div>
+                    <div class="dm-more" data-en="Click for details">点击查看详情</div>
                 </div>
             </div>
             <div class="script-card fade-in">
@@ -166,6 +169,7 @@
                         <span data-en="Difficulty: ★★★★★">难度: ★★★★★</span>
                         <span data-en="5-7 players">5-7人</span>
                     </div>
+                    <div class="dm-more" data-en="Click for details">点击查看详情</div>
                 </div>
             </div>
         </div>
@@ -280,7 +284,14 @@
             </div>
         </div>
     </section>
-    
+    <!-- 剧本弹出卡片 -->
+<div class="script-popup-overlay" id="scriptPopupOverlay" onclick="closeScriptPopup()"></div>
+<div class="script-popup" id="scriptPopup">
+    <div class="script-popup-close" onclick="closeScriptPopup()">×</div>
+    <div class="script-popup-content" id="scriptPopupContent">
+        <!-- 动态内容将通过JavaScript填充 -->
+    </div>
+</div>
    
     
     <!-- 页脚 -->
