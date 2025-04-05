@@ -1375,3 +1375,611 @@ html:not(.lang-en) .logo-en {
         margin-bottom: 0;
     }
 }
+
+/* 全局图片响应式样式 */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Hero区域图片样式 */
+.hero-image {
+    max-width: 800px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.hero-image img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+/* 业务页面图片样式 */
+.business-image {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.business-image img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+/* 响应式布局调整 */
+@media (min-width: 1200px) {
+    .business-image {
+        max-width: 600px;
+    }
+    
+    .business-image img {
+        max-height: 350px;
+    }
+    
+    .hero-image {
+        max-width: 600px;
+    }
+    
+    .hero-image img {
+        max-height: 350px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    .business-image {
+        max-width: 500px;
+    }
+    
+    .business-image img {
+        max-height: 300px;
+    }
+    
+    .hero-image {
+        max-width: 500px;
+    }
+    
+    .hero-image img {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 767px) {
+    .business-image {
+        max-width: 100%;
+        margin: 15px auto;
+    }
+    
+    .business-image img {
+        max-height: 250px;
+    }
+    
+    .hero-image {
+        max-width: 100%;
+    }
+    
+    .hero-image img {
+        max-height: 250px;
+    }
+}
+
+/* 业务页面布局 */
+.business-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.business-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.business-content {
+    flex: 1;
+    text-align: left;
+}
+
+.business-title {
+    color: #231592;
+    margin-bottom: 30px;
+    font-size: 32px;
+    text-align: center;
+}
+
+.features-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feature-item i {
+    font-size: 40px;
+    color: #4a179b;
+    margin-bottom: 20px;
+}
+
+.feature-item h4 {
+    color: #231592;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.feature-item p {
+    color: #961c93;
+    margin-bottom: 25px;
+    line-height: 1.8;
+    text-align: center;
+}
+
+.feature-item .business-image {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-item .business-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+.feature-item:hover .business-image img {
+    transform: scale(1.05);
+}
+
+/* 响应式布局调整 */
+@media (min-width: 768px) {
+    .business-container {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .features-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    
+    .feature-item .business-image img {
+        height: 350px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .business-section {
+        padding: 60px 40px;
+    }
+    
+    .features-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+    }
+    
+    .feature-item {
+        padding: 40px;
+    }
+    
+    .feature-item .business-image img {
+        height: 400px;
+    }
+}
+
+@media (max-width: 767px) {
+    .business-section {
+        padding: 30px 15px;
+    }
+    
+    .business-container {
+        gap: 30px;
+    }
+    
+    .feature-item {
+        padding: 20px;
+    }
+    
+    .feature-item .business-image {
+        margin: 15px auto;
+    }
+    
+    .feature-item .business-image img {
+        height: 250px;
+    }
+    
+    .business-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+}
+
+/* 酒吧页面图片样式 */
+.bar-image {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bar-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.bar-image:hover img {
+    transform: scale(1.05);
+}
+
+/* 麻将页面图片样式 */
+.mahjong-image {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mahjong-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.mahjong-image:hover img {
+    transform: scale(1.05);
+}
+
+/* 活动页面图片样式 */
+.event-image {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.event-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.event-image:hover img {
+    transform: scale(1.05);
+}
+
+/* 反馈页面图片样式 */
+.feedback-image {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.feedback-image:hover img {
+    transform: scale(1.05);
+}
+
+/* 响应式布局调整 */
+@media (min-width: 768px) {
+    .business-image, .bar-image, .mahjong-image, .event-image, .feedback-image {
+        max-width: 800px;
+        margin: 30px auto;
+    }
+    
+    .business-image img, .bar-image img, .mahjong-image img, .event-image img, .feedback-image img {
+        height: 400px;
+    }
+}
+
+@media (max-width: 767px) {
+    .business-image, .bar-image, .mahjong-image, .event-image, .feedback-image {
+        margin: 15px 0;
+    }
+    
+    .business-image img, .bar-image img, .mahjong-image img, .event-image img, .feedback-image img {
+        height: 250px;
+    }
+}
+
+/* 游戏推荐区域样式 */
+.games-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.game-card {
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.game-image {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.game-image img {
+    width: 100%;
+    height: auto;
+    max-height: 240px;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.game-image:hover img {
+    transform: scale(1.05);
+}
+
+/* 响应式布局调整 */
+@media (min-width: 1200px) {
+    .game-card {
+        max-width: 350px;
+    }
+    
+    .game-image {
+        max-width: 350px;
+    }
+    
+    .game-image img {
+        max-height: 220px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    .game-card {
+        max-width: 380px;
+    }
+    
+    .game-image {
+        max-width: 380px;
+    }
+    
+    .game-image img {
+        max-height: 230px;
+    }
+}
+
+@media (max-width: 767px) {
+    .game-card {
+        max-width: 100%;
+        margin: 15px auto;
+    }
+    
+    .game-image {
+        max-width: 100%;
+    }
+    
+    .game-image img {
+        max-height: 200px;
+    }
+}
+
+/* 环境页面样式 */
+.area-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.area-container.reverse {
+    flex-direction: column-reverse;
+}
+
+.area-image {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.area-image img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.area-image:hover img {
+    transform: scale(1.05);
+}
+
+.area-info {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+.rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.room-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+}
+
+.room-content {
+    padding: 20px;
+}
+
+.room-image {
+    width: 100%;
+    height: auto;
+    max-height: 240px;
+    overflow: hidden;
+}
+
+.room-image img {
+    width: 100%;
+    height: auto;
+    max-height: 240px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.room-card:hover .room-image img {
+    transform: scale(1.05);
+}
+
+/* 响应式布局调整 */
+@media (min-width: 768px) {
+    .area-container {
+        flex-direction: row;
+        align-items: center;
+        gap: 40px;
+    }
+    
+    .area-container.reverse {
+        flex-direction: row-reverse;
+    }
+    
+    .area-image {
+        flex: 1;
+        max-width: 45%;
+    }
+    
+    .area-info {
+        flex: 1;
+        padding: 0;
+        text-align: left;
+    }
+    
+    .area-image img {
+        max-height: 350px;
+    }
+    
+    .rooms-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+        padding: 40px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .area-image img {
+        max-height: 220px;
+    }
+    
+    .rooms-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    .room-image {
+        max-height: 230px;
+    }
+    
+    .room-image img {
+        max-height: 230px;
+    }
+}
+
+@media (max-width: 767px) {
+    .area-container {
+        padding: 0 15px;
+    }
+    
+    .area-image {
+        max-width: 100%;
+    }
+    
+    .area-image img {
+        max-height: 200px;
+    }
+    
+    .rooms-grid {
+        padding: 15px;
+        gap: 20px;
+        grid-template-columns: 1fr;
+    }
+    
+    .room-card {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    
+    .room-image {
+        height: auto;
+        max-height: 200px;
+    }
+    
+    .room-image img {
+        height: auto;
+        max-height: 200px;
+    }
+    
+    .room-content {
+        padding: 15px;
+    }
+}
