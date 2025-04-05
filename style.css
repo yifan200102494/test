@@ -8,7 +8,7 @@
 }
 
 body {
-    background-color: #e8f7f6;
+    background-color: #fff;
     color: #961c93;
     line-height: 1.6;
 }
@@ -52,37 +52,54 @@ nav {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Logo样式 */
+/* Logo和文字在同一行显示 */
 .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 控制Logo和文字之间的间距 */
 }
 
 .logo a {
     display: flex;
     align-items: center;
-    gap: 6px;
     text-decoration: none;
     color: #fff;
 }
 
-.logo a:visited {
-    color: #fff;
+.logo img {
+    height: 32px; /* 根据需要调整Logo图片的高度 */
+    width: auto;
+    margin-right: 5px;
 }
 
-.logo a:hover {
-    opacity: 0.85;
-}
-
-.logo span {
+.logo-text {
     font-size: 24px;
     font-weight: bold;
     color: #fff;
+    display: inline-block; /* 确保文字是内联块元素 */
 }
 
-.logo-en {
-    display: none;
+/* 确保导航栏布局正确 */
+#navbar, nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+}
+
+/* 媒体查询，在小屏幕上调整布局 */
+@media (max-width: 768px) {
+    .logo {
+        gap: 5px; /* 在小屏幕上减小间距 */
+    }
+    
+    .logo img {
+        height: 24px; /* 在小屏幕上减小Logo大小 */
+    }
+    
+    .logo-text {
+        font-size: 18px; /* 在小屏幕上减小字体大小 */
+    }
 }
 
 /* 语言切换按钮样式 */
@@ -1982,4 +1999,501 @@ img {
     .room-content {
         padding: 15px;
     }
+}
+/* 专门针对麻将室和酒吧页面的CSS修复 */
+
+/* 麻将室和酒吧页面的业务容器修复 */
+.mahjong-page .business-container,
+.bar-page .business-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+@media (min-width: 992px) {
+    .mahjong-page .business-container,
+    .bar-page .business-container {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .mahjong-page .business-image,
+    .bar-page .business-image {
+        flex: 0 0 45%;
+        margin-right: 5%;
+    }
+    
+    .mahjong-page .business-content,
+    .bar-page .business-content {
+        flex: 0 0 50%;
+    }
+}
+
+/* 特性列表修复 */
+.mahjong-page .features-list,
+.bar-page .features-list {
+    display: grid;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+@media (min-width: 768px) {
+    .mahjong-page .features-list,
+    .bar-page .features-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .mahjong-page .features-list,
+    .bar-page .features-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+.mahjong-page .feature-item,
+.bar-page .feature-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.mahjong-page .feature-item:hover,
+.bar-page .feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.mahjong-page .feature-item i,
+.bar-page .feature-item i {
+    font-size: 32px;
+    color: #4a179b;
+    margin-bottom: 15px;
+}
+
+.mahjong-page .feature-item h4,
+.bar-page .feature-item h4 {
+    color: #231592;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.mahjong-page .feature-item p,
+.bar-page .feature-item p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* 房间类型和饮品网格修复 */
+.rooms-grid,
+.drinks-grid {
+    display: grid;
+    gap: 25px;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+@media (min-width: 992px) {
+    .rooms-grid,
+    .drinks-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .rooms-grid,
+    .drinks-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .rooms-grid,
+    .drinks-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 房间卡片样式修复 */
+.room-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.room-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.room-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.room-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.room-card:hover .room-image img {
+    transform: scale(1.05);
+}
+
+.room-info {
+    padding: 20px;
+}
+
+.room-info h3 {
+    margin: 0 0 12px;
+    color: #4a179b;
+    font-size: 20px;
+}
+
+.room-info p {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.room-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #777;
+    font-size: 14px;
+}
+
+.room-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.room-meta i {
+    color: #4a179b;
+}
+
+/* 饮品卡片样式修复 */
+.drink-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.drink-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.drink-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.drink-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.drink-card:hover .drink-image img {
+    transform: scale(1.05);
+}
+
+.drink-info {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.drink-info h3 {
+    margin: 0 0 12px;
+    color: #4a179b;
+    font-size: 20px;
+}
+
+.drink-info p {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    font-size: 14px;
+    flex-grow: 1;
+}
+
+.drinks-grid .drink-info h3 {
+    text-align: center;
+}
+
+/* 业务部分标题样式统一 */
+.mahjong-page .business-title,
+.bar-page .business-title,
+.mahjong-page .section-title,
+.bar-page .section-title {
+    color: #231592;
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.mahjong-page .business-title:after,
+.bar-page .business-title:after,
+.mahjong-page .section-title:after,
+.bar-page .section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #4a179b, #29b6b0);
+}
+
+/* 这个样式可在HTML中添加 body class="mahjong-page" 或 body class="bar-page" 来启用 
+   或者也可以通过JS自动添加这些类名:
+   
+   document.addEventListener('DOMContentLoaded', function() {
+     const currentPage = window.location.pathname;
+     if (currentPage.includes('mahjong.html')) {
+       document.body.classList.add('mahjong-page');
+     } else if (currentPage.includes('bar.html')) {
+       document.body.classList.add('bar-page');
+     }
+   });
+*/
+
+/* 也可以直接这样使用：通过URL路径选择器 */
+body[class*="mahjong"], /* 匹配任何包含mahjong的class或URL */
+body:has(a[href*="mahjong"]) {
+    /* 这将应用到包含mahjong链接的页面 */
+}
+
+body[class*="bar"],
+body:has(a[href*="bar"]) {
+    /* 这将应用到包含bar链接的页面 */
+}
+
+/* 修正高度不一致的问题 */
+.alt-bg {
+    background-color: #f9f9f9;
+    padding: 60px 0;
+}
+
+.section {
+    padding: 60px 0;
+}
+
+/* 添加业务容器的一般样式 */
+.business-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.business-image img {
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 保持图像响应式但有最大尺寸限制 */
+@media (min-width: 992px) {
+    .business-image img {
+        max-height: 400px;
+        object-fit: cover;
+    }
+}
+/* 修复PC页面边缘显示问题 */
+
+/* 设置页面最大宽度并居中 */
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+    margin: 0 auto;
+}
+
+/* 确保所有容器有合适的边距和宽度限制 */
+.section, 
+.business-section,
+.about-content,
+.rooms-grid,
+.drinks-grid,
+.business-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+/* 修复标题和内容换行问题 */
+h1, h2, h3, h4, p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* 确保图片不会溢出容器 */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 特性列表在右侧边缘的修复 */
+.features-list {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* 特性项目在边缘的修复 */
+.feature-item {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 卡片在边缘的修复 */
+.room-card,
+.drink-card {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 麻将室和酒吧页面特别修复 */
+.mahjong-page .business-container,
+.bar-page .business-container {
+    width: 100%;
+    max-width: 1200px;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+/* 导航栏修复 */
+#navbar, nav {
+    padding-left: 5%;
+    padding-right: 5%;
+    box-sizing: border-box;
+}
+
+/* 响应式调整 */
+@media (max-width: 1200px) {
+    .section, 
+    .business-section,
+    .about-content,
+    .rooms-grid,
+    .drinks-grid,
+    .business-container {
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 768px) {
+    .section, 
+    .business-section,
+    .about-content,
+    .rooms-grid,
+    .drinks-grid,
+    .business-container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+/* 确保底部页脚不会溢出 */
+footer {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 房间类型和特性列表的网格布局修复 */
+.rooms-grid,
+.drinks-grid {
+    display: grid;
+    gap: 20px;
+}
+
+@media (min-width: 992px) {
+    .rooms-grid,
+    .drinks-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .rooms-grid,
+    .drinks-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .rooms-grid,
+    .drinks-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 修复业务标题和内容在右侧边缘的问题 */
+.business-title,
+.section-title {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.business-content {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 确保hero区域内容居中显示 */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+/* 修复房间卡片图片溢出问题 */
+.room-image,
+.drink-image {
+    overflow: hidden;
+    width: 100%;
+}
+
+.room-image img,
+.drink-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

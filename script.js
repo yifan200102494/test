@@ -627,3 +627,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+// 自动检测页面类型并添加相应的类名
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPath = window.location.pathname;
+    
+    // 检测当前页面类型
+    if (currentPath.includes('mahjong.html')) {
+      document.body.classList.add('mahjong-page');
+    } else if (currentPath.includes('bar.html')) {
+      document.body.classList.add('bar-page');
+    }
+    
+    // 既有淡入动画检测
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+    
+    fadeElements.forEach(element => {
+      observer.observe(element);
+    });
+  });
