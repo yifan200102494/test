@@ -408,7 +408,7 @@ nav {
 }
 
 .video-placeholder {
-    background-color: #f5fafa;
+    background-color: #fff;
     height: 220px;
     border-radius: 10px;
     display: flex;
@@ -417,16 +417,16 @@ nav {
     align-items: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    border: 2px dashed #29b6b0;
+    border: 2px dashed #961c93;
 }
 
 .video-placeholder:hover {
-    background-color: #eef8f8;
+    background-color: #c9a8ef;
 }
 
 .video-placeholder i {
     font-size: 50px;
-    color: #29b6b0;
+    color: #961c93;
     margin-bottom: 15px;
 }
 
