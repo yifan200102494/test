@@ -831,14 +831,14 @@ nav {
     align-items: center;
     color: #777;
     font-style: italic;
-    border: 2px dashed #29b6b0;
+    border: 2px dashed #961c93;
 }
 
 /* 页脚 */
 footer {
     background-color: #4a179b;
     color: #ffffff;
-    padding: 25px 20px; /* 从40px减小到25px */
+    padding: 15px 20px; /* 从25px减小到15px */
     text-align: center;
 }
 
@@ -846,8 +846,8 @@ footer {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 20px;
-    margin-bottom: 20px;
+    gap: 15px; /* 从20px减小到15px */
+    margin-bottom: 15px; /* 从20px减小到15px */
 }
 
 .footer-links a {
@@ -860,7 +860,7 @@ footer {
 }
 
 .footer-links a:hover {
-    color: #29b6b0;
+    color: #961c93;
     transform: translateY(-3px);
 }
 
@@ -871,7 +871,7 @@ footer {
     left: 50%;
     width: 0;
     height: 2px;
-    background: #29b6b0;
+    background: #961c93;
     transition: all 0.3s ease;
     transform: translateX(-50%);
 }
@@ -902,13 +902,13 @@ footer {
 }
 
 .social-link:hover {
-    background-color: #29b6b0;
+    background-color: #961c93;
     transform: translateY(-3px);
 }
 
 .social-link i {
     font-size: 20px;
-    color: #29b6b0;
+    color: #961c93;
 }
 
 .social-link:hover i {
@@ -916,7 +916,7 @@ footer {
 }
 
 .copyright {
-    margin-top: 20px;
+    margin-top: 15px; /* 从20px减小到15px */
     color: #ffffff;
     text-align: center;
     font-size: 12px;
@@ -975,8 +975,8 @@ html:not(.lang-en) .logo-en {
     width: 60px;
     height: 60px;
     border: 3px solid transparent;
-    border-top-color: #29b6b0;
-    border-bottom-color: #29b6b0;
+    border-top-color: #961c93;
+    border-bottom-color: #961c93;
     border-radius: 50%;
     animation: spin 1.5s linear infinite;
 }
@@ -1142,11 +1142,11 @@ html:not(.lang-en) .logo-en {
     
     /* 移动端页脚样式 */
     footer {
-        padding: 15px 10px; /* 减小移动端页脚的内边距 */
+        padding: 10px 10px; /* 减小移动端页脚的内边距 */
     }
     
     .footer-links {
-        gap: 10px; /* 减小链接之间的间距 */
+        gap: 8px; /* 减小链接之间的间距 */
     }
     
     .footer-links a {
@@ -1156,7 +1156,7 @@ html:not(.lang-en) .logo-en {
     
     .copyright {
         font-size: 10px; /* 移动端版权字体缩小 */
-        margin-top: 12px; /* 减小上边距 */
+        margin-top: 8px; /* 减小上边距 */
     }
 }
 
