@@ -57,11 +57,13 @@ nav {
     display: flex;
     align-items: center;
     gap: 10px; /* 控制Logo和文字之间的间距 */
+    flex-direction: row; /* 确保水平排列 */
 }
 
 .logo a {
     display: flex;
     align-items: center;
+    flex-direction: row; /* 确保水平排列 */
     text-decoration: none;
     color: #fff;
 }
@@ -91,14 +93,22 @@ nav {
 @media (max-width: 768px) {
     .logo {
         gap: 5px; /* 在小屏幕上减小间距 */
+        flex-direction: row !important; /* 强制水平排列 */
+    }
+    
+    .logo a {
+        flex-direction: row !important; /* 强制水平排列 */
+        display: flex !important; /* 确保flex布局 */
     }
     
     .logo img {
         height: 24px; /* 在小屏幕上减小Logo大小 */
+        margin-right: 5px !important; /* 确保右侧有边距 */
     }
     
     .logo-text {
         font-size: 18px; /* 在小屏幕上减小字体大小 */
+        display: inline-block !important; /* 确保显示为内联块 */
     }
 }
 
@@ -828,10 +838,49 @@ nav {
 footer {
     background-color: #4a179b;
     color: #ffffff;
-    padding: 40px 20px;
+    padding: 25px 20px; /* 从40px减小到25px */
     text-align: center;
 }
 
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.footer-links a:hover {
+    color: #29b6b0;
+    transform: translateY(-3px);
+}
+
+.footer-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #29b6b0;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.footer-links a:hover::after {
+    width: 80%;
+}
+
+/* 保留原来的social-links样式以防其它页面使用 */
 .social-links {
     display: flex;
     justify-content: center;
@@ -870,6 +919,7 @@ footer {
     margin-top: 20px;
     color: #ffffff;
     text-align: center;
+    font-size: 12px;
 }
 
 /* 动画效果 */
@@ -1088,6 +1138,25 @@ html:not(.lang-en) .logo-en {
     
     .dm-gallery {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 移动端页脚样式 */
+    footer {
+        padding: 15px 10px; /* 减小移动端页脚的内边距 */
+    }
+    
+    .footer-links {
+        gap: 10px; /* 减小链接之间的间距 */
+    }
+    
+    .footer-links a {
+        font-size: 12px; /* 移动端链接字体缩小 */
+        padding: 3px 8px; /* 减小内边距 */
+    }
+    
+    .copyright {
+        font-size: 10px; /* 移动端版权字体缩小 */
+        margin-top: 12px; /* 减小上边距 */
     }
 }
 
