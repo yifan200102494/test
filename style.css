@@ -11,6 +11,9 @@ body {
     background-color: #f5f1ff; /* 恢复淡紫色背景 */
     color: #961c93;
     line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* 防止横向滚动 */
 }
 
 /* 修复字体问题 */
@@ -840,6 +843,9 @@ footer {
     color: #ffffff;
     padding: 15px 20px; /* 从25px减小到15px */
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 .footer-links {
@@ -1143,10 +1149,16 @@ html:not(.lang-en) .logo-en {
     /* 移动端页脚样式 */
     footer {
         padding: 10px 10px; /* 减小移动端页脚的内边距 */
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
     }
     
     .footer-links {
-        gap: 8px; /* 减小链接之间的间距 */
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 8px; /* 链接之间的间距 */
     }
     
     .footer-links a {
@@ -1168,7 +1180,7 @@ html:not(.lang-en) .logo-en {
     
     .menu {
         position: fixed !important;
-        top: 58px !important;
+        top: 45px !important;
         left: 0 !important;
         width: 100% !important;
         background-color: #111245 !important;
