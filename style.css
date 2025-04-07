@@ -443,7 +443,7 @@ nav {
 
 .intro-card:hover, .dm-intro:hover, .script-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(41, 182, 176, 0.2);
+    box-shadow: 0 8px 15px #c9a8ef;
 }
 
 .intro-card h3, .dm-intro h3 {
@@ -529,7 +529,7 @@ nav {
 
 .dm-skill:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(41, 182, 176, 0.2);
+    box-shadow: 0 8px 15px #c9a8ef;
 }
 
 .dm-skill i {
@@ -926,6 +926,40 @@ footer {
     color: #ffffff;
     text-align: center;
     font-size: 12px;
+}
+
+/* 添加版权声明链接样式 */
+.copyright a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.copyright a:hover {
+    color: #fff;
+}
+
+.copyright a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+.copyright a:hover::after {
+    width: 100%;
+}
+
+/* 媒体查询，在小屏幕上调整布局 */
+@media (max-width: 768px) {
+    .copyright a {
+        display: inline-block !important; /* 确保在移动设备上也能正确显示 */
+    }
 }
 
 /* 动画效果 */
@@ -1606,7 +1640,7 @@ img {
 
 .feature-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 15px #c9a8ef;
 }
 
 @media (max-width: 992px) {
@@ -1756,7 +1790,7 @@ img {
 
 .room-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 15px #c9a8ef;
 }
 
 .room-card:hover .room-image img {
@@ -1827,7 +1861,7 @@ img {
 
 .game-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 15px #c9a8ef;
 }
 
 .game-card:hover .game-image img {
@@ -2152,7 +2186,7 @@ img[data-popup="true"]:hover {
 
 .service-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(41, 182, 176, 0.2);
+    box-shadow: 0 8px 15px #c9a8ef;
 }
 
 .service-card i {
@@ -2228,7 +2262,7 @@ img[data-popup="true"]:hover {
 
 .feedback-container:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(41, 182, 176, 0.2);
+    box-shadow: 0 8px 15px #c9a8ef;
 }
 
 .feedback-header {
@@ -2346,7 +2380,7 @@ img[data-popup="true"]:hover {
 
 .contact-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(41, 182, 176, 0.2);
+    box-shadow: 0 8px 15px #c9a8ef;
 }
 
 #location {

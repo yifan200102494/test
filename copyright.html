@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>版权声明 - 奇闻异事</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 版权声明页面特定样式 */
+        .copyright-section {
+            padding: 40px 5%;
+            margin: 80px auto 40px;
+            max-width: 1000px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(74, 23, 155, 0.1);
+        }
+        
+        .copyright-section h2 {
+            color: #4a179b;
+            margin-bottom: 30px;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .copyright-section h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #4a179b, #961c93);
+            border-radius: 2px;
+        }
+        
+        .copyright-section h3 {
+            color: #4a179b;
+            margin: 25px 0 15px;
+            font-size: 22px;
+        }
+        
+        .copyright-section p, .copyright-section li {
+            color: #961c93;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            text-align: left;
+        }
+        
+        .copyright-section ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .copyright-section ol {
+            padding-left: 20px;
+            margin-bottom: 20px;
+            counter-reset: item;
+        }
+        
+        .copyright-section ol li {
+            margin-bottom: 10px;
+        }
+        
+        .copyright-section a {
+            color: #961c93;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .copyright-section a:hover {
+            color: #4a179b;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .copyright-section {
+                padding: 30px 4%;
+                margin: 70px auto 30px;
+            }
+            
+            .copyright-section h2 {
+                font-size: 24px;
+            }
+            
+            .copyright-section h3 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">
+            <a href="index.html">
+              <span class="logo-cn">奇闻异事</span>
+              <span class="logo-en">Social Box</span>
+              <img src="#" alt="Logo" />
+            </a>
+        </div>
+        <!-- 直接添加onclick事件处理 -->
+        <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
+            <span class="current-lang">中</span>
+            <span class="lang-divider">/</span>
+            <span>EN</span>
+        </div>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menu">
+            <ul>
+                <li><a href="index.html" data-en="Home">首页</a></li>
+                <li class="has-submenu">
+                    <a href="business.html" data-en="Main Business">主营业务</a>
+                    <ul class="submenu">
+                        <li><a href="business.html#board-games" data-en="Board Games">桌面游戏</a></li>
+                        <li><a href="business.html#mahjong" data-en="Mahjong">麻将</a></li>
+                        <li><a href="business.html#bar" data-en="Bar">酒吧</a></li>
+                    </ul>
+                </li>
+                <li><a href="events.html" data-en="Events">活动</a></li>
+                <li><a href="environment.html" data-en="Environment">店铺环境</a></li>
+                <li><a href="feedback.html" data-en="Feedback">顾客反馈</a></li>
+                <li><a href="contact.html" data-en="Contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 版权声明内容 -->
+    <section class="copyright-section">
+        <h2 class="section-title fade-in" data-en="Copyright Statement">版权声明</h2>
+        
+        <div class="fade-in">
+            <h3 data-en="Intellectual Property Rights">知识产权声明</h3>
+            <p data-en="All content on the 'Social Box' website, including but not limited to text, images, logos, buttons, icons, graphics, video/audio clips, design elements, and software, is the property of Social Box or its content suppliers and is protected by Chinese and international copyright, trademark, and other intellectual property laws.">「奇闻异事」网站上的所有内容，包括但不限于文字、图像、标志、按钮、图标、图形、视频/音频片段、设计元素和软件，均为奇闻异事或其内容供应商的财产，受中国和国际版权、商标和其他知识产权法律的保护。</p>
+            
+            <h3 data-en="Use of Website Content">网站内容使用规定</h3>
+            <p data-en="Without prior written permission from Social Box, no one may:">未经「奇闻异事」书面许可，任何人不得：</p>
+            <ol>
+                <li data-en="Copy, reproduce, modify, or create derivative works based on the content of this website">复制、复制、修改或基于本网站内容创建衍生作品</li>
+                <li data-en="Use the content of this website for commercial purposes">将本网站内容用于商业目的</li>
+                <li data-en="Distribute, transmit, display, perform, or publish any content from this website">分发、传播、展示、表演或发布本网站的任何内容</li>
+                <li data-en="Use any data mining, robots, or similar data gathering and extraction methods on this website">在本网站上使用任何数据挖掘、机器人或类似的数据收集和提取方法</li>
+            </ol>
+            
+            <h3 data-en="Trademarks">商标声明</h3>
+            <p data-en="The name 'Social Box', the 'Social Box' logo, and all related names, logos, product and service names, designs, and slogans are trademarks of Social Box or its affiliates. You must not use such marks without the prior written permission of Social Box.">「奇闻异事」名称、「奇闻异事」标志以及所有相关名称、标志、产品和服务名称、设计和口号均为「奇闻异事」或其附属公司的商标。未经「奇闻异事」书面许可，不得使用此类标志。</p>
+            
+            <h3 data-en="Third-Party Intellectual Property">第三方知识产权</h3>
+            <p data-en="Social Box respects the intellectual property rights of others. If you believe that material located on or linked to by the Social Box website violates your copyright, you are encouraged to notify Social Box via contact information provided on this website. Social Box will respond to all such notices, including as required or appropriate by removing the infringing material or disabling all links to the infringing material.">「奇闻异事」尊重他人的知识产权。如果您认为「奇闻异事」网站上的材料或链接的材料侵犯了您的版权，我们鼓励您通过本网站提供的联系信息通知「奇闻异事」。「奇闻异事」将回应所有此类通知，包括根据需要或适当地删除侵权材料或禁用所有指向侵权材料的链接。</p>
+            
+            <h3 data-en="User-Generated Content">用户生成内容</h3>
+            <p data-en="By posting, uploading, inputting, providing, or submitting your content to Social Box, you grant Social Box and its affiliated companies the right to use, reproduce, display, perform, adapt, modify, distribute, and promote the content in any form, anywhere, and for any purpose. You hereby represent and warrant that you own or otherwise control all of the rights to the content you submit and that public posting and use of your content by Social Box will not infringe or violate the rights of any third party.">通过在「奇闻异事」发布、上传、输入、提供或提交您的内容，您授予「奇闻异事」及其附属公司以任何形式、在任何地方和以任何目的使用、复制、展示、表演、改编、修改、分发和推广该内容的权利。您特此声明并保证，您拥有或以其他方式控制您提交的内容的所有权利，且「奇闻异事」对您的内容的公开发布和使用不会侵犯或违反任何第三方的权利。</p>
+            
+            <h3 data-en="Copyright Infringement Claims">版权侵权投诉</h3>
+            <p data-en="If you believe your work has been copied in a way that constitutes copyright infringement, please provide the following information to our copyright agent:">如果您认为您的作品被以构成版权侵权的方式复制，请向我们的版权代理提供以下信息：</p>
+            <ol>
+                <li data-en="A physical or electronic signature of the copyright owner or a person authorized to act on their behalf">版权所有者或授权代表其行事的人的实体或电子签名</li>
+                <li data-en="Identification of the copyrighted work claimed to have been infringed">被侵权的版权作品的识别</li>
+                <li data-en="Identification of the material that is claimed to be infringing and information reasonably sufficient to permit us to locate the material">被声称侵权的材料的识别和足够合理的信息，以便我们找到该材料</li>
+                <li data-en="Your contact information, including your address, telephone number, and email address">您的联系信息，包括您的地址、电话号码和电子邮件地址</li>
+                <li data-en="A statement by you that you have a good faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law">您真诚地相信有争议的使用未经版权所有者、其代理人或法律授权的声明</li>
+                <li data-en="A statement by you, made under penalty of perjury, that the above information in your notice is accurate and that you are the copyright owner or authorized to act on the copyright owner's behalf">您在伪证罪的惩罚下声明，您通知中的上述信息是准确的，并且您是版权所有者或授权代表版权所有者行事</li>
+            </ol>
+            <p data-en="Please send all copyright infringement claims to our contact email available on the Contact page.">请将所有版权侵权投诉发送至我们在联系页面上提供的联系电子邮件。</p>
+            
+            <h3 data-en="Changes to This Copyright Statement">本版权声明的变更</h3>
+            <p data-en="Social Box reserves the right to modify this copyright statement at any time. Any modifications will be effective immediately upon posting on the website. Your continued use of the website following the posting of changes to this statement will mean you accept those changes.">「奇闻异事」保留随时修改本版权声明的权利。任何修改将在网站上发布后立即生效。在本声明变更发布后继续使用本网站，即表示您接受这些变更。</p>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html" data-en="Home">首页</a>
+            <a href="events.html" data-en="Events">活动</a>
+            <a href="environment.html" data-en="Environment">店铺环境</a>
+            <a href="feedback.html" data-en="Feedback">顾客反馈</a>
+            <a href="contact.html" data-en="Contact">联系我们</a>
+            <a href="contact.html#faq" data-en="FAQ">常见问题</a>
+            
+        </div>
+        <div class="copyright">
+            <span data-en="&copy; 2025 Social Box Murder Mystery. All Rights Reserved"><a href="copyright.html">&copy; 2025 奇闻异事剧本杀 版权所有</a></span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html> 
