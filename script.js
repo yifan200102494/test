@@ -478,6 +478,24 @@ function enlargeImage(src) {
     overlay.style.alignItems = 'center';
     overlay.style.cursor = 'pointer';
     
+    // 添加右上角关闭按钮
+    const closeBtn = document.createElement('div');
+    closeBtn.innerHTML = '&times;';
+    closeBtn.style.position = 'absolute';
+    closeBtn.style.top = '15px';
+    closeBtn.style.right = '20px';
+    closeBtn.style.color = 'white';
+    closeBtn.style.fontSize = '30px';
+    closeBtn.style.cursor = 'pointer';
+    closeBtn.style.zIndex = '1101';
+    closeBtn.style.width = '40px';
+    closeBtn.style.height = '40px';
+    closeBtn.style.display = 'flex';
+    closeBtn.style.justifyContent = 'center';
+    closeBtn.style.alignItems = 'center';
+    closeBtn.style.borderRadius = '50%';
+    closeBtn.style.background = 'rgba(0, 0, 0, 0.3)';
+    
     const img = document.createElement('img');
     img.src = src;
     img.style.maxWidth = '90%';
@@ -485,12 +503,46 @@ function enlargeImage(src) {
     img.style.objectFit = 'contain';
     
     overlay.appendChild(img);
+    overlay.appendChild(closeBtn);
     document.body.appendChild(overlay);
     
-    // 点击关闭
-    overlay.addEventListener('click', function() {
+    // 点击关闭按钮关闭
+    closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
         document.body.removeChild(overlay);
     });
+    
+    // 点击图片外区域关闭
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            document.body.removeChild(overlay);
+        }
+    });
+    
+    // 移动端侧滑返回
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    overlay.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    overlay.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        // 如果向右滑动距离超过50px，关闭图片
+        if (touchEndX - touchStartX > 50) {
+            document.body.removeChild(overlay);
+        }
+    }, false);
+    
+    // ESC键关闭
+    const escHandler = function(e) {
+        if (e.key === 'Escape') {
+            document.body.removeChild(overlay);
+            document.removeEventListener('keydown', escHandler);
+        }
+    };
+    document.addEventListener('keydown', escHandler);
 }
 
 // 关闭弹出层的键盘事件
