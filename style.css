@@ -2014,6 +2014,7 @@ img {
     background-color: rgba(0, 0, 0, 0.95);
     z-index: 9999;
     cursor: pointer;
+    touch-action: none; /* 阻止默认触摸行为 */
 }
 
 .image-popup {
@@ -2029,6 +2030,7 @@ img {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    touch-action: none; /* 阻止默认触摸行为 */
 }
 
 .image-popup img {
@@ -2039,6 +2041,7 @@ img {
     object-fit: contain !important;
     border-radius: 4px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    touch-action: pan-y pinch-zoom; /* 只允许垂直滑动和缩放 */
 }
 
 .image-popup-close {

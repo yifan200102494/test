@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function closePopup() {
         popupOverlay.style.display = 'none';
         document.body.style.overflow = '';
+        // 重置图片位置和透明度
+        popupContainer.style.transform = 'translate(-50%, -50%)';
+        popupOverlay.style.opacity = '1';
     }
     
     closeButton.addEventListener('click', closePopup);
@@ -49,5 +52,169 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'Escape' && popupOverlay.style.display === 'block') {
             closePopup();
         }
+    });
+    
+    // 处理滑动关闭功能
+    let startX, startY;
+    let currentX, currentY;
+    let isDragging = false;
+    
+    // 检测是否处于大图查看状态
+    function isPopupActive() {
+        return popupOverlay.style.display === 'block';
+    }
+    
+    // 添加页面级触摸开始事件监听，用于捕获边缘滑动返回手势
+    document.addEventListener('touchstart', function(e) {
+        // 只在弹出层显示时处理
+        if (!isPopupActive()) return;
+        
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        
+        // 检查是否是从左边缘开始的滑动(这通常是返回手势)
+        const isLeftEdgeSwipe = startX < 30; // 左边缘30像素范围
+        
+        // 如果是边缘滑动且图片弹出层处于活动状态
+        if (isLeftEdgeSwipe) {
+            // 标记为正在拖动，防止触发浏览器默认行为
+            isDragging = true;
+            // 阻止默认行为，防止触发浏览器的导航
+            e.preventDefault();
+        }
+    }, { passive: false });
+    
+    // 页面级触摸移动处理
+    document.addEventListener('touchmove', function(e) {
+        // 只在弹出层显示且正在拖动时处理
+        if (!isPopupActive() || !isDragging) return;
+        
+        currentX = e.touches[0].clientX;
+        currentY = e.touches[0].clientY;
+        
+        // 计算水平和垂直移动距离
+        const diffX = currentX - startX;
+        const diffY = currentY - startY;
+        
+        // 如果主要是水平滑动
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            // 阻止默认行为
+            e.preventDefault();
+            
+            // 只处理从左向右的滑动(通常的返回手势)
+            if (diffX > 0) {
+                // 移动图片容器，跟随手指
+                popupContainer.style.transform = `translate(calc(-50% + ${diffX}px), -50%)`;
+                
+                // 根据移动距离调整透明度
+                const opacity = 1 - Math.min(diffX / 200, 0.8);
+                popupOverlay.style.opacity = opacity;
+            }
+        }
+    }, { passive: false });
+    
+    // 页面级触摸结束处理
+    document.addEventListener('touchend', function(e) {
+        // 只在弹出层显示且正在拖动时处理
+        if (!isPopupActive() || !isDragging) return;
+        
+        // 计算水平滑动距离
+        const finalDiffX = currentX - startX;
+        
+        // 如果是向右滑动且距离足够(模拟返回手势)
+        if (finalDiffX > 80) { // 80像素的阈值
+            // 添加滑出动画
+            popupContainer.style.transition = 'transform 0.3s ease-out';
+            popupOverlay.style.transition = 'opacity 0.3s ease-out';
+            
+            popupContainer.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
+            popupOverlay.style.opacity = '0';
+            
+            // 动画结束后关闭
+            setTimeout(closePopup, 300);
+        } else {
+            // 未达到关闭阈值，恢复位置
+            popupContainer.style.transition = 'transform 0.3s ease-out';
+            popupOverlay.style.transition = 'opacity 0.3s ease-out';
+            popupContainer.style.transform = 'translate(-50%, -50%)';
+            popupOverlay.style.opacity = '1';
+            
+            // 重置过渡效果
+            setTimeout(() => {
+                popupContainer.style.transition = '';
+                popupOverlay.style.transition = '';
+            }, 300);
+        }
+        
+        // 重置状态
+        isDragging = false;
+    });
+    
+    // 图片弹出层自身的滑动处理 - 与之前实现的类似
+    popupOverlay.addEventListener('touchstart', function(e) {
+        if (isDragging) return; // 如果已经在处理边缘滑动，则不再处理
+        
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isDragging = true;
+    });
+    
+    popupOverlay.addEventListener('touchmove', function(e) {
+        if (!isDragging) return;
+        
+        currentX = e.touches[0].clientX;
+        currentY = e.touches[0].clientY;
+        
+        // 计算水平和垂直移动距离
+        const diffX = currentX - startX;
+        const diffY = currentY - startY;
+        
+        // 如果主要是水平滑动
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            // 移动图片容器，跟随手指
+            const translateX = diffX;
+            popupContainer.style.transform = `translate(calc(-50% + ${translateX}px), -50%)`;
+            
+            // 根据移动距离调整透明度
+            const opacity = 1 - Math.min(Math.abs(diffX) / 200, 0.8);
+            popupOverlay.style.opacity = opacity;
+        }
+    });
+    
+    popupOverlay.addEventListener('touchend', function(e) {
+        if (!isDragging) return;
+        
+        // 计算最终移动距离
+        const finalDiffX = currentX - startX;
+        
+        // 如果水平滑动距离超过临界值，关闭弹出层
+        if (Math.abs(finalDiffX) > 100) {
+            const direction = finalDiffX > 0 ? 1 : -1;
+            
+            // 添加滑出动画
+            popupContainer.style.transition = 'transform 0.3s ease-out';
+            popupOverlay.style.transition = 'opacity 0.3s ease-out';
+            
+            popupContainer.style.transform = `translate(calc(-50% + ${direction * window.innerWidth}px), -50%)`;
+            popupOverlay.style.opacity = '0';
+            
+            // 动画结束后关闭
+            setTimeout(closePopup, 300);
+        } else {
+            // 未达到关闭阈值，恢复位置
+            popupContainer.style.transition = 'transform 0.3s ease-out';
+            popupOverlay.style.transition = 'opacity 0.3s ease-out';
+            popupContainer.style.transform = 'translate(-50%, -50%)';
+            popupOverlay.style.opacity = '1';
+            
+            // 重置过渡效果
+            setTimeout(() => {
+                popupContainer.style.transition = '';
+                popupOverlay.style.transition = '';
+            }, 300);
+        }
+        
+        // 重置状态
+        isDragging = false;
     });
 }); 
