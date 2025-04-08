@@ -1255,7 +1255,7 @@ html:not(.lang-en) .logo-en {
         position: static;
         display: none;
         flex-direction: column;
-        background-color: #1D9C97;
+        background-color: #961c93;
         width: 100%;
         box-shadow: none;
         padding: 10px 0;
@@ -1670,8 +1670,9 @@ img {
 .bar-page .room-image,
 .mahjong-page .room-image {
     width: 100%;
-    height: 200px;
+    height: 220px;
     overflow: hidden;
+    position: relative;
 }
 
 .bar-page .room-image img,
@@ -1680,6 +1681,7 @@ img {
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    display: block;
 }
 
 .bar-page .room-card:hover .room-image img,
@@ -1746,6 +1748,7 @@ img {
     padding: 0 5%;
 }
 
+/* 房间卡片的基本样式 */
 .room-card {
     background: #fff;
     border-radius: 12px;
@@ -1755,11 +1758,31 @@ img {
     margin: 0;
     width: 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.room-content {
+    padding: 20px;
+    flex: 1;
+}
+
+.room-content h3 {
+    margin: 0 0 12px;
+    color: #4a179b;
+    font-size: 20px;
+}
+
+.room-content p {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    font-size: 14px;
 }
 
 .room-image {
     width: 100%;
-    height: 200px;
+    height: 220px;
     overflow: hidden;
 }
 
@@ -1768,24 +1791,7 @@ img {
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
-}
-
-.room-info {
-    padding: 20px;
-    background: #fff;
-}
-
-.room-info h3 {
-    margin: 0 0 12px;
-    color: #4a179b;
-    font-size: 20px;
-}
-
-.room-info p {
-    color: #666;
-    margin-bottom: 15px;
-    line-height: 1.6;
-    font-size: 14px;
+    display: block;
 }
 
 .room-card:hover {
@@ -1795,6 +1801,16 @@ img {
 
 .room-card:hover .room-image img {
     transform: scale(1.05);
+}
+
+.rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 40px auto;
+    padding: 0 5%;
+    max-width: 100%;
+    width: 100%;
 }
 
 @media (max-width: 992px) {
@@ -1816,190 +1832,372 @@ img {
     }
 }
 
-.game-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin: 0;
+/* 移除之前的特殊修复样式 */
+#themed-rooms .room-card .room-image,
+#themed-rooms .room-card:nth-child(7) .room-image {
     width: 100%;
-    box-sizing: border-box;
+    height: 220px;
+    overflow: hidden;
 }
 
-.game-image {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    position: relative;
-}
-
-.game-image img {
+#themed-rooms .room-card .room-image img,
+#themed-rooms .room-card:nth-child(7) .room-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    display: block;
 }
 
-.game-info {
-    padding: 20px;
-    background: #fff;
+/* 业务页面布局 */
+.business-section {
+    padding: 60px 5%;
+    max-width: 100%;
+    margin: 0 auto;
 }
 
-.game-info h3 {
-    margin: 0 0 12px;
-    color: #4a179b;
-    font-size: 20px;
+.business-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 60px;
+    padding: 0 5%;
+    max-width: 100%;
+    margin: 0 auto;
 }
 
-.game-info p {
-    color: #666;
-    margin-bottom: 15px;
-    line-height: 1.6;
-    font-size: 14px;
+/* 欢乐时光部分 */
+#happy-hour {
+    text-align: center;
+    padding: 0 5%; /* 添加左右内边距 */
+    margin: 30px auto;
 }
 
-.game-card:hover {
+/* 顾客反馈页面样式 */
+#feedback-showcase {
+    padding: 60px 5%; /* 添加左右5%的内边距 */
+}
+
+.feedback-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    overflow: hidden;
+    padding: 30px 5%; /* 添加左右5%的内边距 */
+    transition: all 0.3s ease;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feedback-container:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 15px #c9a8ef;
 }
 
-.game-card:hover .game-image img {
-    transform: scale(1.05);
+.feedback-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.games-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin: 40px auto;
-    padding: 0;
-    max-width: 100%;
+.feedback-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.feedback-avatar img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-@media (max-width: 992px) {
-    .games-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
+.feedback-info {
+    flex: 1;
+}
+
+.feedback-name {
+    margin: 0 0 5px;
+    color: #231592;
+    font-size: 20px;
+}
+
+.feedback-rating {
+    color: #f9ca24;
+    margin-bottom: 5px;
+}
+
+.feedback-date {
+    font-size: 14px;
+    color: #777;
+}
+
+.feedback-content {
+    margin-bottom: 20px;
+}
+
+.feedback-content p {
+    color: #961c93;
+    line-height: 1.8;
+    margin: 0;
+    text-align: left; /* 确保文本左对齐 */
+}
+
+.feedback-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tag {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    color: #231592;
+    display: inline-block;
+    font-size: 14px;
+    padding: 5px 15px;
 }
 
 @media (max-width: 768px) {
-    .games-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 10px;
+    .feedback-header {
+        flex-direction: column;
+        text-align: center;
     }
     
-    .game-card {
-        margin: 0;
+    .feedback-avatar {
+        margin: 0 auto 15px;
+    }
+    
+    .feedback-container {
+        padding: 20px 5%; /* 小屏幕上减少上下内边距但保持左右内边距 */
+        width: 90%; /* 在移动端减小宽度，增加两侧边距 */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    #feedback-showcase {
+        padding: 40px 5%; /* 在移动端减少上下内边距 */
     }
 }
 
-.collection-section {
-    padding: 60px 20px;
+/* 联系我们页面样式 */
+#contact-cards {
+    padding: 40px 5%; /* 添加左右内边距 */
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 5%; /* 添加左右内边距 */
 }
 
-.collection-title {
-    color: #231592;
-    margin-bottom: 30px;
-    font-size: 32px;
+.contact-card {
+    position: relative;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.collection-desc {
-    color: #961c93;
-    text-align: center;
-    margin-bottom: 40px;
-    max-width: 800px;
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px #c9a8ef;
+}
+
+#location {
+    padding: 40px 5%; /* 添加左右内边距 */
+}
+
+.location-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%; /* 添加左右内边距 */
+}
+
+#faq {
+    padding: 40px 5%; /* 添加左右内边距 */
+}
+
+@media (min-width: 768px) {
+    .contact-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .location-container {
+        flex-direction: row;
+    }
+    
+    .address-info, .map-container {
+        flex: 1;
+    }
+}
+
+/* 活动页面样式 */
+#events-overview {
+    padding: 40px 5%; /* 添加左右内边距 */
+}
+
+#events-list {
+    padding: 40px 5%; /* 添加左右内边距 */
+}
+
+.event-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    line-height: 1.8;
 }
 
-.collection-image {
-    max-width: 800px;
-    margin: 0 auto;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.collection-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;
-}
-
-@media (max-width: 992px) {
-    .collection-image {
-        max-width: 90%;
-    }
-}
-
-@media (max-width: 768px) {
-    .collection-section {
-        padding: 40px 15px;
-    }
-    
-    .collection-title {
-        font-size: 28px;
-        margin-bottom: 20px;
-    }
-    
-    .collection-desc {
-        font-size: 14px;
-        margin-bottom: 30px;
-    }
-}
-
-.boardgame-list {
-    max-width: 100%;
-    margin: 40px auto;
+.event-date {
     padding: 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5fafa;
+    border-bottom: 1px solid #e0e0e0;
 }
 
-.boardgame-list img {
+.date-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 30px;
+}
+
+.month {
+    font-size: 16px;
+    color: #4a179b;
+    font-weight: 600;
+}
+
+.day {
+    font-size: 32px;
+    font-weight: 700;
+    color: #961c93;
+    line-height: 1;
+}
+
+.year {
+    font-size: 14px;
+    color: #666;
+}
+
+.time {
+    display: flex;
+    align-items: center;
+    color: #666;
+}
+
+.time i {
+    margin-right: 8px;
+    color: #4a179b;
+}
+
+.event-details {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.event-image {
+    width: 100%;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+.event-image img {
     width: 100%;
     height: auto;
-    display: block;
-    border-radius: 8px;
+    object-fit: cover;
 }
 
-.boardgame-desc {
+.event-content {
+    padding: 25px;
+}
+
+.event-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #4a179b;
+}
+
+.event-meta {
+    display: flex;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.event-meta span {
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.event-meta i {
+    margin-right: 5px;
     color: #961c93;
-    text-align: center;
-    margin: 20px auto 40px;
-    max-width: 100%;
-    line-height: 1.8;
-    font-size: 16px;
-    padding: 0 20px;
 }
 
-@media (max-width: 992px) {
-    .boardgame-list {
-        max-width: 100%;
-        margin: 30px auto;
-    }
+.event-description {
+    margin-bottom: 20px;
+    line-height: 1.6;
 }
 
-@media (max-width: 768px) {
-    .boardgame-list {
-        padding: 15px;
-        margin: 20px auto;
+.event-action {
+    margin-top: 15px;
+}
+
+/* 响应式样式 */
+@media (min-width: 768px) {
+    .event-container {
+        flex-direction: row;
     }
     
-    .boardgame-desc {
-        font-size: 14px;
-        margin: 15px auto 30px;
-        padding: 0 15px;
+    .event-date {
+        width: 180px;
+        flex-direction: column;
+        border-bottom: none;
+        border-right: 1px solid #e0e0e0;
+    }
+    
+    .date-box {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .event-details {
+        flex: 1;
+        flex-direction: row;
+    }
+    
+    .event-image {
+        width: 40%;
+        max-height: none;
+        height: auto;
+    }
+    
+    .event-content {
+        flex: 1;
     }
 }
 
@@ -2465,7 +2663,7 @@ img[data-popup="true"]:hover {
 .day {
     font-size: 32px;
     font-weight: 700;
-    color: #29b6b0;
+    color: #961c93;
     line-height: 1;
 }
 
@@ -2527,7 +2725,7 @@ img[data-popup="true"]:hover {
 
 .event-meta i {
     margin-right: 5px;
-    color: #29b6b0;
+    color: #961c93;
 }
 
 .event-description {
@@ -2570,5 +2768,89 @@ img[data-popup="true"]:hover {
     
     .event-content {
         flex: 1;
+    }
+}
+
+/* 游戏卡片样式 */
+.game-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-info {
+    padding: 20px;
+    flex: 1;
+}
+
+.game-info h3 {
+    margin: 0 0 12px;
+    color: #4a179b;
+    font-size: 20px;
+}
+
+.game-info p {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.game-image {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+}
+
+.game-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    display: block;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px #c9a8ef;
+}
+
+.game-card:hover .game-image img {
+    transform: scale(1.05);
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 40px auto;
+    padding: 0 5%;
+    max-width: 100%;
+    width: 100%;
+}
+
+@media (max-width: 992px) {
+    .games-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .games-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 10px 5%;
+    }
+    
+    .game-card {
+        margin: 0;
     }
 }
