@@ -18,7 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(popupOverlay);
     
     // 检测设备类型
-    const isAndroid = /Android/i.test(navigator.userAgent);
+    const userAgent = navigator.userAgent;
+    const isAndroid = /Android/i.test(userAgent);
+    // 检测鸿蒙系统 - 通常在UA中包含HarmonyOS或HUAWEI关键词
+    const isHarmonyOS = /HarmonyOS/i.test(userAgent) || (/HUAWEI/i.test(userAgent) && /Android/i.test(userAgent));
+    // 使用统一变量表示需要特殊处理的系统
+    const needsSpecialHandling = isAndroid || isHarmonyOS;
     
     // 为所有图片添加点击事件
     document.querySelectorAll('img').forEach(img => {
@@ -31,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 popupOverlay.style.display = 'block';
                 document.body.style.overflow = 'hidden';
                 
-                // 如果是安卓设备，增加更多防护措施
-                if (isAndroid) {
+                // 如果是安卓或鸿蒙设备，增加更多防护措施
+                if (needsSpecialHandling) {
                     // 添加历史记录状态，使浏览器认为当前是新页面
                     // 这样滑动返回手势会先关闭弹窗而不是返回上一页
                     history.pushState({popup: true}, '', window.location.href);
@@ -49,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
         popupContainer.style.transform = 'translate(-50%, -50%)';
         popupOverlay.style.opacity = '1';
         
-        // 如果是安卓设备，且有弹窗历史状态，返回前一个状态
-        if (isAndroid && history.state && history.state.popup) {
+        // 如果是安卓或鸿蒙设备，且有弹窗历史状态，返回前一个状态
+        if (needsSpecialHandling && history.state && history.state.popup) {
             history.back();
         }
     }
@@ -69,8 +74,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // 处理安卓设备的历史记录事件
-    if (isAndroid) {
+    // 处理安卓和鸿蒙设备的历史记录事件
+    if (needsSpecialHandling) {
         window.addEventListener('popstate', function(e) {
             // 如果弹出层正在显示，则关闭它
             if (popupOverlay.style.display === 'block') {
@@ -105,8 +110,12 @@ document.addEventListener('DOMContentLoaded', function() {
         startY = e.touches[0].clientY;
         
         // 检查是否是从左边缘开始的滑动(这通常是返回手势)
-        // 对安卓设备使用更大的边缘检测范围
-        const edgeThreshold = isAndroid ? 50 : 30; // 安卓用50px，iOS用30px
+        // 对安卓和鸿蒙设备使用更大的边缘检测范围
+        // 鸿蒙系统边缘滑动检测需要更敏感
+        let edgeThreshold = 30; // 默认iOS值
+        if (isAndroid) edgeThreshold = 50; // 安卓值
+        if (isHarmonyOS) edgeThreshold = 70; // 鸿蒙值更大，因为有的华为手机边缘滑动区域较大
+        
         const isLeftEdgeSwipe = startX < edgeThreshold;
         
         // 如果是边缘滑动且图片弹出层处于活动状态
@@ -130,8 +139,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const diffX = currentX - startX;
         const diffY = currentY - startY;
         
-        // 对安卓设备强制阻止任何形式的水平滑动
-        if (isAndroid && Math.abs(diffX) > 10) {
+        // 对安卓和鸿蒙设备强制阻止任何形式的水平滑动
+        if (needsSpecialHandling && Math.abs(diffX) > 10) {
             e.preventDefault();
             e.stopPropagation();
         }
@@ -161,8 +170,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // 计算水平滑动距离
         const finalDiffX = currentX - startX;
         
-        // 为安卓设备降低关闭阈值，使手势更灵敏
-        const threshold = isAndroid ? 50 : 80;
+        // 为不同设备设置不同的关闭阈值
+        let threshold = 80; // 默认iOS值
+        if (isAndroid) threshold = 50; // 安卓值
+        if (isHarmonyOS) threshold = 40; // 鸿蒙值更小，使滑动更灵敏
         
         // 如果是向右滑动且距离足够(模拟返回手势)
         if (finalDiffX > threshold) {
@@ -201,11 +212,11 @@ document.addEventListener('DOMContentLoaded', function() {
         startY = e.touches[0].clientY;
         isDragging = true;
         
-        // 在安卓设备上阻止更多的事件传播
-        if (isAndroid) {
+        // 在安卓和鸿蒙设备上阻止更多的事件传播
+        if (needsSpecialHandling) {
             e.stopPropagation();
         }
-    }, isAndroid ? { passive: false } : { passive: true });
+    }, needsSpecialHandling ? { passive: false } : { passive: true });
     
     popupOverlay.addEventListener('touchmove', function(e) {
         if (!isDragging) return;
@@ -219,8 +230,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 如果主要是水平滑动
         if (Math.abs(diffX) > Math.abs(diffY)) {
-            // 在安卓设备上阻止默认行为
-            if (isAndroid) {
+            // 在安卓和鸿蒙设备上阻止默认行为
+            if (needsSpecialHandling) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -233,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const opacity = 1 - Math.min(Math.abs(diffX) / 200, 0.8);
             popupOverlay.style.opacity = opacity;
         }
-    }, isAndroid ? { passive: false } : { passive: true });
+    }, needsSpecialHandling ? { passive: false } : { passive: true });
     
     popupOverlay.addEventListener('touchend', function(e) {
         if (!isDragging) return;
@@ -241,8 +252,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // 计算最终移动距离
         const finalDiffX = currentX - startX;
         
-        // 为安卓设备降低关闭阈值
-        const threshold = isAndroid ? 70 : 100;
+        // 为不同设备设置不同的关闭阈值
+        let threshold = 100; // 默认iOS值
+        if (isAndroid) threshold = 70; // 安卓值
+        if (isHarmonyOS) threshold = 60; // 鸿蒙值
         
         // 如果水平滑动距离超过临界值，关闭弹出层
         if (Math.abs(finalDiffX) > threshold) {
@@ -274,8 +287,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // 重置状态
         isDragging = false;
         
-        // 在安卓设备上阻止更多的事件传播
-        if (isAndroid) {
+        // 在安卓和鸿蒙设备上阻止更多的事件传播
+        if (needsSpecialHandling) {
             e.stopPropagation();
         }
     });
