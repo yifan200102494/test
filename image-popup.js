@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
     popupOverlay.appendChild(closeButton);
     document.body.appendChild(popupOverlay);
     
+    // 检测设备类型
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    
     // 为所有图片添加点击事件
     document.querySelectorAll('img').forEach(img => {
         // 排除已经在弹出层中的图片
@@ -27,6 +30,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 popupImage.src = this.src;
                 popupOverlay.style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                
+                // 如果是安卓设备，增加更多防护措施
+                if (isAndroid) {
+                    // 添加历史记录状态，使浏览器认为当前是新页面
+                    // 这样滑动返回手势会先关闭弹窗而不是返回上一页
+                    history.pushState({popup: true}, '', window.location.href);
+                }
             });
         }
     });
@@ -38,6 +48,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // 重置图片位置和透明度
         popupContainer.style.transform = 'translate(-50%, -50%)';
         popupOverlay.style.opacity = '1';
+        
+        // 如果是安卓设备，且有弹窗历史状态，返回前一个状态
+        if (isAndroid && history.state && history.state.popup) {
+            history.back();
+        }
     }
     
     closeButton.addEventListener('click', closePopup);
@@ -53,6 +68,23 @@ document.addEventListener('DOMContentLoaded', function() {
             closePopup();
         }
     });
+    
+    // 处理安卓设备的历史记录事件
+    if (isAndroid) {
+        window.addEventListener('popstate', function(e) {
+            // 如果弹出层正在显示，则关闭它
+            if (popupOverlay.style.display === 'block') {
+                popupOverlay.style.display = 'none';
+                document.body.style.overflow = '';
+                popupContainer.style.transform = 'translate(-50%, -50%)';
+                popupOverlay.style.opacity = '1';
+                
+                // 阻止事件进一步传播
+                e.stopPropagation();
+                return false;
+            }
+        });
+    }
     
     // 处理滑动关闭功能
     let startX, startY;
@@ -73,7 +105,9 @@ document.addEventListener('DOMContentLoaded', function() {
         startY = e.touches[0].clientY;
         
         // 检查是否是从左边缘开始的滑动(这通常是返回手势)
-        const isLeftEdgeSwipe = startX < 30; // 左边缘30像素范围
+        // 对安卓设备使用更大的边缘检测范围
+        const edgeThreshold = isAndroid ? 50 : 30; // 安卓用50px，iOS用30px
+        const isLeftEdgeSwipe = startX < edgeThreshold;
         
         // 如果是边缘滑动且图片弹出层处于活动状态
         if (isLeftEdgeSwipe) {
@@ -95,6 +129,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // 计算水平和垂直移动距离
         const diffX = currentX - startX;
         const diffY = currentY - startY;
+        
+        // 对安卓设备强制阻止任何形式的水平滑动
+        if (isAndroid && Math.abs(diffX) > 10) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         
         // 如果主要是水平滑动
         if (Math.abs(diffX) > Math.abs(diffY)) {
@@ -121,8 +161,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // 计算水平滑动距离
         const finalDiffX = currentX - startX;
         
+        // 为安卓设备降低关闭阈值，使手势更灵敏
+        const threshold = isAndroid ? 50 : 80;
+        
         // 如果是向右滑动且距离足够(模拟返回手势)
-        if (finalDiffX > 80) { // 80像素的阈值
+        if (finalDiffX > threshold) {
             // 添加滑出动画
             popupContainer.style.transition = 'transform 0.3s ease-out';
             popupOverlay.style.transition = 'opacity 0.3s ease-out';
@@ -157,7 +200,12 @@ document.addEventListener('DOMContentLoaded', function() {
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
         isDragging = true;
-    });
+        
+        // 在安卓设备上阻止更多的事件传播
+        if (isAndroid) {
+            e.stopPropagation();
+        }
+    }, isAndroid ? { passive: false } : { passive: true });
     
     popupOverlay.addEventListener('touchmove', function(e) {
         if (!isDragging) return;
@@ -171,6 +219,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 如果主要是水平滑动
         if (Math.abs(diffX) > Math.abs(diffY)) {
+            // 在安卓设备上阻止默认行为
+            if (isAndroid) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
             // 移动图片容器，跟随手指
             const translateX = diffX;
             popupContainer.style.transform = `translate(calc(-50% + ${translateX}px), -50%)`;
@@ -179,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const opacity = 1 - Math.min(Math.abs(diffX) / 200, 0.8);
             popupOverlay.style.opacity = opacity;
         }
-    });
+    }, isAndroid ? { passive: false } : { passive: true });
     
     popupOverlay.addEventListener('touchend', function(e) {
         if (!isDragging) return;
@@ -187,8 +241,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // 计算最终移动距离
         const finalDiffX = currentX - startX;
         
+        // 为安卓设备降低关闭阈值
+        const threshold = isAndroid ? 70 : 100;
+        
         // 如果水平滑动距离超过临界值，关闭弹出层
-        if (Math.abs(finalDiffX) > 100) {
+        if (Math.abs(finalDiffX) > threshold) {
             const direction = finalDiffX > 0 ? 1 : -1;
             
             // 添加滑出动画
@@ -216,5 +273,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 重置状态
         isDragging = false;
+        
+        // 在安卓设备上阻止更多的事件传播
+        if (isAndroid) {
+            e.stopPropagation();
+        }
     });
 }); 
