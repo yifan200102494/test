@@ -2478,10 +2478,15 @@ img {
     
     /* 移动端增强的弹出层调整 */
     body.popup-open {
-        overflow: hidden; /* 防止背景滚动 */
-        touch-action: none; /* 当弹窗打开时，阻止页面滚动 */
-        position: fixed; /* 固定页面位置 */
-        width: 100%; /* 确保宽度为100% */
+        overflow: hidden !important; /* 防止背景滚动 */
+        touch-action: none !important; /* 当弹窗打开时，阻止页面滚动 */
+        position: fixed !important; /* 固定页面位置 */
+        width: 100% !important; /* 确保宽度为100% */
+        height: 100% !important; /* 确保高度为100% */
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
     }
     
     .image-popup::before,
@@ -3273,6 +3278,11 @@ img[data-popup="true"]:hover {
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
     transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .image-popup-close:hover {

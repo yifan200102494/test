@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
     popupOverlay.appendChild(closeButton);
     document.body.appendChild(popupOverlay);
     
+    // 确保关闭按钮始终可点击
+    closeButton.style.position = 'fixed';
+    closeButton.style.zIndex = '10001';
+    
     // 检测设备类型
     const userAgent = navigator.userAgent;
     const isAndroid = /Android/i.test(userAgent);
@@ -47,9 +51,18 @@ document.addEventListener('DOMContentLoaded', function() {
         popupImage.src = src;
         popupImage.alt = alt || '';
         
+        // 保存当前滚动位置
+        const scrollY = window.scrollY;
+        
         // 显示弹窗
         popupOverlay.style.display = 'block';
         document.body.classList.add('popup-open');
+        
+        // 固定body并保持滚动位置
+        document.body.style.position = 'fixed';
+        document.body.style.top = -scrollY + 'px';
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
         
         // 重置缩放和平移
         scale = 1;
@@ -61,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (needsSpecialHandling) {
             // 添加历史记录状态，使浏览器认为当前是新页面
             // 这样滑动返回手势会先关闭弹窗而不是返回上一页
-            history.pushState({popup: true}, '', window.location.href);
+            history.pushState({popup: true, scrollY: scrollY}, '', window.location.href);
         }
     }
     
@@ -91,6 +104,16 @@ document.addEventListener('DOMContentLoaded', function() {
         popupOverlay.style.display = 'none';
         document.body.classList.remove('popup-open');
         
+        // 恢复body正常滚动
+        const scrollY = document.body.style.top ? parseInt(document.body.style.top) * -1 : 0;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        
+        // 恢复滚动位置
+        window.scrollTo(0, scrollY);
+        
         // 重置图片位置和透明度
         popupContainer.style.transform = 'translate(-50%, -50%)';
         popupOverlay.style.opacity = '1';
@@ -99,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         scale = 1;
         translateX = 0;
         translateY = 0;
+        popupImage.style.transform = "translate(0px, 0px) scale(1)";
         
         // 如果是安卓或鸿蒙设备，且有弹窗历史状态，返回前一个状态
         if (needsSpecialHandling && history.state && history.state.popup) {
@@ -127,6 +151,24 @@ document.addEventListener('DOMContentLoaded', function() {
             if (popupOverlay.style.display === 'block') {
                 popupOverlay.style.display = 'none';
                 document.body.classList.remove('popup-open');
+                
+                // 恢复body正常滚动
+                let historyScrollY = 0;
+                if (e.state && e.state.scrollY) {
+                    historyScrollY = e.state.scrollY;
+                } else if (document.body.style.top) {
+                    historyScrollY = parseInt(document.body.style.top) * -1;
+                }
+                
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                document.body.style.overflow = '';
+                
+                // 恢复滚动位置
+                window.scrollTo(0, historyScrollY);
+                
+                // 重置图片位置和透明度
                 popupContainer.style.transform = 'translate(-50%, -50%)';
                 popupOverlay.style.opacity = '1';
                 
@@ -134,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scale = 1;
                 translateX = 0;
                 translateY = 0;
-                updateImageTransform();
+                popupImage.style.transform = "translate(0px, 0px) scale(1)";
                 
                 // 阻止事件进一步传播
                 e.stopPropagation();
