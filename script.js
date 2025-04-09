@@ -23,14 +23,14 @@ function toggleLanguage() {
     elementsWithTranslation.forEach(element => {
         // 保存原始文本（如果还没有保存）
         if (!element.getAttribute('data-original')) {
-            element.setAttribute('data-original', element.textContent);
+            element.setAttribute('data-original', element.innerHTML);
         }
         
         // 切换文本内容
         if (isEnglish) {
-            element.textContent = element.getAttribute('data-en');
+            element.innerHTML = element.getAttribute('data-en');
         } else {
-            element.textContent = element.getAttribute('data-original');
+            element.innerHTML = element.getAttribute('data-original');
         }
     });
     
