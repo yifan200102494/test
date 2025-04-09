@@ -306,7 +306,7 @@ const dmData = {
         nameEn: "Rainbow",
         title: "悬疑推理专家",
         titleEn: "Mystery & Suspense Expert",
-        image: "/api/placeholder/400/400",
+        image: "./images/test.jpg",
         specialties: [
             { zh: "狼人杀", en: "Werewolves of Miller's Hollow" },
             { zh: "侦探推理", en: "Detective" },
@@ -318,10 +318,10 @@ const dmData = {
             { zh: "剧本", en: "script" }
         ],
         gallery: [
-            "/api/placeholder/300/200",
-            "/api/placeholder/300/200",
-            "/api/placeholder/300/200",
-            "/api/placeholder/300/200"
+            "./images/test.jpg",
+            "./images/test.jpg",
+            "./images/test.jpg",
+            "./images/test.jpg"
         ],
         videoUrl: "",
         videoPlaceholder: "/api/placeholder/600/400",
@@ -333,7 +333,7 @@ const dmData = {
         nameEn: "snowflake",
         title: "恐怖剧本专家",
         titleEn: "Horror Script Expert",
-        image: "/api/placeholder/400/400",
+        image: "./images/test.jpg",
         specialties: [
             { zh: "恐怖惊悚", en: "Horror & Thriller" },
             { zh: "心理压力", en: "Psychological Pressure" },
@@ -345,10 +345,10 @@ const dmData = {
             { zh: "剧本", en: "script" }
         ],
         gallery: [
-            "/api/placeholder/300/200",
-            "/api/placeholder/300/200",
-            "/api/placeholder/300/200",
-            "/api/placeholder/300/200"
+            "./images/test.jpg",
+            "./images/test.jpg",
+            "./images/test.jpg",
+            "./images/test.jpg"
         ],
         videoUrl: "",
         videoPlaceholder: "/api/placeholder/600/400",
@@ -360,7 +360,7 @@ const dmData = {
         nameEn: "zaozao",
         title: "剧本专家",
         titleEn: "Script Expert",
-        image: "/api/placeholder/400/400",
+        image: "./images/test.jpg",
         specialties: [
             { zh: "体验满分", en: "Experience full score" },
             { zh: "新手友好", en: "Beginner-friendly" },
@@ -372,10 +372,10 @@ const dmData = {
             { zh: "剧本", en: "script" }
         ],
         gallery: [
-            "/api/placeholder/300/200",
-            "/api/placeholder/300/200",
-            "/api/placeholder/300/200",
-            "/api/placeholder/300/200"
+            "./images/test.jpg",
+            "./images/test.jpg",
+            "./images/test.jpg",
+            "./images/test.jpg"
         ],
         videoUrl: "",
         videoPlaceholder: "/api/placeholder/600/400",
@@ -578,7 +578,7 @@ const scriptData = {
         difficulty: "★★★☆☆",
         players: "6-8人",
         playersEn: "6-8 players",
-        image: "/api/placeholder/500/300",
+        image: "./images/test.jpg",
         description: "一些描述",
         descriptionEn: "Some description"
     },
@@ -590,7 +590,7 @@ const scriptData = {
         difficulty: "★★★★☆",
         players: "7-9人",
         playersEn: "7-9 players",
-        image: "/api/placeholder/500/300",
+        image: "./images/test.jpg",
         description: "一些描述",
         descriptionEn: "Some description"
     },
@@ -602,7 +602,7 @@ const scriptData = {
         difficulty: "★★★★★",
         players: "5-7人",
         playersEn: "5-7 players",
-        image: "/api/placeholder/500/300",
+        image: "./images/test.jpg",
         description: "一些描述",
         descriptionEn: "Some description"
     }

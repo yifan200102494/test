@@ -407,10 +407,10 @@ nav {
 }
 
 .script-cards {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 5%; /* 添加左右内边距 */
 }
@@ -893,11 +893,66 @@ video::-webkit-media-controls-fullscreen-button {
 .script-card {
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .script-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.script-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.script-card:hover .script-img {
+    transform: scale(1.05);
+}
+
+.script-info {
+    padding: 15px;
+}
+
+.script-meta {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.dm-more {
+    color: #4a179b;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.dm-more:hover {
+    color: #961c93;
+    transform: translateX(5px);
+}
+
+/* 媒体查询适配 */
+@media (max-width: 768px) {
+    .script-img {
+        height: 180px;
+    }
+}
+
+@media (max-width: 576px) {
+    .script-img {
+        height: 160px;
+    }
 }
 
 /* 联系我们 */
@@ -3204,4 +3259,26 @@ img[data-popup="true"]:hover {
 .image-popup-close:hover {
     background-color: rgba(0, 0, 0, 0.8);
     transform: rotate(90deg);
+}
+
+/* 媒体查询 */
+@media (max-width: 992px) {
+    .script-cards {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .script-cards {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .script-cards {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+    }
 }
