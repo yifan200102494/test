@@ -9,17 +9,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const popupImage = document.createElement('img');
     popupContainer.appendChild(popupImage);
     
+    // 关闭按钮 - 直接使用HTML创建确保样式正确应用
     const closeButton = document.createElement('div');
     closeButton.className = 'image-popup-close';
     closeButton.innerHTML = '×';
+    closeButton.setAttribute('style', 'position: fixed; top: 20px; right: 20px; color: #fff; font-size: 36px; cursor: pointer; z-index: 10001; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.5); border-radius: 50%;');
     
     popupOverlay.appendChild(popupContainer);
     popupOverlay.appendChild(closeButton);
     document.body.appendChild(popupOverlay);
-    
-    // 确保关闭按钮始终可点击
-    closeButton.style.position = 'fixed';
-    closeButton.style.zIndex = '10001';
     
     // 检测设备类型
     const userAgent = navigator.userAgent;
@@ -56,12 +54,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 显示弹窗
         popupOverlay.style.display = 'block';
-        document.body.classList.add('popup-open');
+        
+        // 确保关闭按钮显示在顶部，防止被遮挡
+        closeButton.style.display = 'flex';
+        closeButton.style.visibility = 'visible';
+        closeButton.style.opacity = '1';
         
         // 固定body并保持滚动位置
+        document.documentElement.classList.add('popup-open'); // 同时锁定html元素
+        document.body.classList.add('popup-open');
+        document.documentElement.style.overflow = 'hidden'; // 同时锁定html元素
         document.body.style.position = 'fixed';
         document.body.style.top = -scrollY + 'px';
         document.body.style.width = '100%';
+        document.body.style.height = '100%';
         document.body.style.overflow = 'hidden';
         
         // 重置缩放和平移
@@ -101,14 +107,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 关闭弹出层
     function closePopup() {
+        // 获取恢复滚动位置
+        const scrollY = document.body.style.top ? parseInt(document.body.style.top) * -1 : 0;
+        
+        // 隐藏弹窗
         popupOverlay.style.display = 'none';
-        document.body.classList.remove('popup-open');
         
         // 恢复body正常滚动
-        const scrollY = document.body.style.top ? parseInt(document.body.style.top) * -1 : 0;
+        document.documentElement.classList.remove('popup-open'); // 解锁html元素
+        document.body.classList.remove('popup-open');
+        document.documentElement.style.overflow = ''; // 解锁html元素
         document.body.style.position = '';
         document.body.style.top = '';
         document.body.style.width = '';
+        document.body.style.height = '';
         document.body.style.overflow = '';
         
         // 恢复滚动位置
@@ -130,7 +142,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    closeButton.addEventListener('click', closePopup);
+    // 直接通过原生DOM方法添加事件监听
+    closeButton.onclick = function(e) {
+        e.stopPropagation(); // 阻止事件冒泡
+        closePopup();
+    };
+    
+    // 添加触摸事件监听，确保在触摸设备上能正常关闭
+    closeButton.addEventListener('touchstart', function(e) {
+        e.stopPropagation(); // 阻止事件冒泡
+    }, { passive: false });
+    
+    closeButton.addEventListener('touchend', function(e) {
+        e.stopPropagation(); // 阻止事件冒泡
+        e.preventDefault(); // 阻止默认行为
+        closePopup();
+    }, { passive: false });
+    
     popupOverlay.addEventListener('click', function(e) {
         if (e.target === popupOverlay) {
             closePopup();
@@ -149,10 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('popstate', function(e) {
             // 如果弹出层正在显示，则关闭它
             if (popupOverlay.style.display === 'block') {
-                popupOverlay.style.display = 'none';
-                document.body.classList.remove('popup-open');
-                
-                // 恢复body正常滚动
+                // 获取恢复滚动位置
                 let historyScrollY = 0;
                 if (e.state && e.state.scrollY) {
                     historyScrollY = e.state.scrollY;
@@ -160,9 +185,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     historyScrollY = parseInt(document.body.style.top) * -1;
                 }
                 
+                // 隐藏弹窗
+                popupOverlay.style.display = 'none';
+                
+                // 恢复body正常滚动
+                document.documentElement.classList.remove('popup-open'); // 解锁html元素
+                document.body.classList.remove('popup-open');
+                document.documentElement.style.overflow = ''; // 解锁html元素
                 document.body.style.position = '';
                 document.body.style.top = '';
                 document.body.style.width = '';
+                document.body.style.height = '';
                 document.body.style.overflow = '';
                 
                 // 恢复滚动位置
