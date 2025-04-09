@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 关闭按钮 - 直接使用HTML创建确保样式正确应用
     const closeButton = document.createElement('div');
     closeButton.className = 'image-popup-close';
-    closeButton.innerHTML = '×';
+    closeButton.innerHTML = ''; // 移除内容，完全通过CSS ::before伪元素显示
     closeButton.setAttribute('style', 'position: fixed; top: 20px; right: 20px; color: #fff; font-size: 36px; cursor: pointer; z-index: 10001; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.5); border-radius: 50%;');
     
     popupOverlay.appendChild(popupContainer);
@@ -52,23 +52,34 @@ document.addEventListener('DOMContentLoaded', function() {
         // 保存当前滚动位置
         const scrollY = window.scrollY;
         
-        // 显示弹窗
-        popupOverlay.style.display = 'block';
-        
-        // 确保关闭按钮显示在顶部，防止被遮挡
-        closeButton.style.display = 'flex';
-        closeButton.style.visibility = 'visible';
-        closeButton.style.opacity = '1';
-        
-        // 固定body并保持滚动位置
-        document.documentElement.classList.add('popup-open'); // 同时锁定html元素
+        // 先固定文档，防止背景滚动和闪烁
+        document.documentElement.classList.add('popup-open');
         document.body.classList.add('popup-open');
-        document.documentElement.style.overflow = 'hidden'; // 同时锁定html元素
+        document.documentElement.style.overflow = 'hidden';
         document.body.style.position = 'fixed';
         document.body.style.top = -scrollY + 'px';
         document.body.style.width = '100%';
         document.body.style.height = '100%';
         document.body.style.overflow = 'hidden';
+        
+        // 确保弹出层样式正确 - 使用内联样式避免CSS覆盖问题
+        popupOverlay.style.display = 'block';
+        popupOverlay.style.backgroundColor = '#000000';
+        popupOverlay.style.opacity = '1';
+        popupOverlay.style.zIndex = '2147483647';
+        popupOverlay.style.position = 'fixed';
+        popupOverlay.style.top = '0';
+        popupOverlay.style.left = '0';
+        popupOverlay.style.right = '0';
+        popupOverlay.style.bottom = '0';
+        popupOverlay.style.width = '100vw';
+        popupOverlay.style.height = '100vh';
+        
+        // 确保关闭按钮显示在顶部，防止被遮挡
+        closeButton.style.display = 'flex';
+        closeButton.style.visibility = 'visible';
+        closeButton.style.opacity = '1';
+        closeButton.style.zIndex = '2147483647';
         
         // 重置缩放和平移
         scale = 1;
@@ -82,6 +93,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // 这样滑动返回手势会先关闭弹窗而不是返回上一页
             history.pushState({popup: true, scrollY: scrollY}, '', window.location.href);
         }
+        
+        // 禁用页面所有其他元素的交互
+        document.querySelectorAll('body > *:not(.image-popup-overlay)').forEach(element => {
+            if (element !== popupOverlay) {
+                element.setAttribute('aria-hidden', 'true');
+                if (element.style.zIndex) {
+                    element.setAttribute('data-original-zindex', element.style.zIndex);
+                }
+                element.style.zIndex = '-1';
+            }
+        });
     }
     
     // 为所有图片添加点击查看大图功能，但排除带有data-popup="false"的图片
@@ -140,6 +162,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (needsSpecialHandling && history.state && history.state.popup) {
             history.back();
         }
+        
+        // 启用页面所有其他元素的交互
+        document.querySelectorAll('body > *:not(.image-popup-overlay)').forEach(element => {
+            if (element !== popupOverlay) {
+                element.removeAttribute('aria-hidden');
+                if (element.getAttribute('data-original-zindex')) {
+                    element.style.zIndex = element.getAttribute('data-original-zindex');
+                    element.removeAttribute('data-original-zindex');
+                } else {
+                    element.style.zIndex = '';
+                }
+            }
+        });
     }
     
     // 直接通过原生DOM方法添加事件监听
