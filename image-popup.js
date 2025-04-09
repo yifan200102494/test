@@ -33,6 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let isZooming = false;
     let initialScale = 1;
     let isPanning = false; // 新增：标记是否正在平移图片
+    let lastTouchX = 0; // 新增：最后触摸的X坐标
+    let lastTouchY = 0; // 新增：最后触摸的Y坐标
+    let initialTranslateX = 0; // 新增：初始X平移值
+    let initialTranslateY = 0; // 新增：初始Y平移值
     
     // 显示图片弹窗的函数
     function showImagePopup(src, alt) {
@@ -267,6 +271,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // 单指触摸 - 用于平移
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
+            lastTouchX = startX; // 初始化最后触摸坐标
+            lastTouchY = startY;
+            initialTranslateX = translateX; // 保存当前的平移值
+            initialTranslateY = translateY;
             isPanning = true; // 标记为正在平移
         }
         
@@ -303,23 +311,26 @@ document.addEventListener('DOMContentLoaded', function() {
             currentX = e.touches[0].clientX;
             currentY = e.touches[0].clientY;
             
-            // 计算水平和垂直移动距离
-            const diffX = currentX - startX;
-            const diffY = currentY - startY;
-            
             // 如果图片已放大，允许平移
             if (scale > 1) {
-                // 计算新的平移值，并限制在合理范围内
-                const maxTranslate = (popupImage.offsetWidth * scale - popupImage.offsetWidth) / 2;
-                translateX = Math.min(Math.max(translateX + diffX, -maxTranslate), maxTranslate);
-                translateY = Math.min(Math.max(translateY + diffY, -maxTranslate), maxTranslate);
+                // 计算当前触摸点与起始触摸点的差值
+                const diffX = currentX - startX;
+                const diffY = currentY - startY;
                 
-                // 更新图片变换
+                // 基于初始平移值计算新的平移位置
+                const newTranslateX = initialTranslateX + diffX;
+                const newTranslateY = initialTranslateY + diffY;
+                
+                // 计算平移边界
+                const maxTranslateX = (popupImage.offsetWidth * scale - popupImage.offsetWidth) / 2;
+                const maxTranslateY = (popupImage.offsetHeight * scale - popupImage.offsetHeight) / 2;
+                
+                // 应用平移，并限制在合理范围内
+                translateX = Math.min(Math.max(newTranslateX, -maxTranslateX), maxTranslateX);
+                translateY = Math.min(Math.max(newTranslateY, -maxTranslateY), maxTranslateY);
+                
+                // 立即更新图片变换 - 使用直接调用而不是requestAnimationFrame，减少延迟感
                 updateImageTransform();
-                
-                // 更新起始位置，以便下一次移动
-                startX = currentX;
-                startY = currentY;
             } 
             // 如果图片未放大，则处理滑动关闭
             else {
@@ -329,16 +340,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     e.stopPropagation();
                 }
                 
+                // 计算移动距离
+                const diffX = currentX - startX;
+                
                 // 移动图片容器，跟随手指
-                const translateX = diffX;
-                popupContainer.style.transform = `translate(calc(-50% + ${translateX}px), -50%)`;
+                popupContainer.style.transform = `translate(calc(-50% + ${diffX}px), -50%)`;
                 
                 // 根据移动距离调整透明度
                 const opacity = 1 - Math.min(Math.abs(diffX) / 200, 0.8);
                 popupOverlay.style.opacity = opacity;
             }
+            
+            // 更新最后的触摸坐标
+            lastTouchX = currentX;
+            lastTouchY = currentY;
         }
-    }, needsSpecialHandling ? { passive: false } : { passive: true });
+    }, { passive: false });
     
     popupOverlay.addEventListener('touchend', function(e) {
         // 重置缩放状态

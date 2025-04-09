@@ -2379,8 +2379,9 @@ img {
     background-color: rgba(0, 0, 0, 0.95);
     z-index: 9999;
     cursor: pointer;
-    touch-action: manipulation; /* 允许基本触摸操作 */
+    touch-action: none; /* 更改为none，阻止默认的触摸行为 */
     -webkit-tap-highlight-color: transparent; /* 禁用触摸高亮 */
+    overflow: hidden; /* 防止内容溢出 */
 }
 
 .image-popup {
@@ -2396,9 +2397,11 @@ img {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    touch-action: manipulation; /* 允许基本触摸操作 */
-    background-color: transparent !important; /* 确保背景透明 */
+    touch-action: none; /* 更改为none，由JavaScript控制所有触摸行为 */
     -webkit-tap-highlight-color: transparent; /* 禁用触摸高亮 */
+    background-color: transparent !important; /* 确保背景透明 */
+    overflow: hidden; /* 防止内容溢出 */
+    will-change: transform; /* 提示浏览器这个元素会频繁变换 */
 }
 
 .image-popup img {
@@ -2409,19 +2412,12 @@ img {
     object-fit: contain !important;
     border-radius: 4px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    touch-action: pan-x pan-y pinch-zoom; /* 允许水平和垂直平移以及缩放 */
+    touch-action: none; /* 更改为none，由JavaScript控制所有触摸行为 */
     -webkit-tap-highlight-color: transparent; /* 禁用触摸高亮 */
     background-color: transparent !important; /* 确保背景透明 */
-}
-
-/* 添加全局图片缩放支持 */
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    touch-action: manipulation; /* 允许基本触摸操作包括缩放 */
-    -webkit-tap-highlight-color: transparent; /* 禁用触摸高亮 */
+    transform-origin: center center; /* 确保变换以中心点为基准 */
+    will-change: transform; /* 提示浏览器这个元素会频繁变换 */
+    transition: none; /* 移除任何可能的过渡效果 */
 }
 
 /* 响应式调整 */
@@ -2430,13 +2426,16 @@ img {
         width: 100% !important;
         height: 100vh !important;
         background-color: transparent !important; /* 确保移动端背景透明 */
+        will-change: transform; /* 提示浏览器这个元素会频繁变换 */
     }
     
     .image-popup img {
         max-width: 100% !important;
         max-height: 100vh !important;
-        touch-action: pan-x pan-y pinch-zoom; /* 允许水平和垂直平移以及缩放 */
+        touch-action: none; /* 更改为none，由JavaScript控制所有触摸行为 */
         background-color: transparent !important; /* 确保背景透明 */
+        will-change: transform; /* 提示浏览器这个元素会频繁变换 */
+        transform-origin: center center; /* 确保变换以中心点为基准 */
     }
     
     .image-popup-close {
@@ -2456,13 +2455,14 @@ img {
     .poster-image,
     .area-image img,
     .game-image img {
-        touch-action: manipulation pinch-zoom;
+        touch-action: manipulation; /* 允许基本触摸操作但不包括双指缩放 */
         -webkit-tap-highlight-color: transparent;
     }
     
     /* 移动端增强的弹出层调整 */
     body.popup-open {
         overflow: hidden; /* 防止背景滚动 */
+        touch-action: none; /* 当弹窗打开时，阻止页面滚动 */
     }
     
     .image-popup::before,
