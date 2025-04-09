@@ -6,7 +6,28 @@
     <title>奇闻异事 - 沉浸式剧本杀体验</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
+    <!-- 视频控制样式 -->
+    <style>
+        /* 全局视频控制器透明背景 */
+        video::-webkit-media-controls-panel {
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+        
+        /* 确保速度面板不会导致蒙层 */
+        video::-webkit-media-controls-overflow-button {
+            background-color: transparent !important;
+        }
+        
+        /* 控制面板下拉菜单 */
+        video::-internal-media-controls-overflow-menu-list {
+            background-color: rgba(0, 0, 0, 0.7) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+    </style>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -100,14 +121,17 @@
                 <p data-en="Generally, the murder mystery game process includes: self-introduction, reading personal scripts, collecting clues, discussion and analysis, and revealing the truth. The entire game usually lasts 3-5 hours, and even beginners can quickly get the hang of it under the guidance of a professional DM.">一般来说，剧本杀的游戏流程包括：自我介绍、阅读个人剧本、收集线索、讨论分析、公布真相等环节。整个游戏通常持续3-5小时，在专业DM的引导下，即使是新手也能很快上手。</p>
             </div>
             
+            <div class="intro-note fade-in" data-en="At 'Strange Tales', we provide detailed game guidance and simple, friendly introductory scripts for new players, allowing you to easily enter the wonderful world of murder mystery. No experience necessary—just bring your curiosity and spirit of exploration to enjoy an unforgettable experience!">在「奇闻异事」，我们为新手玩家提供详细的游戏指导和简单友好的入门剧本，让您轻松踏入剧本杀的奇妙世界。无需任何经验，只要带着好奇心和探索精神，就能获得一次难忘的体验！</div>
+            
             <div class="intro-video fade-in">
-                <div class="video-placeholder">
-                    <i class="fas fa-play-circle"></i>
+                <div class="video-placeholder" id="videoPlaceholder">
+                    <img src="./images/poster.jpg" alt="剧本杀体验视频预览" class="video-thumbnail" data-en-alt="Murder Mystery Experience Video Preview" data-popup="false">
+                    <div class="video-play-button">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
                     <p data-en="Murder Mystery Experience Video">剧本杀体验视频展示</p>
                 </div>
             </div>
-            
-            <div class="intro-note fade-in" data-en="At 'Strange Tales', we provide detailed game guidance and simple, friendly introductory scripts for new players, allowing you to easily enter the wonderful world of murder mystery. No experience necessary—just bring your curiosity and spirit of exploration to enjoy an unforgettable experience!">在「奇闻异事」，我们为新手玩家提供详细的游戏指导和简单友好的入门剧本，让您轻松踏入剧本杀的奇妙世界。无需任何经验，只要带着好奇心和探索精神，就能获得一次难忘的体验！</div>
             
             <!-- DM介绍部分 -->
             <div class="dm-intro fade-in">

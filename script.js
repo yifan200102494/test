@@ -707,3 +707,267 @@ document.addEventListener('DOMContentLoaded', function() {
       observer.observe(element);
     });
   });
+
+// 视频播放功能
+document.addEventListener('DOMContentLoaded', function() {
+    const videoPlaceholder = document.getElementById('videoPlaceholder');
+    if (videoPlaceholder) {
+        videoPlaceholder.addEventListener('click', function() {
+            // 获取当前的视频缩略图路径
+            const thumbnailImg = videoPlaceholder.querySelector('.video-thumbnail');
+            const thumbnailSrc = thumbnailImg ? thumbnailImg.src : './images/poster.jpg';
+            
+            // 创建视频元素
+            const videoHTML = `
+                <video width="100%" height="220px" controls autoplay playsinline 
+                       webkit-playsinline
+                       x-webkit-airplay="allow"
+                       x5-video-player-type="h5"
+                       x5-video-player-fullscreen="true"
+                       x5-video-orientation="portraint"
+                       preload="auto"
+                       poster="${thumbnailSrc}"
+                       id="mainVideo"
+                       style="cursor: pointer; background-color: #000;">
+                    <source src="./images/shiping.mp4" type="video/mp4">
+                    <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
+                </video>
+                <style>
+                    /* 移除所有控制器的蒙层效果 */
+                    #mainVideo::-webkit-media-controls-panel,
+                    #mainVideo::-webkit-media-controls-overlay,
+                    #mainVideo::-webkit-media-controls-backdrop {
+                        background: transparent !important;
+                        backdrop-filter: none !important;
+                        -webkit-backdrop-filter: none !important;
+                    }
+                    /* 确保控制条按钮显示 */
+                    #mainVideo::-webkit-media-controls-play-button,
+                    #mainVideo::-webkit-media-controls-timeline,
+                    #mainVideo::-webkit-media-controls-current-time-display,
+                    #mainVideo::-webkit-media-controls-time-remaining-display,
+                    #mainVideo::-webkit-media-controls-mute-button,
+                    #mainVideo::-webkit-media-controls-fullscreen-button {
+                        color: #fff !important;
+                        opacity: 1 !important;
+                    }
+                    /* 设置下拉菜单背景 */
+                    #mainVideo::-internal-media-controls-overflow-menu-list {
+                        background-color: rgba(0, 0, 0, 0.7) !important;
+                        backdrop-filter: none !important;
+                    }
+                </style>
+            `;
+            videoPlaceholder.innerHTML = videoHTML;
+            
+            // 获取视频元素
+            const video = document.getElementById('mainVideo');
+            
+            // 设置视频的元数据加载完成事件
+            if (video) {
+                video.onloadedmetadata = function() {
+                    // 确保视频控制条可见
+                    this.controls = true;
+                    
+                    // 移除默认的控制器样式
+                    this.classList.add('custom-controls');
+                    
+                    // 双击计时器变量
+                    let lastTapTime = 0;
+                    let lastTapX = 0;
+                    
+                    // 添加点击视频暂停/播放功能
+                    this.addEventListener('click', function(e) {
+                        // 获取点击位置相对于视频元素的坐标
+                        const rect = this.getBoundingClientRect();
+                        const clickY = e.clientY - rect.top;
+                        const clickX = e.clientX - rect.left;
+                        
+                        // 控制条高度大约为视频高度的15%
+                        const controlsHeight = rect.height * 0.15;
+                        
+                        // 如果点击位置不在控制条区域
+                        if (clickY < rect.height - controlsHeight) {
+                            // 判断视频当前状态并切换
+                            if (this.paused) {
+                                this.play();
+                            } else {
+                                this.pause();
+                            }
+                            
+                            // 取消事件默认行为和冒泡，防止浏览器自动处理
+                            e.preventDefault();
+                            e.stopPropagation();
+                            return false;
+                        }
+                    });
+                    
+                    // 防止控制栏播放按钮的冲突
+                    this.addEventListener('play', function(e) {
+                        // 允许控制栏发起的播放事件
+                        if (e.isTrusted) {
+                            e.stopPropagation();
+                        }
+                    });
+                    
+                    this.addEventListener('pause', function(e) {
+                        // 允许控制栏发起的暂停事件
+                        if (e.isTrusted) {
+                            e.stopPropagation();
+                        }
+                    });
+                    
+                    // 为速度菜单点击添加监听，防止蒙层
+                    this.addEventListener('ratechange', function() {
+                        // 移除可能出现的蒙层
+                        const mediaControls = document.querySelector('#mainVideo::-webkit-media-controls');
+                        if (mediaControls) {
+                            mediaControls.style.backgroundColor = 'transparent';
+                        }
+                    });
+                    
+                    // 添加触摸事件监听（针对移动设备）
+                    this.addEventListener('touchstart', function(e) {
+                        // 记录触摸起始位置
+                        const touch = e.touches[0];
+                        const touchX = touch.clientX - this.getBoundingClientRect().left;
+                        const touchY = touch.clientY - this.getBoundingClientRect().top;
+                        
+                        // 计算双击时间间隔
+                        const currentTime = new Date().getTime();
+                        const tapLength = currentTime - lastTapTime;
+                        
+                        // 如果不在控制区域，且是双击（300ms内的两次点击）
+                        const controlsHeight = this.getBoundingClientRect().height * 0.2;
+                        if (touchY < this.getBoundingClientRect().height - controlsHeight && tapLength < 300 && Math.abs(touchX - lastTapX) < 30) {
+                            // 根据双击位置执行快进或快退
+                            const videoWidth = this.getBoundingClientRect().width;
+                            
+                            // 左侧区域快退10秒
+                            if (touchX < videoWidth * 0.4) {
+                                this.currentTime = Math.max(0, this.currentTime - 10);
+                                // 显示快退提示
+                                showSeekIndicator(this, 'backward');
+                            }
+                            // 右侧区域快进10秒
+                            else if (touchX > videoWidth * 0.6) {
+                                this.currentTime = Math.min(this.duration, this.currentTime + 10);
+                                // 显示快进提示
+                                showSeekIndicator(this, 'forward');
+                            }
+                            
+                            // 阻止默认行为防止播放/暂停触发
+                            e.preventDefault();
+                        }
+                        
+                        // 更新上次点击时间和位置
+                        lastTapTime = currentTime;
+                        lastTapX = touchX;
+                    }, {passive: false});
+                    
+                    this.addEventListener('touchend', function(e) {
+                        // 获取触摸结束位置相对于视频元素的坐标
+                        const rect = this.getBoundingClientRect();
+                        const touchY = e.changedTouches[0].clientY - rect.top;
+                        
+                        // 控制条高度大约为视频高度的20%（移动端触摸区域更大）
+                        const controlsHeight = rect.height * 0.2;
+                        
+                        // 如果触摸结束位置不在控制条区域
+                        if (touchY < rect.height - controlsHeight) {
+                            if (this.paused) {
+                                this.play();
+                            } else {
+                                this.pause();
+                            }
+                            // 防止事件传播和默认行为
+                            e.stopPropagation();
+                            e.preventDefault();
+                        }
+                    }, {passive: false});
+                    
+                    // 添加MutationObserver监听DOM变化，移除可能动态添加的蒙层
+                    const observer = new MutationObserver(function(mutations) {
+                        // 遍历所有变化
+                        mutations.forEach(function(mutation) {
+                            // 检查是否有新节点添加
+                            if (mutation.addedNodes.length) {
+                                // 检查视频控制器
+                                const controls = document.querySelectorAll('#mainVideo::-webkit-media-controls, #mainVideo::-webkit-media-controls-panel');
+                                controls.forEach(control => {
+                                    control.style.backgroundColor = 'transparent';
+                                    control.style.backdropFilter = 'none';
+                                });
+                            }
+                        });
+                    });
+                    
+                    // 配置和启动观察器
+                    observer.observe(document.body, { childList: true, subtree: true });
+                };
+            }
+        });
+    }
+});
+
+// 显示快进/快退指示器
+function showSeekIndicator(videoElement, direction) {
+    // 移除可能已存在的指示器
+    const existingIndicator = document.querySelector('.seek-indicator');
+    if (existingIndicator) {
+        existingIndicator.remove();
+    }
+    
+    // 创建指示器元素
+    const indicator = document.createElement('div');
+    indicator.className = 'seek-indicator';
+    
+    // 设置指示器样式
+    indicator.style.position = 'absolute';
+    indicator.style.top = '50%';
+    indicator.style.left = direction === 'forward' ? '70%' : '30%';
+    indicator.style.transform = 'translate(-50%, -50%)';
+    indicator.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    indicator.style.color = 'white';
+    indicator.style.padding = '10px 15px';
+    indicator.style.borderRadius = '50%';
+    indicator.style.fontSize = '24px';
+    indicator.style.display = 'flex';
+    indicator.style.justifyContent = 'center';
+    indicator.style.alignItems = 'center';
+    indicator.style.zIndex = '999';
+    indicator.style.opacity = '0';
+    indicator.style.transition = 'opacity 0.2s ease-in-out';
+    
+    // 设置图标
+    indicator.innerHTML = direction === 'forward' 
+        ? '<i class="fas fa-forward" style="color: white;"></i>'
+        : '<i class="fas fa-backward" style="color: white;"></i>';
+        
+    // 如果没有FontAwesome图标库，使用替代文本
+    if (!document.querySelector('link[href*="font-awesome"]')) {
+        indicator.textContent = direction === 'forward' ? '>>10s' : '<<10s';
+    }
+    
+    // 将指示器添加到视频容器
+    const videoContainer = videoElement.parentElement;
+    videoContainer.style.position = 'relative';
+    videoContainer.appendChild(indicator);
+    
+    // 显示指示器
+    setTimeout(() => {
+        indicator.style.opacity = '1';
+    }, 0);
+    
+    // 淡出指示器
+    setTimeout(() => {
+        indicator.style.opacity = '0';
+        
+        // 移除指示器
+        setTimeout(() => {
+            if (indicator.parentNode) {
+                indicator.parentNode.removeChild(indicator);
+            }
+        }, 500);
+    }, 800);
+}

@@ -34,29 +34,41 @@ document.addEventListener('DOMContentLoaded', function() {
     let initialScale = 1;
     let isPanning = false; // 新增：标记是否正在平移图片
     
-    // 为所有图片添加点击事件
-    document.querySelectorAll('img').forEach(img => {
-        // 排除已经在弹出层中的图片
-        if (!img.closest('.image-popup')) {
+    // 显示图片弹窗的函数
+    function showImagePopup(src, alt) {
+        // 设置图片源和替代文本
+        popupImage.src = src;
+        popupImage.alt = alt || '';
+        
+        // 显示弹窗
+        popupOverlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        
+        // 重置缩放和平移
+        scale = 1;
+        translateX = 0;
+        translateY = 0;
+        updateImageTransform();
+        
+        // 如果是安卓或鸿蒙设备，增加更多防护措施
+        if (needsSpecialHandling) {
+            // 添加历史记录状态，使浏览器认为当前是新页面
+            // 这样滑动返回手势会先关闭弹窗而不是返回上一页
+            history.pushState({popup: true}, '', window.location.href);
+        }
+    }
+    
+    // 为所有图片添加点击查看大图功能，但排除带有data-popup="false"的图片
+    const images = document.querySelectorAll('img:not([data-popup="false"])');
+    images.forEach(img => {
+        // 只处理那些没有被标记为不弹出的图片
+        if (img.getAttribute('data-popup') !== 'false') {
+            // 添加清晰的视觉提示
             img.setAttribute('data-popup', 'true');
-            img.addEventListener('click', function(e) {
-                e.preventDefault();
-                popupImage.src = this.src;
-                popupOverlay.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-                
-                // 重置缩放和平移
-                scale = 1;
-                translateX = 0;
-                translateY = 0;
-                updateImageTransform();
-                
-                // 如果是安卓或鸿蒙设备，增加更多防护措施
-                if (needsSpecialHandling) {
-                    // 添加历史记录状态，使浏览器认为当前是新页面
-                    // 这样滑动返回手势会先关闭弹窗而不是返回上一页
-                    history.pushState({popup: true}, '', window.location.href);
-                }
+            
+            // 添加点击事件
+            img.addEventListener('click', function() {
+                showImagePopup(this.src, this.alt);
             });
         }
     });
