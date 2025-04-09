@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let initialTranslateX = 0; // 新增：初始X平移值
     let initialTranslateY = 0; // 新增：初始Y平移值
     
+    // 在文档加载时添加body class，用于样式优化
+    document.body.classList.add('js-enabled');
+    
     // 显示图片弹窗的函数
     function showImagePopup(src, alt) {
         // 设置图片源和替代文本
@@ -46,13 +49,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 显示弹窗
         popupOverlay.style.display = 'block';
-        document.body.style.overflow = 'hidden';
+        document.body.classList.add('popup-open');
         
         // 重置缩放和平移
         scale = 1;
         translateX = 0;
         translateY = 0;
-        updateImageTransform();
+        popupImage.style.transform = "translate(0px, 0px) scale(1)";
         
         // 如果是安卓或鸿蒙设备，增加更多防护措施
         if (needsSpecialHandling) {
@@ -79,13 +82,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 更新图片变换
     function updateImageTransform() {
-        popupImage.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        // 直接设置transform样式，省略中间变量和字符串模板计算
+        popupImage.style.transform = "translate(" + translateX + "px, " + translateY + "px) scale(" + scale + ")";
     }
     
     // 关闭弹出层
     function closePopup() {
         popupOverlay.style.display = 'none';
-        document.body.style.overflow = '';
+        document.body.classList.remove('popup-open');
+        
         // 重置图片位置和透明度
         popupContainer.style.transform = 'translate(-50%, -50%)';
         popupOverlay.style.opacity = '1';
@@ -94,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
         scale = 1;
         translateX = 0;
         translateY = 0;
-        updateImageTransform();
         
         // 如果是安卓或鸿蒙设备，且有弹窗历史状态，返回前一个状态
         if (needsSpecialHandling && history.state && history.state.popup) {
@@ -122,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 如果弹出层正在显示，则关闭它
             if (popupOverlay.style.display === 'block') {
                 popupOverlay.style.display = 'none';
-                document.body.style.overflow = '';
+                document.body.classList.remove('popup-open');
                 popupContainer.style.transform = 'translate(-50%, -50%)';
                 popupOverlay.style.opacity = '1';
                 
@@ -215,8 +219,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // 只在弹出层显示且正在拖动时处理
         if (!isPopupActive() || !isDragging) return;
         
-        // 计算水平滑动距离
-        const finalDiffX = currentX - startX;
+        // 计算水平滑动距离 - 确保变量存在
+        const finalTouchX = e.changedTouches[0].clientX;
+        const finalDiffX = finalTouchX - startX;
         
         // 为不同设备设置不同的关闭阈值
         let threshold = 80; // 默认iOS值
@@ -225,27 +230,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 如果是向右滑动且距离足够(模拟返回手势)
         if (finalDiffX > threshold) {
-            // 添加滑出动画
-            popupContainer.style.transition = 'transform 0.3s ease-out';
-            popupOverlay.style.transition = 'opacity 0.3s ease-out';
-            
-            popupContainer.style.transform = `translate(calc(-50% + ${window.innerWidth}px), -50%)`;
-            popupOverlay.style.opacity = '0';
-            
-            // 动画结束后关闭
-            setTimeout(closePopup, 300);
+            // 立即关闭，不使用动画
+            closePopup();
         } else {
-            // 未达到关闭阈值，恢复位置
-            popupContainer.style.transition = 'transform 0.3s ease-out';
-            popupOverlay.style.transition = 'opacity 0.3s ease-out';
+            // 立即恢复位置，不使用动画
             popupContainer.style.transform = 'translate(-50%, -50%)';
             popupOverlay.style.opacity = '1';
-            
-            // 重置过渡效果
-            setTimeout(() => {
-                popupContainer.style.transition = '';
-                popupOverlay.style.transition = '';
-            }, 300);
         }
         
         // 重置状态
@@ -276,19 +266,19 @@ document.addEventListener('DOMContentLoaded', function() {
             initialTranslateX = translateX; // 保存当前的平移值
             initialTranslateY = translateY;
             isPanning = true; // 标记为正在平移
-        }
-        
-        // 在安卓和鸿蒙设备上阻止更多的事件传播
-        if (needsSpecialHandling) {
+            
+            // 阻止事件冒泡和默认行为
             e.stopPropagation();
+            e.preventDefault();
         }
-    }, needsSpecialHandling ? { passive: false } : { passive: true });
+    }, { passive: false });
     
     popupOverlay.addEventListener('touchmove', function(e) {
+        // 阻止默认行为 - 防止页面滚动
+        e.preventDefault();
+        
         // 处理缩放
         if (isZooming && e.touches.length === 2) {
-            e.preventDefault();
-            
             // 计算两个触摸点之间的当前距离
             const touch1 = e.touches[0];
             const touch2 = e.touches[1];
@@ -297,133 +287,57 @@ document.addEventListener('DOMContentLoaded', function() {
                 touch2.clientY - touch1.clientY
             );
             
-            // 计算缩放比例
-            const scaleFactor = currentDistance / lastDistance;
-            scale = Math.min(Math.max(initialScale * scaleFactor, 0.5), 5);
+            // 直接计算缩放比例和应用
+            scale = Math.min(Math.max(initialScale * (currentDistance / lastDistance), 0.5), 5);
             
-            // 更新图片变换
-            updateImageTransform();
+            // 直接应用变换，不使用函数调用
+            popupImage.style.transform = "translate(" + translateX + "px, " + translateY + "px) scale(" + scale + ")";
         } 
         // 处理平移
         else if (isPanning && e.touches.length === 1) {
-            e.preventDefault();
-            
-            currentX = e.touches[0].clientX;
-            currentY = e.touches[0].clientY;
+            // 直接获取当前触摸点
+            const touch = e.touches[0];
             
             // 如果图片已放大，允许平移
             if (scale > 1) {
-                // 计算当前触摸点与起始触摸点的差值
-                const diffX = currentX - startX;
-                const diffY = currentY - startY;
+                // 直接计算新位置
+                translateX = initialTranslateX + (touch.clientX - startX);
+                translateY = initialTranslateY + (touch.clientY - startY);
                 
-                // 基于初始平移值计算新的平移位置
-                const newTranslateX = initialTranslateX + diffX;
-                const newTranslateY = initialTranslateY + diffY;
-                
-                // 计算平移边界
-                const maxTranslateX = (popupImage.offsetWidth * scale - popupImage.offsetWidth) / 2;
-                const maxTranslateY = (popupImage.offsetHeight * scale - popupImage.offsetHeight) / 2;
-                
-                // 应用平移，并限制在合理范围内
-                translateX = Math.min(Math.max(newTranslateX, -maxTranslateX), maxTranslateX);
-                translateY = Math.min(Math.max(newTranslateY, -maxTranslateY), maxTranslateY);
-                
-                // 立即更新图片变换 - 使用直接调用而不是requestAnimationFrame，减少延迟感
-                updateImageTransform();
+                // 直接应用变换，不使用函数调用
+                popupImage.style.transform = "translate(" + translateX + "px, " + translateY + "px) scale(" + scale + ")";
             } 
             // 如果图片未放大，则处理滑动关闭
             else {
-                // 在安卓和鸿蒙设备上阻止默认行为
-                if (needsSpecialHandling) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
+                // 直接计算移动
+                const deltaX = touch.clientX - startX;
                 
-                // 计算移动距离
-                const diffX = currentX - startX;
-                
-                // 移动图片容器，跟随手指
-                popupContainer.style.transform = `translate(calc(-50% + ${diffX}px), -50%)`;
-                
-                // 根据移动距离调整透明度
-                const opacity = 1 - Math.min(Math.abs(diffX) / 200, 0.8);
-                popupOverlay.style.opacity = opacity;
+                // 直接应用变换
+                popupContainer.style.transform = "translate(calc(-50% + " + deltaX + "px), -50%)";
+                popupOverlay.style.opacity = "0.5";
             }
-            
-            // 更新最后的触摸坐标
-            lastTouchX = currentX;
-            lastTouchY = currentY;
         }
     }, { passive: false });
     
     popupOverlay.addEventListener('touchend', function(e) {
-        // 重置缩放状态
-        if (isZooming) {
-            isZooming = false;
-        }
+        // 重置状态
+        isZooming = false;
+        isPanning = false;
         
-        // 处理平移结束
-        if (isPanning) {
-            // 如果图片未放大，处理滑动关闭
-            if (scale <= 1) {
-                // 计算最终移动距离
-                const finalDiffX = currentX - startX;
-                
-                // 为不同设备设置不同的关闭阈值
-                let threshold = 100; // 默认iOS值
-                if (isAndroid) threshold = 70; // 安卓值
-                if (isHarmonyOS) threshold = 60; // 鸿蒙值
-                
-                // 如果水平滑动距离超过临界值，关闭弹出层
-                if (Math.abs(finalDiffX) > threshold) {
-                    const direction = finalDiffX > 0 ? 1 : -1;
-                    
-                    // 添加滑出动画
-                    popupContainer.style.transition = 'transform 0.3s ease-out';
-                    popupOverlay.style.transition = 'opacity 0.3s ease-out';
-                    
-                    popupContainer.style.transform = `translate(calc(-50% + ${direction * window.innerWidth}px), -50%)`;
-                    popupOverlay.style.opacity = '0';
-                    
-                    // 动画结束后关闭
-                    setTimeout(closePopup, 300);
-                } else {
-                    // 未达到关闭阈值，恢复位置
-                    popupContainer.style.transition = 'transform 0.3s ease-out';
-                    popupOverlay.style.transition = 'opacity 0.3s ease-out';
-                    popupContainer.style.transform = 'translate(-50%, -50%)';
-                    popupOverlay.style.opacity = '1';
-                    
-                    // 重置过渡效果
-                    setTimeout(() => {
-                        popupContainer.style.transition = '';
-                        popupOverlay.style.transition = '';
-                    }, 300);
-                }
-            }
+        // 如果图片未放大，处理滑动关闭
+        if (scale <= 1 && e.changedTouches && e.changedTouches.length > 0) {
+            // 直接获取触摸点
+            const touch = e.changedTouches[0];
+            const deltaX = touch.clientX - startX;
             
-            // 重置平移状态
-            isPanning = false;
+            // 简化: 如果滑动足够长，关闭弹窗
+            if (Math.abs(deltaX) > 50) {
+                closePopup();
+            } else {
+                // 恢复位置
+                popupContainer.style.transform = 'translate(-50%, -50%)';
+                popupOverlay.style.opacity = '1';
+            }
         }
-        
-        // 在安卓和鸿蒙设备上阻止更多的事件传播
-        if (needsSpecialHandling) {
-            e.stopPropagation();
-        }
-    });
-    
-    // 添加双击放大/缩小功能
-    popupImage.addEventListener('dblclick', function() {
-        if (scale > 1) {
-            // 如果已放大，则缩小
-            scale = 1;
-            translateX = 0;
-            translateY = 0;
-        } else {
-            // 如果未放大，则放大
-            scale = 2;
-        }
-        updateImageTransform();
-    });
+    }, { passive: true });
 }); 
