@@ -75,6 +75,22 @@ document.addEventListener('DOMContentLoaded', function() {
         popupOverlay.style.width = '100vw';
         popupOverlay.style.height = '100vh';
         
+        // 设置容器样式
+        popupContainer.style.width = '100vw';
+        popupContainer.style.height = '100vh';
+        popupContainer.style.maxWidth = '100vw';
+        popupContainer.style.maxHeight = '100vh';
+        popupContainer.style.display = 'flex';
+        popupContainer.style.justifyContent = 'center';
+        popupContainer.style.alignItems = 'center';
+        
+        // 设置图片样式
+        popupImage.style.maxWidth = '100vw';
+        popupImage.style.maxHeight = '100vh';
+        popupImage.style.width = 'auto';
+        popupImage.style.height = 'auto';
+        popupImage.style.objectFit = 'contain';
+        
         // 确保关闭按钮显示在顶部，防止被遮挡
         closeButton.style.display = 'flex';
         closeButton.style.visibility = 'visible';
@@ -410,9 +426,25 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 如果图片已放大，允许平移
             if (scale > 1) {
-                // 直接计算新位置
-                translateX = initialTranslateX + (touch.clientX - startX);
-                translateY = initialTranslateY + (touch.clientY - startY);
+                // 计算新位置
+                const newTranslateX = initialTranslateX + (touch.clientX - startX);
+                const newTranslateY = initialTranslateY + (touch.clientY - startY);
+                
+                // 获取图片当前尺寸
+                const imgWidth = popupImage.naturalWidth || popupImage.width;
+                const imgHeight = popupImage.naturalHeight || popupImage.height;
+                
+                // 计算放大后的图片尺寸
+                const scaledWidth = imgWidth * scale;
+                const scaledHeight = imgHeight * scale;
+                
+                // 允许的最大平移量取决于图片放大程度
+                const maxTranslateX = Math.max(0, (scaledWidth - window.innerWidth) / 2);
+                const maxTranslateY = Math.max(0, (scaledHeight - window.innerHeight) / 2);
+                
+                // 应用平移限制
+                translateX = Math.min(Math.max(newTranslateX, -maxTranslateX), maxTranslateX);
+                translateY = Math.min(Math.max(newTranslateY, -maxTranslateY), maxTranslateY);
                 
                 // 直接应用变换，不使用函数调用
                 popupImage.style.transform = "translate(" + translateX + "px, " + translateY + "px) scale(" + scale + ")";
