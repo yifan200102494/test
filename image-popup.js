@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let lastDistance = 0;
     let isZooming = false;
     let initialScale = 1;
+    let isPanning = false; // 新增：标记是否正在平移图片
     
     // 为所有图片添加点击事件
     document.querySelectorAll('img').forEach(img => {
@@ -254,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 单指触摸 - 用于平移
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
-            isDragging = true;
+            isPanning = true; // 标记为正在平移
         }
         
         // 在安卓和鸿蒙设备上阻止更多的事件传播
@@ -284,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateImageTransform();
         } 
         // 处理平移
-        else if (isDragging && e.touches.length === 1) {
+        else if (isPanning && e.touches.length === 1) {
             e.preventDefault();
             
             currentX = e.touches[0].clientX;
@@ -334,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // 处理平移结束
-        if (isDragging) {
+        if (isPanning) {
             // 如果图片未放大，处理滑动关闭
             if (scale <= 1) {
                 // 计算最终移动距离
@@ -373,8 +374,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            // 重置拖动状态
-            isDragging = false;
+            // 重置平移状态
+            isPanning = false;
         }
         
         // 在安卓和鸿蒙设备上阻止更多的事件传播
