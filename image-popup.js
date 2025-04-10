@@ -132,6 +132,18 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 添加点击事件
             img.addEventListener('click', function() {
+                // 如果是LOGO图片（根据alt或src判断），直接跳转到主页而不显示弹窗
+                if (this.alt === 'Logo' || this.src.includes('/logo') || this.parentElement.closest('.logo')) {
+                    // 如果已经在index页面，只是重新加载
+                    if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
+                        window.location.reload();
+                    } else {
+                        // 否则跳转到index页面
+                        window.location.href = 'index.html';
+                    }
+                    return; // 阻止弹窗显示
+                }
+                // 其他图片正常显示弹窗
                 showImagePopup(this.src, this.alt);
             });
         }
