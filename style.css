@@ -1379,7 +1379,7 @@ html:not(.lang-en) .logo-en {
     
     .menu {
         position: fixed !important;
-        top: 45px !important;
+        top: 60px !important;
         left: 0 !important;
         width: 100% !important;
         background-color: #111245 !important;

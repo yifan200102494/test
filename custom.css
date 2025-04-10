@@ -93,11 +93,58 @@
 
 /* 导航栏Logo图片适配 */
 .logo img {
-    height: 40px;
-    width: 40px;
+    height: 44px;
+    width: 44px;
     object-fit: cover;
-    border-radius: 50%;
-    margin-right: 10px;
+    border-radius: 6px;
+    margin-left: 15px;
+    vertical-align: middle;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.logo a:hover img {
+    transform: scale(1.05);
+}
+
+/* 添加LOGO文字样式 */
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-right: 0;
+}
+
+.logo-cn {
+    font-size: 25px;
+    font-weight: bold;
+    color: #fff;
+    line-height: 1.2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+}
+
+.logo-en {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1;
+    margin-top: 3px;
+    letter-spacing: 0.5px;
+}
+
+/* 调整LOGO整体布局 */
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 6px 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1001;
 }
 
 /* 剧本卡片图片适配 */
@@ -265,9 +312,29 @@
         max-height: 250px;
     }
     
+    .logo-text {
+        margin-right: 0;
+    }
+    
     .logo img {
-        height: 32px;
-        width: 32px;
+        height: 36px;
+        width: 36px;
+        margin-left: 10px;
+        border-radius: 4px;
+    }
+    
+    .logo-cn {
+        font-size: 20px;
+        letter-spacing: 0.5px;
+    }
+    
+    .logo-en {
+        font-size: 12px;
+        margin-top: 2px;
+    }
+    
+    .logo a {
+        padding: 4px 0;
     }
     
     .script-img {
