@@ -323,8 +323,8 @@ const dmData = {
             "./images/test.jpg",
             "./images/test.jpg"
         ],
-        videoUrl: "",
-        videoPlaceholder: "/api/placeholder/600/400",
+        videoUrl: "./images/shiping.mp4",
+        videoPlaceholder: "./images/shiping.mp4",
         bio: "彩虹拥有5年带本经验，尤其擅长营造紧张氛围和设计巧妙的推理线索。他的剧本富有层次感，能够让玩家在解谜过程中获得极大的满足感。",
         bioEn: " has 5 years of experience, specializing in creating tense atmospheres and designing clever reasoning clues. His scripts have layers of depth, allowing players to gain great satisfaction during the puzzle-solving process."
     },
@@ -437,7 +437,43 @@ function openDmPopup(dmId) {
         <div class="dm-popup-section">
             <h3>${isEnglish ? "Demo Video" : "演示视频"}</h3>
             ${dm.videoUrl ? 
-                `<iframe class="dm-video" src="${dm.videoUrl}" allowfullscreen></iframe>` : 
+                `<div class="video-container" style="position: relative; max-width: 100%; height: auto;">
+                    <video width="100%" controls playsinline 
+                       webkit-playsinline
+                       x-webkit-airplay="allow"
+                       x5-video-player-type="h5"
+                       x5-video-player-fullscreen="true"
+                       x5-video-orientation="portraint"
+                       preload="auto"
+                       poster="./images/poster.jpg"
+                       class="dm-custom-video"
+                       style="cursor: pointer; background-color: #000; max-width: 100%; border-radius: 8px;">
+                        <source src="${dm.videoUrl}" type="video/mp4">
+                        <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
+                    </video>
+                    <style>
+                        .dm-custom-video::-webkit-media-controls-panel,
+                        .dm-custom-video::-webkit-media-controls-overlay,
+                        .dm-custom-video::-webkit-media-controls-backdrop {
+                            background: transparent !important;
+                            backdrop-filter: none !important;
+                            -webkit-backdrop-filter: none !important;
+                        }
+                        .dm-custom-video::-webkit-media-controls-play-button,
+                        .dm-custom-video::-webkit-media-controls-timeline,
+                        .dm-custom-video::-webkit-media-controls-current-time-display,
+                        .dm-custom-video::-webkit-media-controls-time-remaining-display,
+                        .dm-custom-video::-webkit-media-controls-mute-button,
+                        .dm-custom-video::-webkit-media-controls-fullscreen-button {
+                            color: #fff !important;
+                            opacity: 1 !important;
+                        }
+                        .dm-custom-video::-internal-media-controls-overflow-menu-list {
+                            background-color: rgba(0, 0, 0, 0.7) !important;
+                            backdrop-filter: none !important;
+                        }
+                    </style>
+                </div>` : 
                 `<img src="${dm.videoPlaceholder}" alt="${isEnglish ? "Video placeholder" : "视频占位图"}" class="dm-video" style="object-fit: cover; height: auto;">
                 <p style="text-align: center; color: #777;">${isEnglish ? "Video coming soon" : "视频即将上线"}</p>`
             }
@@ -451,6 +487,11 @@ function openDmPopup(dmId) {
     
     // 防止滚动
     document.body.style.overflow = 'hidden';
+    
+    // 初始化视频交互
+    setTimeout(() => {
+        initDmVideoInteraction();
+    }, 100);
 }
 
 // 关闭DM弹出卡片
@@ -460,6 +501,123 @@ function closeDmPopup() {
     
     // 恢复滚动
     document.body.style.overflow = '';
+}
+
+// 初始化DM弹出卡片中的视频交互
+function initDmVideoInteraction() {
+    const video = document.querySelector('.dm-custom-video');
+    if (!video) return;
+    
+    // 确保视频控制条可见
+    video.controls = true;
+    
+    // 移除默认的控制器样式
+    video.classList.add('custom-controls');
+    
+    // 双击计时器变量
+    let lastTapTime = 0;
+    let lastTapX = 0;
+    
+    // 添加点击视频暂停/播放功能
+    video.addEventListener('click', function(e) {
+        // 获取点击位置相对于视频元素的坐标
+        const rect = this.getBoundingClientRect();
+        const clickY = e.clientY - rect.top;
+        const clickX = e.clientX - rect.left;
+        
+        // 控制条高度大约为视频高度的15%
+        const controlsHeight = rect.height * 0.15;
+        
+        // 如果点击位置不在控制条区域
+        if (clickY < rect.height - controlsHeight) {
+            // 判断视频当前状态并切换
+            if (this.paused) {
+                this.play();
+            } else {
+                this.pause();
+            }
+            
+            // 取消事件默认行为和冒泡，防止浏览器自动处理
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    });
+    
+    // 防止控制栏播放按钮的冲突
+    video.addEventListener('play', function(e) {
+        // 允许控制栏发起的播放事件
+        if (e.isTrusted) {
+            e.stopPropagation();
+        }
+    });
+    
+    video.addEventListener('pause', function(e) {
+        // 允许控制栏发起的暂停事件
+        if (e.isTrusted) {
+            e.stopPropagation();
+        }
+    });
+    
+    // 添加触摸事件监听（针对移动设备）
+    video.addEventListener('touchstart', function(e) {
+        // 记录触摸起始位置
+        const touch = e.touches[0];
+        const touchX = touch.clientX - this.getBoundingClientRect().left;
+        const touchY = touch.clientY - this.getBoundingClientRect().top;
+        
+        // 计算双击时间间隔
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTapTime;
+        
+        // 如果不在控制区域，且是双击（300ms内的两次点击）
+        const controlsHeight = this.getBoundingClientRect().height * 0.2;
+        if (touchY < this.getBoundingClientRect().height - controlsHeight && tapLength < 300 && Math.abs(touchX - lastTapX) < 30) {
+            // 根据双击位置执行快进或快退
+            const videoWidth = this.getBoundingClientRect().width;
+            
+            // 左侧区域快退10秒
+            if (touchX < videoWidth * 0.4) {
+                this.currentTime = Math.max(0, this.currentTime - 10);
+                // 显示快退提示
+                showSeekIndicator(this, 'backward');
+            }
+            // 右侧区域快进10秒
+            else if (touchX > videoWidth * 0.6) {
+                this.currentTime = Math.min(this.duration, this.currentTime + 10);
+                // 显示快进提示
+                showSeekIndicator(this, 'forward');
+            }
+            
+            // 阻止默认行为防止播放/暂停触发
+            e.preventDefault();
+        }
+        
+        // 更新上次点击时间和位置
+        lastTapTime = currentTime;
+        lastTapX = touchX;
+    }, {passive: false});
+    
+    video.addEventListener('touchend', function(e) {
+        // 获取触摸结束位置相对于视频元素的坐标
+        const rect = this.getBoundingClientRect();
+        const touchY = e.changedTouches[0].clientY - rect.top;
+        
+        // 控制条高度大约为视频高度的20%（移动端触摸区域更大）
+        const controlsHeight = rect.height * 0.2;
+        
+        // 如果触摸结束位置不在控制条区域
+        if (touchY < rect.height - controlsHeight) {
+            if (this.paused) {
+                this.play();
+            } else {
+                this.pause();
+            }
+            // 防止事件传播和默认行为
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    }, {passive: false});
 }
 
 // 放大图片
