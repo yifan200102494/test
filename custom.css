@@ -250,6 +250,36 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* 麻将图片容器 - 在PC端左右平行展示 */
+.mahjong-images-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px auto;
+    width: 100%;
+}
+
+.mahjong-images-container .business-image {
+    margin: 0;
+}
+
+@media (min-width: 992px) {
+    .mahjong-images-container {
+        flex-wrap: nowrap;
+    }
+    
+    .mahjong-images-container .business-image {
+        max-width: 45%;
+    }
+}
+
+@media (max-width: 991px) {
+    .mahjong-images-container .business-image {
+        max-width: 80%;
+    }
+}
+
 @media (min-width: 1200px) {
     .business-image {
         max-width: 400px;

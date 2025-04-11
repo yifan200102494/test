@@ -629,7 +629,7 @@ function enlargeImage(src) {
     overlay.style.left = '0';
     overlay.style.width = '100%';
     overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    overlay.style.backgroundColor = 'rgb(0, 0, 0)';
     overlay.style.zIndex = '1100';
     overlay.style.display = 'flex';
     overlay.style.justifyContent = 'center';
