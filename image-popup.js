@@ -123,30 +123,108 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // 为所有图片添加点击查看大图功能，但排除带有data-popup="false"的图片
-    const images = document.querySelectorAll('img:not([data-popup="false"])');
-    images.forEach(img => {
-        // 只处理那些没有被标记为不弹出的图片
-        if (img.getAttribute('data-popup') !== 'false') {
-            // 添加清晰的视觉提示
-            img.setAttribute('data-popup', 'true');
-            
-            // 添加点击事件
-            img.addEventListener('click', function() {
-                // 如果是LOGO图片（根据alt或src判断），直接跳转到主页而不显示弹窗
-                if (this.alt === 'Logo' || this.src.includes('/logo') || this.parentElement.closest('.logo')) {
-                    // 如果已经在index页面，只是重新加载
-                    if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
-                        window.location.reload();
-                    } else {
-                        // 否则跳转到index页面
-                        window.location.href = 'index.html';
+    function addImagePopupListeners() {
+        const images = document.querySelectorAll('img:not([data-popup="false"])');
+        images.forEach(img => {
+            // 只处理那些没有被标记为不弹出的图片
+            if (img.getAttribute('data-popup') !== 'false' && !img.hasAttribute('data-popup-initialized')) {
+                // 添加清晰的视觉提示
+                img.setAttribute('data-popup', 'true');
+                img.setAttribute('data-popup-initialized', 'true');
+                
+                // 添加点击事件
+                img.addEventListener('click', function() {
+                    // 如果是LOGO图片（根据alt或src判断），直接跳转到主页而不显示弹窗
+                    if (this.alt === 'Logo' || this.src.includes('/logo') || this.parentElement.closest('.logo')) {
+                        // 如果已经在index页面，只是重新加载
+                        if (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname === '') {
+                            window.location.reload();
+                        } else {
+                            // 否则跳转到index页面
+                            window.location.href = 'index.html';
+                        }
+                        return; // 阻止弹窗显示
                     }
-                    return; // 阻止弹窗显示
-                }
-                // 其他图片正常显示弹窗
-                showImagePopup(this.src, this.alt);
+                    // 其他图片正常显示弹窗
+                    showImagePopup(this.src, this.alt);
+                });
+            }
+        });
+    }
+    
+    // 初始化时调用一次
+    addImagePopupListeners();
+    
+    // 为剧本弹出层中的图片添加点击事件
+    function addPopupImagesListener() {
+        // 检查是否存在剧本弹出层
+        const scriptPopup = document.getElementById('scriptPopup');
+        if (scriptPopup) {
+            // 监听剧本弹出层的显示状态变化
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                        // 如果弹出层显示，为其中的图片添加事件
+                        if (scriptPopup.style.display === 'block') {
+                            const popupImages = scriptPopup.querySelectorAll('img:not([data-popup="false"])');
+                            popupImages.forEach(img => {
+                                if (!img.hasAttribute('data-popup-initialized')) {
+                                    img.setAttribute('data-popup', 'true');
+                                    img.setAttribute('data-popup-initialized', 'true');
+                                    
+                                    img.addEventListener('click', function() {
+                                        showImagePopup(this.src, this.alt);
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
             });
+            
+            observer.observe(scriptPopup, { attributes: true });
         }
+    }
+    
+    // 初始化时调用一次
+    addPopupImagesListener();
+    
+    // 设置DOM变化观察器，处理动态加载内容
+    const bodyObserver = new MutationObserver(function(mutations) {
+        // 当DOM变化时，检查是否有新的图片元素
+        let needsUpdate = false;
+        
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                mutation.addedNodes.forEach(function(node) {
+                    // 检查是否是元素节点
+                    if (node.nodeType === 1) {
+                        // 检查是否是图片元素
+                        if (node.tagName === 'IMG') {
+                            needsUpdate = true;
+                        }
+                        // 或者是否包含图片元素
+                        else if (node.querySelectorAll) {
+                            const hasImages = node.querySelectorAll('img').length > 0;
+                            if (hasImages) {
+                                needsUpdate = true;
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        
+        // 如果检测到新的图片，更新事件监听
+        if (needsUpdate) {
+            addImagePopupListeners();
+        }
+    });
+    
+    // 开始观察整个文档的变化
+    bodyObserver.observe(document.body, { 
+        childList: true, 
+        subtree: true 
     });
     
     // 更新图片变换
