@@ -2892,7 +2892,7 @@ img[data-popup="true"]:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f5fafa;
+    background-color: #aa93e8;
     border-bottom: 1px solid #e0e0e0;
 }
 
@@ -2918,13 +2918,13 @@ img[data-popup="true"]:hover {
 
 .year {
     font-size: 14px;
-    color: #666;
+    color: #4a179b;
 }
 
 .time {
     display: flex;
     align-items: center;
-    color: #666;
+    color: #4a179b;
 }
 
 .time i {
