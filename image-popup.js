@@ -297,9 +297,28 @@ document.addEventListener('DOMContentLoaded', function() {
             const closeBtn = scriptPopup.querySelector('.dm-popup-close, .script-popup-close');
             if (closeBtn) {
                 closeBtn.style.zIndex = '1002';
-                // 重新绑定事件确保点击可用
+                
+                // 增大关闭按钮的点击区域
+                closeBtn.style.width = '70px';  // 增大宽度
+                closeBtn.style.height = '70px'; // 增大高度
+                closeBtn.style.top = '5px';     // 调整位置
+                closeBtn.style.right = '5px';   // 调整位置
+                closeBtn.style.fontSize = '36px'; // 增大字体
+                closeBtn.style.background = 'rgba(0,0,0,0.15)'; // 增加背景色以便于视觉识别
+                closeBtn.style.borderRadius = '50%'; // 圆形背景
+                closeBtn.style.display = 'flex';
+                closeBtn.style.alignItems = 'center';
+                closeBtn.style.justifyContent = 'center';
+                closeBtn.style.cursor = 'pointer';
+                closeBtn.style.touchAction = 'manipulation'; // 优化触摸操作
+                closeBtn.style.webkitTapHighlightColor = 'transparent'; // 去除触摸高亮
+                
+                // 重新绑定事件确保点击可用，同时确保事件处理程序会捕获整个按钮区域
                 const clickHandler = closeBtn.getAttribute('onclick');
                 if (clickHandler && clickHandler.includes('close')) {
+                    // 移除原有的onclick属性，防止事件冲突
+                    closeBtn.removeAttribute('onclick');
+                    
                     setTimeout(() => {
                         // 判断关闭函数
                         const closeFunc = clickHandler.includes('closeDmPopup') 
@@ -307,17 +326,29 @@ document.addEventListener('DOMContentLoaded', function() {
                             : window.closeScriptPopup;
                         
                         if (typeof closeFunc === 'function') {
-                            closeBtn.onclick = function(e) {
+                            // 添加点击事件监听，确保整个按钮区域可点击
+                            closeBtn.addEventListener('click', function(e) {
                                 closeFunc();
                                 e.stopPropagation();
-                            };
+                            }, { passive: false });
+                            
+                            // 添加触摸事件，优化移动端体验
+                            closeBtn.addEventListener('touchstart', function(e) {
+                                e.stopPropagation();
+                            }, { passive: false });
+                            
+                            closeBtn.addEventListener('touchend', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                closeFunc();
+                            }, { passive: false });
                         }
                     }, 100);
                 }
             }
         }
         
-        // 同样处理DM弹窗
+        // 同样处理DM弹窗的关闭按钮
         if (dmPopup && dmPopup.style.display === 'block') {
             dmPopup.style.zIndex = '1001';
             if (dmOverlay) dmOverlay.style.zIndex = '1000';
@@ -325,14 +356,46 @@ document.addEventListener('DOMContentLoaded', function() {
             const closeBtn = dmPopup.querySelector('.dm-popup-close');
             if (closeBtn) {
                 closeBtn.style.zIndex = '1002';
+                
+                // 增大关闭按钮的点击区域
+                closeBtn.style.width = '70px';  // 增大宽度
+                closeBtn.style.height = '70px'; // 增大高度
+                closeBtn.style.top = '5px';     // 调整位置
+                closeBtn.style.right = '5px';   // 调整位置
+                closeBtn.style.fontSize = '36px'; // 增大字体
+                closeBtn.style.background = 'rgba(0,0,0,0.15)'; // 增加背景色以便于视觉识别
+                closeBtn.style.borderRadius = '50%'; // 圆形背景
+                closeBtn.style.display = 'flex';
+                closeBtn.style.alignItems = 'center';
+                closeBtn.style.justifyContent = 'center';
+                closeBtn.style.cursor = 'pointer';
+                closeBtn.style.touchAction = 'manipulation'; // 优化触摸操作
+                closeBtn.style.webkitTapHighlightColor = 'transparent'; // 去除触摸高亮
+                
+                // 重新绑定事件
                 const clickHandler = closeBtn.getAttribute('onclick');
                 if (clickHandler && clickHandler.includes('close')) {
+                    // 移除原有的onclick属性，防止事件冲突
+                    closeBtn.removeAttribute('onclick');
+                    
                     setTimeout(() => {
                         if (typeof window.closeDmPopup === 'function') {
-                            closeBtn.onclick = function(e) {
+                            // 添加点击事件监听，确保整个按钮区域可点击
+                            closeBtn.addEventListener('click', function(e) {
                                 window.closeDmPopup();
                                 e.stopPropagation();
-                            };
+                            }, { passive: false });
+                            
+                            // 添加触摸事件，优化移动端体验
+                            closeBtn.addEventListener('touchstart', function(e) {
+                                e.stopPropagation();
+                            }, { passive: false });
+                            
+                            closeBtn.addEventListener('touchend', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                window.closeDmPopup();
+                            }, { passive: false });
                         }
                     }, 100);
                 }
