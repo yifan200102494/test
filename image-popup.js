@@ -458,39 +458,8 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('popstate', function(e) {
             // 如果弹出层正在显示，则关闭它
             if (popupOverlay.style.display === 'block') {
-                // 获取恢复滚动位置
-                let historyScrollY = 0;
-                if (e.state && e.state.scrollY) {
-                    historyScrollY = e.state.scrollY;
-                } else if (document.body.style.top) {
-                    historyScrollY = parseInt(document.body.style.top) * -1;
-                }
-                
-                // 隐藏弹窗
-                popupOverlay.style.display = 'none';
-                
-                // 恢复body正常滚动
-                document.documentElement.classList.remove('popup-open'); // 解锁html元素
-                document.body.classList.remove('popup-open');
-                document.documentElement.style.overflow = ''; // 解锁html元素
-                document.body.style.position = '';
-                document.body.style.top = '';
-                document.body.style.width = '';
-                document.body.style.height = '';
-                document.body.style.overflow = '';
-                
-                // 恢复滚动位置
-                window.scrollTo(0, historyScrollY);
-                
-                // 重置图片位置和透明度
-                popupContainer.style.transform = 'translate(-50%, -50%)';
-                popupOverlay.style.opacity = '1';
-                
-                // 重置缩放和平移
-                scale = 1;
-                translateX = 0;
-                translateY = 0;
-                popupImage.style.transform = "translate(0px, 0px) scale(1)";
+                // 使用完整的closePopup函数，确保正确恢复所有元素状态
+                closePopup();
                 
                 // 阻止事件进一步传播
                 e.stopPropagation();
@@ -586,7 +555,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 如果是向右滑动且距离足够(模拟返回手势)
         if (finalDiffX > threshold) {
-            // 立即关闭，不使用动画
+            // 使用完整的closePopup函数，而不是简单隐藏
             closePopup();
         } else {
             // 立即恢复位置，不使用动画
@@ -704,6 +673,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 简化: 如果滑动足够长，关闭弹窗
             if (Math.abs(deltaX) > 50) {
+                // 使用完整的closePopup函数，而不是简单隐藏弹窗
                 closePopup();
             } else {
                 // 恢复位置

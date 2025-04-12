@@ -3500,3 +3500,13 @@ img.script-popup-img:hover {
         height: 180px;
     }
 }
+
+/* 添加移动端下的script-meta样式 */
+@media (max-width: 768px) {
+    .script-meta {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 5px;
+    }
+}
