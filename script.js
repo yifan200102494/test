@@ -1129,3 +1129,29 @@ function showSeekIndicator(videoElement, direction) {
         }, 500);
     }, 800);
 }
+
+// 检测是否为苹果设备（iOS或macOS）
+function isAppleDevice() {
+    // 检测常见的苹果设备平台
+    const userAgent = navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod|macintosh/.test(userAgent);
+}
+
+// 打开地图函数 - 自动检测设备类型并打开相应地图
+function openMap() {
+    if (isAppleDevice()) {
+        openAppleMap();
+    } else {
+        openGoogleMap();
+    }
+}
+
+// 打开谷歌地图
+function openGoogleMap() {
+    window.open('https://maps.google.com/?q=Q%2B+Social+Box,+East+Timber+Yard,+112+Pershore+St,+Birmingham+B5+6PA', '_blank');
+}
+
+// 打开苹果地图
+function openAppleMap() {
+    window.open('https://maps.apple.com/?address=112%20Pershore%20Street,%20Birmingham,%20B5%206PA,%20England&ll=52.47370,-1.89445&lsp=9902&q=Q%2B%20Social%20Box&t=m', '_blank');
+}
