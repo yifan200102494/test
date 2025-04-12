@@ -293,8 +293,8 @@ document.addEventListener('DOMContentLoaded', function() {
             scriptPopup.style.zIndex = '1001';
             if (scriptOverlay) scriptOverlay.style.zIndex = '1000';
             
-            // 确保脚本弹窗中的关闭按钮可点击
-            const closeBtn = scriptPopup.querySelector('.dm-popup-close, .script-popup-close');
+            // 优化：增强关闭按钮的选择器匹配
+            const closeBtn = scriptPopup.querySelector('.script-popup-close');
             if (closeBtn) {
                 closeBtn.style.zIndex = '1002';
                 
@@ -312,39 +312,59 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeBtn.style.cursor = 'pointer';
                 closeBtn.style.touchAction = 'manipulation'; // 优化触摸操作
                 closeBtn.style.webkitTapHighlightColor = 'transparent'; // 去除触摸高亮
+                closeBtn.style.pointerEvents = 'auto'; // 确保能接收点击事件
                 
-                // 重新绑定事件确保点击可用，同时确保事件处理程序会捕获整个按钮区域
-                const clickHandler = closeBtn.getAttribute('onclick');
-                if (clickHandler && clickHandler.includes('close')) {
-                    // 移除原有的onclick属性，防止事件冲突
-                    closeBtn.removeAttribute('onclick');
-                    
-                    setTimeout(() => {
-                        // 判断关闭函数
-                        const closeFunc = clickHandler.includes('closeDmPopup') 
-                            ? window.closeDmPopup 
-                            : window.closeScriptPopup;
-                        
-                        if (typeof closeFunc === 'function') {
-                            // 添加点击事件监听，确保整个按钮区域可点击
-                            closeBtn.addEventListener('click', function(e) {
-                                closeFunc();
+                // 重新绑定事件，确保可点击性
+                const originalOnclick = closeBtn.getAttribute('onclick');
+                
+                // 完全移除原始的onclick属性
+                closeBtn.removeAttribute('onclick');
+                
+                // 清除所有现有的事件监听器
+                const newCloseBtn = closeBtn.cloneNode(true);
+                closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
+                
+                // 在短暂延迟后重新绑定事件（确保DOM已经完全更新）
+                setTimeout(() => {
+                    // 尝试使用原始onclick内容
+                    if (originalOnclick && originalOnclick.includes('closeScriptPopup')) {
+                        // 直接绑定全局函数
+                        if (typeof window.closeScriptPopup === 'function') {
+                            newCloseBtn.addEventListener('click', function(e) {
                                 e.stopPropagation();
-                            }, { passive: false });
+                                window.closeScriptPopup();
+                                return false;
+                            }, { capture: true });
                             
-                            // 添加触摸事件，优化移动端体验
-                            closeBtn.addEventListener('touchstart', function(e) {
+                            // 为移动设备添加触摸事件
+                            newCloseBtn.addEventListener('touchstart', function(e) {
                                 e.stopPropagation();
-                            }, { passive: false });
+                            }, { capture: true });
                             
-                            closeBtn.addEventListener('touchend', function(e) {
+                            newCloseBtn.addEventListener('touchend', function(e) {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                closeFunc();
-                            }, { passive: false });
+                                window.closeScriptPopup();
+                                return false;
+                            }, { capture: true });
+                        } else {
+                            // 如果全局函数不存在，尝试直接设置onclick字符串
+                            newCloseBtn.setAttribute('onclick', 'closeScriptPopup(); return false;');
                         }
-                    }, 100);
-                }
+                    } else {
+                        // 尝试重新设置onclick为closeScriptPopup
+                        newCloseBtn.setAttribute('onclick', 'closeScriptPopup(); return false;');
+                        
+                        // 同时尝试使用事件监听器
+                        if (typeof window.closeScriptPopup === 'function') {
+                            newCloseBtn.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                window.closeScriptPopup();
+                                return false;
+                            }, { capture: true });
+                        }
+                    }
+                }, 100);
             }
         }
         
