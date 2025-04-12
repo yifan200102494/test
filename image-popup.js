@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function() {
             history.back();
         }
         
-        // 启用页面所有其他元素的交互
+        // 启用页面所有其他元素的交互，但保留弹出层的高z-index
         document.querySelectorAll('body > *:not(.image-popup-overlay)').forEach(element => {
             if (element !== popupOverlay) {
                 element.removeAttribute('aria-hidden');
@@ -281,6 +281,63 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+        
+        // 确保剧本弹窗和DM弹窗保持高z-index
+        const scriptPopup = document.getElementById('scriptPopup');
+        const dmPopup = document.getElementById('dmPopup');
+        const scriptOverlay = document.getElementById('scriptPopupOverlay');
+        const dmOverlay = document.getElementById('dmPopupOverlay');
+        
+        // 修复脚本卡片的z-index，确保关闭按钮可点击
+        if (scriptPopup && scriptPopup.style.display === 'block') {
+            scriptPopup.style.zIndex = '1001';
+            if (scriptOverlay) scriptOverlay.style.zIndex = '1000';
+            
+            // 确保脚本弹窗中的关闭按钮可点击
+            const closeBtn = scriptPopup.querySelector('.dm-popup-close, .script-popup-close');
+            if (closeBtn) {
+                closeBtn.style.zIndex = '1002';
+                // 重新绑定事件确保点击可用
+                const clickHandler = closeBtn.getAttribute('onclick');
+                if (clickHandler && clickHandler.includes('close')) {
+                    setTimeout(() => {
+                        // 判断关闭函数
+                        const closeFunc = clickHandler.includes('closeDmPopup') 
+                            ? window.closeDmPopup 
+                            : window.closeScriptPopup;
+                        
+                        if (typeof closeFunc === 'function') {
+                            closeBtn.onclick = function(e) {
+                                closeFunc();
+                                e.stopPropagation();
+                            };
+                        }
+                    }, 100);
+                }
+            }
+        }
+        
+        // 同样处理DM弹窗
+        if (dmPopup && dmPopup.style.display === 'block') {
+            dmPopup.style.zIndex = '1001';
+            if (dmOverlay) dmOverlay.style.zIndex = '1000';
+            
+            const closeBtn = dmPopup.querySelector('.dm-popup-close');
+            if (closeBtn) {
+                closeBtn.style.zIndex = '1002';
+                const clickHandler = closeBtn.getAttribute('onclick');
+                if (clickHandler && clickHandler.includes('close')) {
+                    setTimeout(() => {
+                        if (typeof window.closeDmPopup === 'function') {
+                            closeBtn.onclick = function(e) {
+                                window.closeDmPopup();
+                                e.stopPropagation();
+                            };
+                        }
+                    }, 100);
+                }
+            }
+        }
     }
     
     // 直接通过原生DOM方法添加事件监听
