@@ -302,16 +302,16 @@ function applyFilters() {
 // 剧本数据
 const scriptData = {
     script1: {
-        name: "剧本1",
-        nameEn: "剧本1",
+        name: "雪乡连环杀人案",
+        nameEn: "Murder in the Snow Village",
         duration: "3-4小时",
         durationEn: "3-4 hours",
         difficulty: "★★★☆☆",
-        players: "6-8人",
-        playersEn: "6-8 players",
-        image: "./images/test.jpg",
-        description: "一些描述",
-        descriptionEn: "Some description"
+        players: "7人",
+        playersEn: "7 players",
+        image: "./images/xuexiang.jpg",
+        description: "“这世界上的真相只有一个，排除所有的不可能，剩下的那一个，无论有多么的让你不可置信，那都是真相。”“年三十，北道河，村里出了个杀人魔”“七个小孩来串门，联起手来把案破”",
+        descriptionEn: "“There is only one truth in this world: once you've eliminated all impossibilities, whatever remains—no matter how unbelievable—must be the truth.”“New Year’s Eve. Beidao River. A murderer emerged from the village.”“Seven children came to visit—and together, they uncovered the killer.”"
     },
     script2: {
         name: "剧本2",
@@ -321,7 +321,7 @@ const scriptData = {
         difficulty: "★★★★☆",
         players: "7-9人",
         playersEn: "7-9 players",
-        image: "./images/test.jpg",
+        image: "./images/qinglou.jpg",
         description: "一些描述",
         descriptionEn: "Some description"
     },
@@ -333,7 +333,7 @@ const scriptData = {
         difficulty: "★★★★★",
         players: "5-7人",
         playersEn: "5-7 players",
-        image: "./images/test.jpg",
+        image: "./images/bingjiao.jpg",
         description: "一些描述",
         descriptionEn: "Some description"
     }
@@ -727,4 +727,30 @@ function openGoogleMap() {
 // 打开苹果地图
 function openAppleMap() {
     window.open('https://maps.apple.com/?address=112%20Pershore%20Street,%20Birmingham,%20B5%206PA,%20England&ll=52.47370,-1.89445&lsp=9902&q=Q%2B%20Social%20Box&t=m', '_blank');
+}
+
+// FAQ切换函数
+function toggleFaq(element) {
+    // 获取问题元素
+    const question = element;
+    // 获取答案元素（问题的下一个兄弟元素）
+    const answer = question.nextElementSibling;
+    // 获取当前FAQ项
+    const faqItem = question.parentElement;
+    
+    // 切换FAQ项的active类来控制答案显示
+    faqItem.classList.toggle('active');
+    
+    // 更改图标
+    const icon = question.querySelector('.faq-toggle i');
+    if (icon) {
+        if (faqItem.classList.contains('active')) {
+            // 使用水平减号图标
+            icon.className = 'fas fa-minus';
+            // 确保没有旋转样式
+            icon.style.transform = 'none';
+        } else {
+            icon.className = 'fas fa-plus';
+        }
+    }
 }

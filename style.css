@@ -322,7 +322,7 @@ nav {
     background-color: #4a179b;
     color: #FFF;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     font-size: 16px;
     cursor: pointer;
     text-decoration: none;
@@ -628,32 +628,37 @@ video::-webkit-media-controls-fullscreen-button {
 
 .dm-skill {
     background-color: #fff;
-    padding: 20px;
+    padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     flex: 1;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .dm-skill:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px #c9a8ef;
+    box-shadow: 0 10px 25px rgba(150, 28, 147, 0.2);
+    border-color: rgba(150, 28, 147, 0.1);
 }
 
 .dm-skill i {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: #961c93;
 }
 
 .dm-skill h4 {
     color: #231592;
-    margin-bottom: 10px;
-    font-size: 18px;
+    margin-bottom: 12px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .dm-skill p {
-    color: #961c93;
+    color: #555;
     margin-bottom: 0;
+    line-height: 1.6;
 }
 
 /* DM卡片样式 */
@@ -953,7 +958,7 @@ video::-webkit-media-controls-fullscreen-button {
     justify-content: space-between;
     margin: 10px 0;
     font-size: 0.9rem;
-    color: #666;
+    color: #961c93;
 }
 
 .dm-more {
@@ -1561,7 +1566,8 @@ html:not(.lang-en) .logo-en {
 }
 
 .faq-item.active .faq-toggle i {
-    transform: rotate(45deg);
+    /* 移除旋转，保持图标水平 */
+    transform: none;
 }
 
 .faq-answer {
@@ -3507,4 +3513,43 @@ img.script-popup-img:hover {
         text-align: center;
         gap: 5px;
     }
+}
+
+.script-card, .intro-card, .dm-card, .contact-card, .room-card, .game-card, .drink-card {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+}
+
+.script-card:hover, .intro-card:hover, .dm-card:hover, .contact-card:hover, .room-card:hover, .game-card:hover, .drink-card:hover {
+    box-shadow: 0 10px 25px rgba(150, 28, 147, 0.2);
+    transform: translateY(-5px);
+    border-color: rgba(150, 28, 147, 0.1);
+}
+
+/* 增强信息区域样式 */
+.script-info, .dm-info, .contact-info, .room-content, .game-info, .drink-info {
+    padding: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 改进按钮样式 */
+.dm-more {
+    color: #fff;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.3s ease;
+    background-color: #961c93;
+    padding: 8px 15px;
+    border-radius: 20px;
+}
+
+.dm-more:hover {
+    background-color: #7c1079;
+    transform: translateX(5px);
 }
