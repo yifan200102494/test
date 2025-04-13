@@ -302,11 +302,11 @@ function applyFilters() {
 // 剧本数据
 const scriptData = {
     script1: {
-        name: "雪乡连环杀人案",
+        name: "雪乡连环杀人事件",
         nameEn: "Murder in the Snow Village",
-        duration: "3-4小时",
-        durationEn: "3-4 hours",
-        difficulty: "★★★☆☆",
+        duration: "3.5-4小时",
+        durationEn: "3.5-4 hours",
+        difficulty: "★★★★☆",
         players: "7人",
         playersEn: "7 players",
         image: "./images/xuexiang.jpg",
@@ -314,28 +314,28 @@ const scriptData = {
         descriptionEn: "“There is only one truth in this world: once you've eliminated all impossibilities, whatever remains—no matter how unbelievable—must be the truth.”“New Year’s Eve. Beidao River. A murderer emerged from the village.”“Seven children came to visit—and together, they uncovered the killer.”"
     },
     script2: {
-        name: "剧本2",
-        nameEn: "剧本2",
+        name: "青楼",
+        nameEn: "Fragrant Pavilion",
         duration: "4-5小时",
         durationEn: "4-5 hours",
         difficulty: "★★★★☆",
-        players: "7-9人",
-        playersEn: "7-9 players",
+        players: "7人",
+        playersEn: "7 players",
         image: "./images/qinglou.jpg",
-        description: "一些描述",
-        descriptionEn: "Some description"
+        description: "唐朝，可谓歌舞盛华，乐文辉煌。与此同时，女伎们的身价也推向了巅峰。青楼之市火爆，歌舞伎成了热门之业。沦落为青楼女子虽不光彩，但依然有很多人选择这一职业，在这些女子中，琴棋书画兼备的也大有人在…在长安城内，有一青楼，名为“玉满楼”，别名“玉月满花”，此中之女子皆是琴棋书画兼备，相传呐，那都是卖艺不卖身的存在。我们的故事就要从这玉满楼开始说起。",
+        descriptionEn: "In the Tang Dynasty, an era famed for its flourishing music, dance, and literature, the value of female performers soared to unprecedented heights. The entertainment quarters thrived, and the art of song and dance became one of the most coveted professions. Though falling into the life of a courtesan was often seen as dishonorable, many still chose this path—and among them, there were those well-versed in the four arts: music, chess, calligraphy, and painting.Within the grand city of Chang’an stood a famed establishment known as Yuman Lou, also called “Jade Moon in Bloom.”It was said that the women of this house sold only their art, not their bodies. Talented, elegant, and enigmatic, they were revered as artists rather than mere entertainers.And so, our story begins—within the walls of Yuman Lou, where beauty hides secrets, and every performance may veil a deeper truth..."
     },
     script3: {
-        name: "剧本3",
-        nameEn: "剧本3",
-        duration: "3-4小时",
-        durationEn: "3-4 hours",
+        name: "病娇男孩的精分日记",
+        nameEn: "The Split Diary of a Yandere Boy",
+        duration: "4-5小时",
+        durationEn: "4-5 hours",
         difficulty: "★★★★★",
-        players: "5-7人",
-        playersEn: "5-7 players",
+        players: "7人",
+        playersEn: "7 players",
         image: "./images/bingjiao.jpg",
-        description: "一些描述",
-        descriptionEn: "Some description"
+        description: "“我有七个我，我便拥有了更丰盈的生命和更孤单的生活；热闹是我的，孤独也是我的”",
+        descriptionEn: "“With seven selves, I live a fuller life—and a lonelier one.The noise belongs to me, and so does the silence.”"
     }
 };
 
