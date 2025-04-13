@@ -426,37 +426,35 @@ nav {
 }
 
 /* 卡片样式 */
-.intro-card, .dm-intro, .script-card {
-    background-color: #ffffff;
+.intro-card, .script-card {
+    background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
     margin-bottom: 20px;
 }
 
-.intro-card, .dm-intro {
-    padding: 25px;
-    border-left: 4px solid #4a179b;
+.intro-card {
+    padding: 0 20px 20px;
 }
 
-.intro-card:hover, .dm-intro:hover, .script-card:hover {
+.intro-card:hover, .script-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px #c9a8ef;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.intro-card h3, .dm-intro h3 {
-    color: #231592;
-    margin-bottom: 15px;
-    font-size: 20px;
+.intro-card h3 {
+    color: #382b5f;
     display: flex;
     align-items: center;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
 }
 
-.intro-card h3 i, .dm-intro h3 i, .dm-skill i {
+.intro-card h3 i {
     margin-right: 10px;
-    color: #231592;
+    color: #7157d9;
 }
 
 /* 视频占位符 */
@@ -959,7 +957,7 @@ video::-webkit-media-controls-fullscreen-button {
 }
 
 .dm-more {
-    color: #4a179b;
+    color: #fff;
     font-weight: bold;
     margin-top: 10px;
     cursor: pointer;
@@ -2892,7 +2890,7 @@ img[data-popup="true"]:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #aa93e8;
+    background-color: #906ccb;
     border-bottom: 1px solid #e0e0e0;
 }
 

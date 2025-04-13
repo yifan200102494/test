@@ -156,15 +156,6 @@
     transition: transform 0.3s ease;
 }
 
-/* DM卡片图片适配 */
-.dm-img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 8px 8px 0 0;
-    transition: transform 0.3s ease;
-}
-
 /* 游戏卡片图片适配 */
 .game-image img {
     width: 100%;
@@ -371,10 +362,6 @@
         height: 180px;
     }
     
-    .dm-img {
-        height: 160px;
-    }
-    
     .game-image img {
         height: 130px;
     }
@@ -414,4 +401,19 @@
     .location-map {
         max-height: 300px;
     }
+}
+
+/* 菜单预览图片特殊样式 */
+#menu-preview .business-image {
+    max-width: 600px;
+    aspect-ratio: auto;
+    height: auto;
+    padding: 10px;
+}
+
+#menu-preview .business-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    max-height: none;
 } 
