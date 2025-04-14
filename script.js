@@ -462,13 +462,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const thumbnailImg = videoPlaceholder.querySelector('.video-thumbnail');
             const thumbnailSrc = thumbnailImg ? thumbnailImg.src : './images/poster.jpg';
             
-            // 简化后的视频HTML
+            // 更新视频HTML，增加对iOS的更好支持
             videoPlaceholder.innerHTML = `
                 <div class="video-container" style="position:relative; width:fit-content; max-width:100%; margin:0 auto; padding:0; border:none; display:inline-block;">
                     <video controls playsinline 
-                           webkit-playsinline="true"
+                           webkit-playsinline
+                           x5-playsinline
                            x-webkit-airplay="allow"
-                           preload="auto"
+                           x5-video-player-type="h5"
+                           x5-video-player-fullscreen="true"
+                           x5-video-orientation="portraint"
+                           preload="metadata"
                            poster="${thumbnailSrc}"
                            id="mainVideo"
                            style="max-width:100%; display:block; width:auto; height:auto; margin:0; padding:0; border:none;">
@@ -488,11 +492,32 @@ document.addEventListener('DOMContentLoaded', function() {
             // 获取视频元素并尝试播放
             const video = document.getElementById('mainVideo');
             if (video) {
+                // 为iOS设备添加特殊处理
+                if (isIOSDevice()) {
+                    // 确保视频初始化正确
+                    video.load();
+                    
+                    // 添加可播放事件监听
+                    video.addEventListener('canplay', function() {
+                        console.log('视频可以播放了');
+                    });
+                    
+                    // 为iOS添加特殊处理
+                    video.addEventListener('webkitendfullscreen', function() {
+                        // iOS特有事件，处理退出全屏
+                        console.log('iOS退出全屏');
+                        // 可能需要在这里处理一些状态
+                    });
+                }
+                
                 // 尝试自动播放 (用户交互后可能会成功)
                 try {
-                    video.play().catch(e => {
-                        console.log('自动播放失败，需要用户交互');
-                    });
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(e => {
+                            console.log('自动播放失败，需要用户交互:', e);
+                        });
+                    }
                 } catch (err) {
                     console.log('播放器初始化错误', err);
                 }
