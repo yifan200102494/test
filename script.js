@@ -501,7 +501,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
-                    <img id="videoPoster" src="${thumbnailSrc}" alt="视频封面" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; display:block;">
+                    <div id="videoPosterContainer" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:5; background-color:#000; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                        <img id="videoPoster" src="${thumbnailSrc}" alt="视频封面" style="width:100%; height:100%; object-fit:cover;">
+                        <div id="videoPlayBtn" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:80px; height:80px; background-color:rgba(0,0,0,0.5); border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:6;">
+                            <div style="width:0; height:0; border-style:solid; border-width:20px 0 20px 35px; border-color:transparent transparent transparent white; margin-left:8px;"></div>
+                        </div>
+                    </div>
                     <div id="videoHint" style="position:absolute; top:10px; left:0; right:0; text-align:center; color:white; background-color:rgba(0,0,0,0.5); padding:5px; font-size:14px; opacity:0; transition:opacity 0.3s; z-index:2; pointer-events:none;">双击左侧或右侧可跳过10s</div>
                     ${isAndroid ? `<div id="playPauseButton" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:60px; height:60px; background-color:rgba(0,0,0,0.5); border-radius:50%; display:none; justify-content:center; align-items:center; cursor:pointer; z-index:3; opacity:0; transition:opacity 0.3s; box-shadow:0 0 10px rgba(0,0,0,0.3);">
                         <div id="playIcon" style="width:0; height:0; border-style:solid; border-width:15px 0 15px 25px; border-color:transparent transparent transparent white; margin-left:5px; display:none;"></div>
@@ -526,7 +531,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('mainVideo');
             const videoContainer = video ? video.parentElement : null;
             const videoHint = document.getElementById('videoHint');
+            const videoPosterContainer = document.getElementById('videoPosterContainer');
             const videoPoster = document.getElementById('videoPoster');
+            const videoPlayBtn = document.getElementById('videoPlayBtn');
             const playPauseButton = document.getElementById('playPauseButton');
             const playIcon = document.getElementById('playIcon');
             const pauseIcon = document.getElementById('pauseIcon');
@@ -635,165 +642,60 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 标记视频已初始化
                 videoInitialized = true;
                 
-                // 安卓设备上的中间播放/暂停按钮功能
-                if (isAndroid && playPauseButton) {
-                    // 初始化播放/暂停按钮
-                    updatePlayPauseButton();
-                    
-                    // 添加点击事件
-                    playPauseButton.addEventListener('click', function(e) {
-                        e.stopPropagation(); // 阻止事件冒泡
+                // 添加通用播放按钮点击事件 - 适用于所有设备
+                if (videoPlayBtn && videoPosterContainer) {
+                    videoPlayBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('播放按钮被点击');
                         
-                        if (video.paused) {
-                            video.play();
-                        } else {
-                            video.pause();
+                        // 隐藏海报容器
+                        videoPosterContainer.style.display = 'none';
+                        
+                        // 尝试播放视频
+                        try {
+                            video.play()
+                                .then(() => {
+                                    console.log('视频开始播放成功');
+                                })
+                                .catch(err => {
+                                    console.error('视频播放失败:', err);
+                                    // 如果播放失败，重新显示海报
+                                    videoPosterContainer.style.display = 'flex';
+                                });
+                        } catch (err) {
+                            console.error('播放视频出错:', err);
+                            // 如果出错，重新显示海报
+                            videoPosterContainer.style.display = 'flex';
+                        }
+                    });
+                    
+                    // 为整个海报容器添加点击事件
+                    videoPosterContainer.addEventListener('click', function(e) {
+                        // 检查点击是否在播放按钮上，如果是则不处理
+                        const playBtnRect = videoPlayBtn.getBoundingClientRect();
+                        if (
+                            e.clientX >= playBtnRect.left && 
+                            e.clientX <= playBtnRect.right && 
+                            e.clientY >= playBtnRect.top && 
+                            e.clientY <= playBtnRect.bottom
+                        ) {
+                            return;
                         }
                         
-                        // 立即更新按钮状态
-                        updatePlayPauseButton();
-                    });
-                    
-                    // 显示按钮
-                    playPauseButton.style.opacity = '1';
-                    
-                    // 视频播放时3秒后隐藏按钮
-                    let hideButtonTimeout;
-                    
-                    function showPlayPauseButton() {
-                        playPauseButton.style.opacity = '1';
-                        
-                        // 清除之前的定时器
-                        clearTimeout(hideButtonTimeout);
-                        
-                        // 如果视频正在播放，设置3秒后隐藏按钮
-                        if (!video.paused) {
-                            hideButtonTimeout = setTimeout(() => {
-                                playPauseButton.style.opacity = '0';
-                            }, 3000);
-                        }
-                    }
-                    
-                    // 用户触摸视频时显示按钮
-                    video.addEventListener('touchstart', function() {
-                        showPlayPauseButton();
-                    });
-                    
-                    // 监听视频播放/暂停状态变化
-                    video.addEventListener('play', function() {
-                        updatePlayPauseButton();
-                        // 播放时3秒后隐藏按钮
-                        showPlayPauseButton();
-                    });
-                    
-                    video.addEventListener('pause', function() {
-                        updatePlayPauseButton();
-                        // 暂停时始终显示按钮
-                        playPauseButton.style.opacity = '1';
-                        clearTimeout(hideButtonTimeout);
+                        // 如果点击不在播放按钮上，模拟点击播放按钮
+                        videoPlayBtn.click();
                     });
                 }
                 
-                // 为安卓设备添加双击跳转和缩放功能
-                if (isAndroidDevice()) {
-                    // 显示提示
-                    if (videoHint) {
-                        videoHint.textContent = "双击左侧或右侧可跳过10s";
-                        videoHint.style.opacity = '1';
-                        setTimeout(() => {
-                            videoHint.style.opacity = '0';
-                        }, 3000);
-                    }
-                    
-                    // 跟踪点击时间和位置
-                    let lastTapTime = 0;
-                    let lastTapX = 0;
-                    
-                    video.addEventListener('touchstart', function(e) {
-                        // 不阻止单击事件（播放/暂停）
-                    });
-                    
-                    // 检测双击
-                    video.addEventListener('click', function(e) {
-                        const currentTime = new Date().getTime();
-                        const tapX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
-                        
-                        if (!tapX) return; // 如果无法获取点击位置，则退出
-                        
-                        // 计算屏幕区域
-                        const videoRect = video.getBoundingClientRect();
-                        const videoWidth = videoRect.width;
-                        
-                        // 将视频分为三个区域（左:30%, 中:40%, 右:30%）
-                        const leftWidth = videoWidth * 0.3;
-                        const rightWidth = videoWidth * 0.3;
-                        const centerWidth = videoWidth - leftWidth - rightWidth;
-                        
-                        const leftBoundary = videoRect.left + leftWidth;
-                        const rightBoundary = videoRect.right - rightWidth;
-                        
-                        // 记录当前点击坐标和时间
-                        lastTapX = tapX;
-                        
-                        // 判断双击（两次点击间隔小于300ms）
-                        if (currentTime - lastTapTime < 300) {
-                            // 已确认是双击，阻止默认行为
-                            e.preventDefault();
-                            
-                            // 判断点击区域
-                            if (tapX < leftBoundary) {
-                                // 左侧 - 后退10秒
-                                console.log("双击左侧，后退10秒");
-                                video.currentTime = Math.max(0, video.currentTime - 10);
-                                showSeekIndicator(video, 'backward');
-                                
-                                // 显示操作提示
-                                if (videoHint) {
-                                    videoHint.textContent = "后退10秒";
-                                    videoHint.style.opacity = '1';
-                                    setTimeout(() => {
-                                        videoHint.style.opacity = '0';
-                                    }, 800);
-                                }
-                            } else if (tapX > rightBoundary) {
-                                // 右侧 - 前进10秒
-                                console.log("双击右侧，前进10秒");
-                                video.currentTime = Math.min(video.duration, video.currentTime + 10);
-                                showSeekIndicator(video, 'forward');
-                                
-                                // 显示操作提示
-                                if (videoHint) {
-                                    videoHint.textContent = "前进10秒";
-                                    videoHint.style.opacity = '1';
-                                    setTimeout(() => {
-                                        videoHint.style.opacity = '0';
-                                    }, 800);
-                                }
-                            } else {
-                                // 中间 - 切换缩放状态
-                                console.log("双击中间，切换缩放");
-                                toggleVideoZoom();
-                            }
-                        }
-                        
-                        // 更新最后点击时间
-                        lastTapTime = currentTime;
-                    });
-                }
-                
-                // 阻止视频区域的点击事件冒泡
-                video.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                });
-                
-                // 监听播放状态变化
+                // 监听视频播放状态变化
                 video.addEventListener('play', function() {
                     console.log('视频开始播放');
                     adjustVideoSize();
                     
-                    // 视频开始播放时隐藏海报图
-                    if (videoPoster) {
-                        videoPoster.style.display = 'none';
+                    // 确保播放时隐藏海报
+                    if (videoPosterContainer) {
+                        videoPosterContainer.style.display = 'none';
                     }
                     
                     // 安卓设备再次显示提示
@@ -806,6 +708,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
                 
+                // 监听播放结束事件
+                video.addEventListener('ended', function() {
+                    console.log('视频播放结束');
+                    // 视频结束后重新显示海报
+                    if (videoPosterContainer) {
+                        videoPosterContainer.style.display = 'flex';
+                    }
+                });
+                
+                // 监听视频暂停事件
+                video.addEventListener('pause', function() {
+                    console.log('视频暂停');
+                    // 视频暂停时不显示海报，保持视频当前帧
+                });
+                
                 // 修复iOS事件处理
                 video.addEventListener('canplay', function() {
                     console.log('视频可以播放了');
@@ -815,64 +732,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 监听播放错误
                 video.addEventListener('error', function(e) {
                     console.error('视频播放错误:', e);
+                    // 播放错误时显示海报
+                    if (videoPosterContainer) {
+                        videoPosterContainer.style.display = 'flex';
+                    }
                 });
                 
-                // 针对iOS设备优化播放体验
+                // 专门处理iOS设备
                 if (isIOSDevice()) {
-                    // iOS设备特别处理
-                    console.log('iOS设备检测到，添加特殊处理');
+                    console.log('iOS设备检测到，使用简化处理方式');
                     
-                    // 为视频添加额外的点击事件
-                    video.addEventListener('click', function(e) {
-                        console.log('iOS视频点击事件触发');
-                        // 不阻止冒泡，让原生控件可以工作
-                    });
-                    
-                    // 为视频添加play事件，确保海报隐藏
+                    // iOS设备使用更直接的交互方式
                     video.addEventListener('playing', function() {
-                        console.log('iOS视频开始播放');
-                        if (videoPoster) {
-                            videoPoster.style.display = 'none';
-                        }
-                    });
-                    
-                    // 为播放按钮添加额外的触摸事件
-                    const videoControls = video.querySelector('::-webkit-media-controls-play-button');
-                    if (videoControls) {
-                        videoControls.addEventListener('touchend', function() {
-                            console.log('iOS播放按钮触摸事件');
-                            setTimeout(() => {
-                                if (!video.paused) {
-                                    videoPoster.style.display = 'none';
-                                }
-                            }, 100);
-                        });
-                    }
-                    
-                    // 为整个视频容器添加点击事件，确保用户点击可以播放
-                    videoContainer.addEventListener('click', function(e) {
-                        console.log('iOS视频容器点击事件');
-                        
-                        // 检查用户是否点击了视频区域而非控件
-                        const rect = video.getBoundingClientRect();
-                        const isClickOnVideo = (
-                            e.clientX > rect.left && 
-                            e.clientX < rect.right && 
-                            e.clientY > rect.top && 
-                            e.clientY < rect.bottom
-                        );
-                        
-                        if (isClickOnVideo && video.paused) {
-                            // 尝试播放视频
-                            video.play()
-                                .then(() => {
-                                    if (videoPoster) {
-                                        videoPoster.style.display = 'none';
-                                    }
-                                })
-                                .catch(err => {
-                                    console.error('iOS播放失败:', err);
-                                });
+                        console.log('iOS视频实际开始播放');
+                        // 确保播放时海报被隐藏
+                        if (videoPosterContainer) {
+                            videoPosterContainer.style.display = 'none';
                         }
                     });
                     
@@ -883,9 +758,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (playPromise !== undefined) {
                             playPromise
                                 .then(() => {
+                                    console.log('自动播放成功');
                                     // 播放成功，隐藏海报
-                                    if (videoPoster) {
-                                        videoPoster.style.display = 'none';
+                                    if (videoPosterContainer) {
+                                        videoPosterContainer.style.display = 'none';
                                     }
                                 })
                                 .catch(e => {
@@ -965,6 +841,48 @@ document.addEventListener('DOMContentLoaded', function() {
             object-fit: contain;
             background-color: #000;
             transition: transform 0.3s ease;
+        }
+        
+        #videoPosterContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        #videoPoster {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        #videoPlayBtn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 6;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        
+        #videoPlayBtn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background-color: rgba(0,0,0,0.8);
         }
         
         /* 调整横竖屏下的视频播放器样式 */
