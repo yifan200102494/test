@@ -644,48 +644,75 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // 添加通用播放按钮点击事件 - 适用于所有设备
                 if (videoPlayBtn && videoPosterContainer) {
-                    videoPlayBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log('播放按钮被点击');
-                        
-                        // 隐藏海报容器
-                        videoPosterContainer.style.display = 'none';
-                        
-                        // 尝试播放视频
-                        try {
-                            video.play()
-                                .then(() => {
-                                    console.log('视频开始播放成功');
-                                })
-                                .catch(err => {
-                                    console.error('视频播放失败:', err);
-                                    // 如果播放失败，重新显示海报
-                                    videoPosterContainer.style.display = 'flex';
-                                });
-                        } catch (err) {
-                            console.error('播放视频出错:', err);
-                            // 如果出错，重新显示海报
-                            videoPosterContainer.style.display = 'flex';
-                        }
-                    });
+                    // 移除所有可能已存在的点击事件监听器
+                    const newVideoPlayBtn = videoPlayBtn.cloneNode(true);
+                    videoPlayBtn.parentNode.replaceChild(newVideoPlayBtn, videoPlayBtn);
+                    videoPlayBtn = newVideoPlayBtn;
                     
-                    // 为整个海报容器添加点击事件
-                    videoPosterContainer.addEventListener('click', function(e) {
-                        // 检查点击是否在播放按钮上，如果是则不处理
-                        const playBtnRect = videoPlayBtn.getBoundingClientRect();
-                        if (
-                            e.clientX >= playBtnRect.left && 
-                            e.clientX <= playBtnRect.right && 
-                            e.clientY >= playBtnRect.top && 
-                            e.clientY <= playBtnRect.bottom
-                        ) {
-                            return;
-                        }
-                        
-                        // 如果点击不在播放按钮上，模拟点击播放按钮
-                        videoPlayBtn.click();
-                    });
+                    // 移除海报容器可能已存在的点击事件监听器
+                    const newVideoPosterContainer = videoPosterContainer.cloneNode(true);
+                    newVideoPosterContainer.querySelector('#videoPlayBtn').remove(); // 移除旧的播放按钮
+                    videoPosterContainer.parentNode.replaceChild(newVideoPosterContainer, videoPosterContainer);
+                    videoPosterContainer = newVideoPosterContainer;
+                    
+                    // 重新添加播放按钮到海报容器
+                    videoPosterContainer.appendChild(videoPlayBtn);
+                    
+                    // 单独处理iOS设备的播放按钮点击
+                    if (isIOSDevice()) {
+                        // 为iOS设备特别优化的播放按钮点击处理
+                        videoPlayBtn.addEventListener('click', function(event) {
+                            console.log('iOS播放按钮被点击');
+                            // 阻止事件冒泡和默认行为
+                            event.stopPropagation();
+                            event.preventDefault();
+                            
+                            // 立即隐藏海报容器
+                            videoPosterContainer.style.display = 'none';
+                            
+                            // 直接播放视频，不等待click事件处理完成
+                            setTimeout(() => {
+                                video.play()
+                                    .then(() => {
+                                        console.log('iOS视频开始播放成功');
+                                    })
+                                    .catch(err => {
+                                        console.error('iOS播放失败:', err);
+                                        // 如果播放失败，重新显示海报
+                                        videoPosterContainer.style.display = 'flex';
+                                    });
+                            }, 10);
+                        }, {once: false, capture: true}); // 使用捕获阶段，确保此处理程序先执行
+                    } else {
+                        // 非iOS设备的标准处理
+                        videoPlayBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('播放按钮被点击');
+                            
+                            // 隐藏海报容器
+                            videoPosterContainer.style.display = 'none';
+                            
+                            // 尝试播放视频
+                            try {
+                                video.play()
+                                    .then(() => {
+                                        console.log('视频开始播放成功');
+                                    })
+                                    .catch(err => {
+                                        console.error('视频播放失败:', err);
+                                        // 如果播放失败，重新显示海报
+                                        videoPosterContainer.style.display = 'flex';
+                                    });
+                            } catch (err) {
+                                console.error('播放视频出错:', err);
+                                // 如果出错，重新显示海报
+                                videoPosterContainer.style.display = 'flex';
+                            }
+                        });
+                    }
+                    
+                    // 不再为整个海报容器添加点击事件，避免事件冲突
                 }
                 
                 // 监听视频播放状态变化
@@ -742,7 +769,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (isIOSDevice()) {
                     console.log('iOS设备检测到，使用简化处理方式');
                     
-                    // iOS设备使用更直接的交互方式
+                    // 移除可能存在的事件监听器
+                    const newVideo = video.cloneNode(true);
+                    video.parentNode.replaceChild(newVideo, video);
+                    video = newVideo;
+                    
+                    // 重新添加必要的监听器
                     video.addEventListener('playing', function() {
                         console.log('iOS视频实际开始播放');
                         // 确保播放时海报被隐藏
@@ -751,26 +783,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     });
                     
-                } else {
-                    // 非iOS设备尝试自动播放
-                    try {
-                        const playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise
-                                .then(() => {
-                                    console.log('自动播放成功');
-                                    // 播放成功，隐藏海报
-                                    if (videoPosterContainer) {
-                                        videoPosterContainer.style.display = 'none';
-                                    }
-                                })
-                                .catch(e => {
-                                    console.log('自动播放失败，需要用户交互:', e);
-                                });
-                        }
-                    } catch (err) {
-                        console.log('播放器初始化错误', err);
-                    }
+                    // 防止iOS自带控件与我们的自定义播放按钮冲突
+                    video.addEventListener('click', function(e) {
+                        // 阻止视频元素上的点击传播
+                        e.stopPropagation();
+                    });
                 }
                 
                 // 为视频控制器添加键盘快捷键支持
