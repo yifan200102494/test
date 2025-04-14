@@ -453,6 +453,21 @@ function isIOSDevice() {
            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // 支持iPad Pro检测
 }
 
+// 视频全屏函数
+function enterFullScreen(video) {
+    if (video.requestFullscreen) {
+        video.requestFullscreen();
+    } else if (video.webkitRequestFullscreen) { // Safari
+        video.webkitRequestFullscreen();
+    } else if (video.webkitEnterFullscreen) { // iOS Safari
+        video.webkitEnterFullscreen();
+    } else if (video.mozRequestFullScreen) { // Firefox
+        video.mozRequestFullScreen();
+    } else if (video.msRequestFullscreen) { // IE/Edge
+        video.msRequestFullscreen();
+    }
+}
+
 // 视频播放功能
 document.addEventListener('DOMContentLoaded', function() {
     const videoPlaceholder = document.getElementById('videoPlaceholder');
@@ -462,51 +477,74 @@ document.addEventListener('DOMContentLoaded', function() {
             const thumbnailImg = videoPlaceholder.querySelector('.video-thumbnail');
             const thumbnailSrc = thumbnailImg ? thumbnailImg.src : './images/poster.jpg';
             
-            // 创建视频元素
+            // 检测是否为iOS设备
+            const isIOS = isIOSDevice();
+            
+            // 创建视频元素，为iOS设备添加额外属性和样式
             const videoHTML = `
-                <video width="100%" height="220px" controls autoplay playsinline 
-                       webkit-playsinline
-                       x-webkit-airplay="allow"
-                       x5-video-player-type="h5"
-                       x5-video-player-fullscreen="true"
-                       x5-video-orientation="portraint"
-                       preload="auto"
-                       poster="${thumbnailSrc}"
-                       id="mainVideo"
-                       style="cursor: pointer; background-color: #000;">
-                    <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
-                    <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
-                </video>
-                <style>
-                    /* 移除所有控制器的蒙层效果 */
-                    #mainVideo::-webkit-media-controls-panel,
-                    #mainVideo::-webkit-media-controls-overlay,
-                    #mainVideo::-webkit-media-controls-backdrop {
-                        background: transparent !important;
-                        backdrop-filter: none !important;
-                        -webkit-backdrop-filter: none !important;
-                    }
-                    /* 确保控制条按钮显示 */
-                    #mainVideo::-webkit-media-controls-play-button,
-                    #mainVideo::-webkit-media-controls-timeline,
-                    #mainVideo::-webkit-media-controls-current-time-display,
-                    #mainVideo::-webkit-media-controls-time-remaining-display,
-                    #mainVideo::-webkit-media-controls-mute-button,
-                    #mainVideo::-webkit-media-controls-fullscreen-button {
-                        color: #fff !important;
-                        opacity: 1 !important;
-                    }
-                    /* 设置下拉菜单背景 */
-                    #mainVideo::-internal-media-controls-overflow-menu-list {
-                        background-color: rgba(0, 0, 0, 0.7) !important;
-                        backdrop-filter: none !important;
-                    }
-                </style>
+                <div class="video-container" style="position:relative; width:100%;">
+                    <video width="100%" height="220px" controls autoplay playsinline 
+                           webkit-playsinline
+                           x-webkit-airplay="allow"
+                           x5-video-player-type="h5"
+                           x5-video-player-fullscreen="true"
+                           x5-video-orientation="portraint"
+                           preload="auto"
+                           poster="${thumbnailSrc}"
+                           id="mainVideo"
+                           style="cursor: pointer; background-color: #000;">
+                        <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
+                        <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
+                    </video>
+                    ${isIOS ? 
+                    `<button id="fullscreenBtn" style="position:absolute; top:10px; left:10px; z-index:100; 
+                     background-color:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; 
+                     width:36px; height:36px; font-size:16px; display:flex; align-items:center; 
+                     justify-content:center; padding:0;">
+                        <i class="fas fa-expand" style="color:white;"></i>
+                    </button>` : ''}
+                    <style>
+                        /* 移除所有控制器的蒙层效果 */
+                        #mainVideo::-webkit-media-controls-panel,
+                        #mainVideo::-webkit-media-controls-overlay,
+                        #mainVideo::-webkit-media-controls-backdrop {
+                            background: transparent !important;
+                            backdrop-filter: none !important;
+                            -webkit-backdrop-filter: none !important;
+                        }
+                        /* 确保控制条按钮显示 */
+                        #mainVideo::-webkit-media-controls-play-button,
+                        #mainVideo::-webkit-media-controls-timeline,
+                        #mainVideo::-webkit-media-controls-current-time-display,
+                        #mainVideo::-webkit-media-controls-time-remaining-display,
+                        #mainVideo::-webkit-media-controls-mute-button,
+                        #mainVideo::-webkit-media-controls-fullscreen-button {
+                            color: #fff !important;
+                            opacity: 1 !important;
+                        }
+                        /* 设置下拉菜单背景 */
+                        #mainVideo::-internal-media-controls-overflow-menu-list {
+                            background-color: rgba(0, 0, 0, 0.7) !important;
+                            backdrop-filter: none !important;
+                        }
+                    </style>
+                </div>
             `;
             videoPlaceholder.innerHTML = videoHTML;
             
             // 获取视频元素
             const video = document.getElementById('mainVideo');
+            
+            // iOS设备的全屏按钮处理
+            if (isIOS) {
+                const fullscreenBtn = document.getElementById('fullscreenBtn');
+                if (fullscreenBtn) {
+                    fullscreenBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        enterFullScreen(video);
+                    });
+                }
+            }
             
             // 设置视频的元数据加载完成事件
             if (video) {
@@ -589,6 +627,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                     video.currentTime = Math.min(video.duration, video.currentTime + 10);
                                     showSeekIndicator(video, 'forward');
                                 }
+                                // 中间双击全屏
+                                else {
+                                    enterFullScreen(video);
+                                }
                                 
                                 e.preventDefault();
                             }
@@ -599,16 +641,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         }, {passive: false});
                         
                         // 添加双击全屏功能
-                        let doubleTapTimer = null;
                         overlay.addEventListener('dblclick', function(e) {
-                            // 检查是否支持全屏API
-                            if (video.requestFullscreen) {
-                                video.requestFullscreen();
-                            } else if (video.webkitRequestFullscreen) { // Safari
-                                video.webkitRequestFullscreen();
-                            } else if (video.webkitEnterFullscreen) { // iOS Safari
-                                video.webkitEnterFullscreen();
-                            }
+                            enterFullScreen(video);
                         });
                         
                         // 添加全屏按钮点击处理
@@ -653,6 +687,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                 e.stopPropagation();
                                 return false;
                             }
+                        });
+                        
+                        // 添加双击全屏功能
+                        this.addEventListener('dblclick', function(e) {
+                            enterFullScreen(this);
                         });
                         
                         // 触摸事件处理（针对非iOS移动设备）
