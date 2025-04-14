@@ -472,31 +472,94 @@ document.addEventListener('DOMContentLoaded', function() {
             const thumbnailImg = videoPlaceholder.querySelector('.video-thumbnail');
             const thumbnailSrc = thumbnailImg ? thumbnailImg.src : './images/poster.jpg';
             
-            // 更新视频HTML，增加对iOS的更好支持
+            // 保存原始视频占位符大小和样式
+            const originalWidth = videoPlaceholder.offsetWidth;
+            const originalHeight = videoPlaceholder.offsetHeight;
+            const originalStyle = window.getComputedStyle(videoPlaceholder);
+            const originalBorder = originalStyle.border;
+            const originalPadding = originalStyle.padding;
+            
+            // 更新视频HTML，增加对移动设备和横竖屏的支持
             videoPlaceholder.innerHTML = `
-                <div class="video-container" style="position:relative; width:fit-content; max-width:100%; margin:0 auto; padding:0; border:none; display:inline-block;">
+                <div class="video-container" style="position:relative; width:100%; height:100%; margin:0 auto; padding:0; border:none; overflow:hidden;">
                     <video id="mainVideo"
                            controls
                            playsinline
                            webkit-playsinline
                            poster="${thumbnailSrc}"
                            preload="metadata"
-                           style="max-width:100%; display:block; width:auto; height:auto; margin:0; padding:0; border:none;">
+                           style="width:100%; height:100%; display:block; margin:0; padding:0; border:none; object-fit:cover; background-color:#000;">
                         <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
                 </div>
             `;
             
-            // 设置播放器容器样式
+            // 设置播放器容器样式，保持与原始边框一致
             videoPlaceholder.style.display = 'flex';
             videoPlaceholder.style.justifyContent = 'center';
             videoPlaceholder.style.alignItems = 'center';
             videoPlaceholder.style.maxWidth = '100%';
             videoPlaceholder.style.margin = '0 auto';
+            videoPlaceholder.style.overflow = 'hidden';
+            videoPlaceholder.style.aspectRatio = '16/9'; // 设置默认宽高比
             
-            // 获取视频元素并设置事件监听
+            // 获取视频元素和容器
             const video = document.getElementById('mainVideo');
+            const videoContainer = video ? video.parentElement : null;
+            
+            // 响应屏幕方向变化和视频尺寸
+            function adjustVideoSize() {
+                if (!video || !videoContainer) return;
+                
+                // 获取视频的原始尺寸
+                const videoWidth = video.videoWidth || 16;
+                const videoHeight = video.videoHeight || 9;
+                const videoRatio = videoWidth / videoHeight;
+                
+                // 设置容器宽高比与视频一致
+                videoPlaceholder.style.aspectRatio = `${videoWidth}/${videoHeight}`;
+                videoContainer.style.aspectRatio = `${videoWidth}/${videoHeight}`;
+                
+                if (window.matchMedia("(orientation: portrait)").matches) {
+                    // 竖屏模式
+                    videoContainer.style.width = '100%';
+                    videoContainer.style.height = '100%';
+                    video.style.width = '100%';
+                    video.style.height = '100%';
+                } else {
+                    // 横屏模式
+                    videoContainer.style.width = '100%';
+                    videoContainer.style.height = '100%';
+                    video.style.width = '100%';
+                    video.style.height = '100%';
+                }
+                
+                // 确保视频播放区域填充整个容器但保持比例
+                if (window.innerWidth / window.innerHeight > videoRatio) {
+                    // 如果窗口宽高比大于视频宽高比，视频应该填充高度
+                    video.style.objectFit = 'contain';
+                } else {
+                    // 否则，视频应该填充宽度
+                    video.style.objectFit = 'contain';
+                }
+            }
+            
+            // 初始调用一次以设置正确的初始样式
+            if (video) {
+                // 视频元数据加载后再进行尺寸调整
+                video.addEventListener('loadedmetadata', function() {
+                    console.log('视频元数据已加载', video.videoWidth, video.videoHeight);
+                    adjustVideoSize();
+                });
+            } else {
+                adjustVideoSize();
+            }
+            
+            // 监听屏幕方向变化
+            window.addEventListener('orientationchange', adjustVideoSize);
+            window.addEventListener('resize', adjustVideoSize);
+            
             if (video) {
                 // 标记视频已初始化
                 videoInitialized = true;
@@ -506,14 +569,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     e.stopPropagation();
                 });
                 
-                // 修复iOS事件处理
-                video.addEventListener('loadedmetadata', function() {
-                    console.log('视频元数据已加载');
+                // 监听播放状态变化
+                video.addEventListener('play', function() {
+                    console.log('视频开始播放');
+                    adjustVideoSize();
                 });
                 
                 // 修复iOS事件处理
                 video.addEventListener('canplay', function() {
                     console.log('视频可以播放了');
+                    adjustVideoSize();
                 });
                 
                 // 监听播放错误
@@ -570,6 +635,74 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, { once: true }); // 只触发一次事件监听
     }
+    
+    // 添加全局样式以确保视频容器在各种设备上正确显示
+    const style = document.createElement('style');
+    style.textContent = `
+        #videoPlaceholder {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            max-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            border: none;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+        
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            margin: 0;
+            padding: 0;
+            border: none;
+            object-fit: contain;
+            background-color: #000;
+        }
+        
+        /* 调整横竖屏下的视频播放器样式 */
+        @media screen and (orientation: landscape) {
+            #videoPlaceholder {
+                width: 100%;
+                max-height: 80vh;
+            }
+        }
+        
+        @media screen and (orientation: portrait) {
+            #videoPlaceholder {
+                width: 100%;
+                max-height: 40vh;
+            }
+        }
+        
+        /* 处理全屏模式 */
+        video::-webkit-media-controls-fullscreen-button {
+            display: block;
+        }
+        
+        video:fullscreen, 
+        video:-webkit-full-screen,
+        video:-moz-full-screen,
+        video:-ms-fullscreen {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+    `;
+    document.head.appendChild(style);
 });
 
 // 显示快进/快退指示器
