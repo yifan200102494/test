@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function() {
                            webkit-playsinline
                            poster="${thumbnailSrc}"
                            preload="metadata"
-                           style="width:100%; height:100%; display:block; margin:0; padding:0; border:none; object-fit:cover; background-color:#000; transition: transform 0.3s ease;">
+                           style="width:100%; height:100%; display:block; margin:0; padding:0; border:none; object-fit:cover; background-color:#000; transition: transform 0.3s ease; z-index:1;">
                         <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
@@ -911,6 +911,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 width: 100%;
                 max-height: 40vh;
             }
+        }
+        
+        /* 确保视频控件显示 */
+        video::-webkit-media-controls-panel {
+            display: flex !important;
+            opacity: 1 !important;
+            background-color: rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        video::-webkit-media-controls-play-button,
+        video::-webkit-media-controls-timeline,
+        video::-webkit-media-controls-current-time-display,
+        video::-webkit-media-controls-time-remaining-display,
+        video::-webkit-media-controls-mute-button,
+        video::-webkit-media-controls-volume-slider,
+        video::-webkit-media-controls-fullscreen-button {
+            display: inline-block !important;
+            opacity: 1 !important;
         }
         
         /* 处理全屏模式 */
