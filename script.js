@@ -483,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 创建视频元素，为iOS设备添加额外属性和样式
             const videoHTML = `
                 <div class="video-container" style="position:relative; width:fit-content; max-width:100%; margin:0 auto; padding:0; border:none; box-sizing:border-box; display:inline-block; line-height:0;">
-                    <video width="auto" controls autoplay playsinline 
+                    <video ${isIOS ? '' : 'controls'} autoplay playsinline 
                            webkit-playsinline
                            x-webkit-airplay="allow"
                            x5-video-player-type="h5"
@@ -497,35 +497,48 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
                     ${isIOS ? 
-                    `<button id="fullscreenBtn" style="position:absolute; top:10px; left:10px; z-index:100; 
-                     background-color:rgba(0,0,0,0.6); color:white; border:none; border-radius:50%; 
-                     width:36px; height:36px; font-size:16px; display:flex; align-items:center; 
-                     justify-content:center; padding:0;">
-                        <i class="fas fa-expand" style="color:white;"></i>
-                    </button>` : ''}
+                    `<div class="custom-video-controls" style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center; padding:8px; z-index:10;">
+                        <button id="playPauseBtn" style="background:none; border:none; color:white; margin:0 10px; cursor:pointer; width:30px; height:30px; display:flex; justify-content:center; align-items:center;">
+                            <i class="fas fa-play" style="font-size:16px;"></i>
+                        </button>
+                        <div id="progressBarContainer" style="flex-grow:1; height:6px; background:rgba(255,255,255,0.3); position:relative; border-radius:3px; cursor:pointer;">
+                            <div id="progressBar" style="height:100%; width:0; background:white; border-radius:3px;"></div>
+                        </div>
+                        <div id="timeDisplay" style="color:white; margin-left:10px; font-size:12px;">0:00</div>
+                    </div>` : ''}
                     <style>
-                        /* 移除所有控制器的蒙层效果 */
-                        #mainVideo::-webkit-media-controls-panel,
-                        #mainVideo::-webkit-media-controls-overlay,
-                        #mainVideo::-webkit-media-controls-backdrop {
-                            background: transparent !important;
-                            backdrop-filter: none !important;
-                            -webkit-backdrop-filter: none !important;
+                        /* 隐藏iOS默认视频控制器 */
+                        #mainVideo::-webkit-media-controls {
+                            display: none !important;
                         }
-                        /* 确保控制条按钮显示 */
-                        #mainVideo::-webkit-media-controls-play-button,
-                        #mainVideo::-webkit-media-controls-timeline,
-                        #mainVideo::-webkit-media-controls-current-time-display,
-                        #mainVideo::-webkit-media-controls-time-remaining-display,
-                        #mainVideo::-webkit-media-controls-mute-button,
+                        #mainVideo::-webkit-media-controls-panel {
+                            display: none !important;
+                        }
+                        #mainVideo::-webkit-media-controls-play-button {
+                            display: none !important;
+                        }
+                        #mainVideo::-webkit-media-controls-timeline {
+                            display: none !important;
+                        }
+                        #mainVideo::-webkit-media-controls-current-time-display {
+                            display: none !important;
+                        }
+                        #mainVideo::-webkit-media-controls-time-remaining-display {
+                            display: none !important;
+                        }
+                        #mainVideo::-webkit-media-controls-mute-button {
+                            display: none !important;
+                        }
+                        #mainVideo::-webkit-media-controls-volume-slider {
+                            display: none !important;
+                        }
                         #mainVideo::-webkit-media-controls-fullscreen-button {
-                            color: #fff !important;
-                            opacity: 1 !important;
+                            display: none !important;
                         }
-                        /* 设置下拉菜单背景 */
-                        #mainVideo::-internal-media-controls-overflow-menu-list {
-                            background-color: rgba(0, 0, 0, 0.7) !important;
-                            backdrop-filter: none !important;
+                        /* 设置iOS中视频的特定样式 */
+                        .ios-video-fix {
+                            -webkit-transform: translateZ(0);
+                            transform: translateZ(0);
                         }
                     </style>
                 </div>
@@ -555,6 +568,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     const container = video.parentElement;
                     container.style.width = video.videoWidth + 'px';
                     container.style.maxWidth = '100%';
+                    
+                    // 添加iOS特定类
+                    if (isIOS) {
+                        video.classList.add('ios-video-fix');
+                        
+                        // 设置自定义控制器
+                        setupCustomControls(video);
+                    }
                 };
             }
             
@@ -893,4 +914,50 @@ function toggleFaq(element) {
             icon.className = 'fas fa-plus';
         }
     }
+}
+
+function setupCustomControls(video) {
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressBarContainer = document.getElementById('progressBarContainer');
+    const timeDisplay = document.getElementById('timeDisplay');
+    
+    if (!playPauseBtn || !progressBar || !timeDisplay) return;
+    
+    // 播放/暂停按钮
+    playPauseBtn.addEventListener('click', function() {
+        if (video.paused) {
+            video.play();
+            this.innerHTML = '<i class="fas fa-pause" style="font-size:16px;"></i>';
+        } else {
+            video.pause();
+            this.innerHTML = '<i class="fas fa-play" style="font-size:16px;"></i>';
+        }
+    });
+    
+    // 更新进度条和时间显示
+    video.addEventListener('timeupdate', function() {
+        const progress = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = `${progress}%`;
+        
+        // 格式化时间显示
+        const minutes = Math.floor(video.currentTime / 60);
+        const seconds = Math.floor(video.currentTime % 60);
+        timeDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    });
+    
+    // 点击进度条跳转
+    progressBarContainer.addEventListener('click', function(e) {
+        const percent = e.offsetX / this.offsetWidth;
+        video.currentTime = percent * video.duration;
+    });
+    
+    // 更新播放按钮状态
+    video.addEventListener('play', function() {
+        playPauseBtn.innerHTML = '<i class="fas fa-pause" style="font-size:16px;"></i>';
+    });
+    
+    video.addEventListener('pause', function() {
+        playPauseBtn.innerHTML = '<i class="fas fa-play" style="font-size:16px;"></i>';
+    });
 }
