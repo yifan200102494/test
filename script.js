@@ -822,17 +822,48 @@ document.addEventListener('DOMContentLoaded', function() {
                     // iOS设备特别处理
                     console.log('iOS设备检测到，添加特殊处理');
                     
-                    // 移除原有的click事件监听器，避免重复触发
-                    const clonedVideo = video.cloneNode(true);
-                    video.parentNode.replaceChild(clonedVideo, video);
-                    video = clonedVideo;
+                    // 为视频添加额外的点击事件
+                    video.addEventListener('click', function(e) {
+                        console.log('iOS视频点击事件触发');
+                        // 不阻止冒泡，让原生控件可以工作
+                    });
                     
-                    // 单击视频区域触发播放/暂停
-                    videoPlaceholder.addEventListener('click', function(e) {
-                        e.stopPropagation();
+                    // 为视频添加play事件，确保海报隐藏
+                    video.addEventListener('playing', function() {
+                        console.log('iOS视频开始播放');
+                        if (videoPoster) {
+                            videoPoster.style.display = 'none';
+                        }
+                    });
+                    
+                    // 为播放按钮添加额外的触摸事件
+                    const videoControls = video.querySelector('::-webkit-media-controls-play-button');
+                    if (videoControls) {
+                        videoControls.addEventListener('touchend', function() {
+                            console.log('iOS播放按钮触摸事件');
+                            setTimeout(() => {
+                                if (!video.paused) {
+                                    videoPoster.style.display = 'none';
+                                }
+                            }, 100);
+                        });
+                    }
+                    
+                    // 为整个视频容器添加点击事件，确保用户点击可以播放
+                    videoContainer.addEventListener('click', function(e) {
+                        console.log('iOS视频容器点击事件');
                         
-                        if (video.paused) {
-                            // 播放视频并隐藏海报
+                        // 检查用户是否点击了视频区域而非控件
+                        const rect = video.getBoundingClientRect();
+                        const isClickOnVideo = (
+                            e.clientX > rect.left && 
+                            e.clientX < rect.right && 
+                            e.clientY > rect.top && 
+                            e.clientY < rect.bottom
+                        );
+                        
+                        if (isClickOnVideo && video.paused) {
+                            // 尝试播放视频
                             video.play()
                                 .then(() => {
                                     if (videoPoster) {
@@ -842,15 +873,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 .catch(err => {
                                     console.error('iOS播放失败:', err);
                                 });
-                        } else {
-                            video.pause();
                         }
                     });
                     
-                    // 视频暂停时显示海报图
-                    video.addEventListener('pause', function() {
-                        // 不重新显示海报，避免闪烁问题
-                    });
                 } else {
                     // 非iOS设备尝试自动播放
                     try {
