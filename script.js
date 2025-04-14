@@ -495,12 +495,13 @@ document.addEventListener('DOMContentLoaded', function() {
                            controls
                            playsinline
                            webkit-playsinline
-                           poster="${thumbnailSrc}"
+                           x5-playsinline
                            preload="metadata"
                            style="width:100%; height:100%; display:block; margin:0; padding:0; border:none; object-fit:cover; background-color:#000; transition: transform 0.3s ease; z-index:1;">
                         <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
+                    <img id="videoPoster" src="${thumbnailSrc}" alt="视频封面" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; display:block;">
                     <div id="videoHint" style="position:absolute; top:10px; left:0; right:0; text-align:center; color:white; background-color:rgba(0,0,0,0.5); padding:5px; font-size:14px; opacity:0; transition:opacity 0.3s; z-index:2; pointer-events:none;">双击左侧或右侧可跳过10s</div>
                     ${isAndroid ? `<div id="playPauseButton" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:60px; height:60px; background-color:rgba(0,0,0,0.5); border-radius:50%; display:none; justify-content:center; align-items:center; cursor:pointer; z-index:3; opacity:0; transition:opacity 0.3s; box-shadow:0 0 10px rgba(0,0,0,0.3);">
                         <div id="playIcon" style="width:0; height:0; border-style:solid; border-width:15px 0 15px 25px; border-color:transparent transparent transparent white; margin-left:5px; display:none;"></div>
@@ -525,6 +526,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('mainVideo');
             const videoContainer = video ? video.parentElement : null;
             const videoHint = document.getElementById('videoHint');
+            const videoPoster = document.getElementById('videoPoster');
             const playPauseButton = document.getElementById('playPauseButton');
             const playIcon = document.getElementById('playIcon');
             const pauseIcon = document.getElementById('pauseIcon');
@@ -789,6 +791,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('视频开始播放');
                     adjustVideoSize();
                     
+                    // 视频开始播放时隐藏海报图
+                    if (videoPoster) {
+                        videoPoster.style.display = 'none';
+                    }
+                    
                     // 安卓设备再次显示提示
                     if (isAndroidDevice() && videoHint && videoHint.style.opacity === '0') {
                         videoHint.textContent = "双击左侧或右侧可跳过10s";
@@ -810,18 +817,55 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error('视频播放错误:', e);
                 });
                 
-                // 只在首次加载时尝试自动播放
+                // 针对iOS设备优化播放体验
                 if (isIOSDevice()) {
-                    // iOS需要用户交互后才能播放
-                    console.log('iOS设备检测到，等待用户交互后播放');
+                    // iOS设备特别处理
+                    console.log('iOS设备检测到，添加特殊处理');
+                    
+                    // 移除原有的click事件监听器，避免重复触发
+                    const clonedVideo = video.cloneNode(true);
+                    video.parentNode.replaceChild(clonedVideo, video);
+                    video = clonedVideo;
+                    
+                    // 单击视频区域触发播放/暂停
+                    videoPlaceholder.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        
+                        if (video.paused) {
+                            // 播放视频并隐藏海报
+                            video.play()
+                                .then(() => {
+                                    if (videoPoster) {
+                                        videoPoster.style.display = 'none';
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error('iOS播放失败:', err);
+                                });
+                        } else {
+                            video.pause();
+                        }
+                    });
+                    
+                    // 视频暂停时显示海报图
+                    video.addEventListener('pause', function() {
+                        // 不重新显示海报，避免闪烁问题
+                    });
                 } else {
                     // 非iOS设备尝试自动播放
                     try {
                         const playPromise = video.play();
                         if (playPromise !== undefined) {
-                            playPromise.catch(e => {
-                                console.log('自动播放失败，需要用户交互:', e);
-                            });
+                            playPromise
+                                .then(() => {
+                                    // 播放成功，隐藏海报
+                                    if (videoPoster) {
+                                        videoPoster.style.display = 'none';
+                                    }
+                                })
+                                .catch(e => {
+                                    console.log('自动播放失败，需要用户交互:', e);
+                                });
                         }
                     } catch (err) {
                         console.log('播放器初始化错误', err);
