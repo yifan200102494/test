@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalBorder = originalStyle.border;
             const originalPadding = originalStyle.padding;
             
-            // 更新视频HTML，增加对移动设备和横竖屏的支持
+            // 更新视频HTML，最简单的实现
             videoPlaceholder.innerHTML = `
                 <div class="video-container" style="position:relative; width:100%; height:100%; margin:0 auto; padding:0; border:none; overflow:hidden;">
                     <video id="mainVideo"
@@ -474,96 +474,83 @@ document.addEventListener('DOMContentLoaded', function() {
                            webkit-playsinline
                            x5-playsinline
                            preload="auto"
-                           style="width:100%; height:100%; display:block; margin:0; padding:0; border:none; object-fit:cover; background-color:#000; z-index:1;">
+                           style="width:100%; height:100%; display:block; margin:0; padding:0; border:none; object-fit:contain; background-color:#000; z-index:1;">
                         <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
-                    <div id="customVideoControls" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:2; cursor:pointer; display:flex; justify-content:center; align-items:center; background-color:#000;">
-                        <img id="videoPoster" src="${thumbnailSrc}" alt="视频封面" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0;">
-                        <div id="playButton" style="width:80px; height:80px; background-color:rgba(0,0,0,0.6); border-radius:50%; display:flex; justify-content:center; align-items:center; position:relative; z-index:3;">
+                    <div id="posterOverlay" style="position:absolute; top:0; left:0; width:100%; height:100%; background-color:#000; display:flex; justify-content:center; align-items:center; z-index:2;">
+                        <img id="videoPoster" src="${thumbnailSrc}" alt="视频封面" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:2;">
+                        <button id="playBtn" style="position:relative; z-index:3; width:80px; height:80px; background-color:rgba(0,0,0,0.6); border:none; border-radius:50%; cursor:pointer; display:flex; justify-content:center; align-items:center;">
                             <div style="width:0; height:0; border-style:solid; border-width:20px 0 20px 35px; border-color:transparent transparent transparent white; margin-left:8px;"></div>
-                        </div>
+                        </button>
                     </div>
                 </div>
             `;
             
-            // 获取视频元素和控制元素
+            // 获取元素
             const video = document.getElementById('mainVideo');
-            const customControls = document.getElementById('customVideoControls');
-            const playButton = document.getElementById('playButton');
+            const posterOverlay = document.getElementById('posterOverlay');
+            const playBtn = document.getElementById('playBtn');
             
-            // 设置视频元素属性
-            if (video) {
-                // 点击自定义控制层播放视频
-                if (customControls && playButton) {
-                    // 统一的播放处理函数
-                    const startPlayback = function() {
-                        console.log('尝试播放视频');
-                        
-                        // 隐藏自定义控制层
-                        customControls.style.display = 'none';
-                        
-                        // 尝试播放视频
-                        const playPromise = video.play();
-                        
-                        if (playPromise !== undefined) {
-                            playPromise
-                                .then(() => {
-                                    console.log('视频播放成功');
-                                })
-                                .catch(err => {
-                                    console.error('视频播放失败:', err);
-                                    // 播放失败时重新显示控制层
-                                    customControls.style.display = 'flex';
-                                });
-                        }
-                    };
-                    
-                    // 为播放按钮添加点击事件
-                    playButton.addEventListener('click', function(e) {
-                        e.stopPropagation(); // 阻止冒泡到自定义控制层
-                        startPlayback();
-                    });
-                    
-                    // 为整个控制层添加点击事件
-                    customControls.addEventListener('click', function(e) {
-                        if (e.target !== playButton) {
-                            startPlayback();
+            // 用一个函数处理视频播放
+            function startVideo() {
+                console.log('点击播放按钮');
+                
+                // 立即隐藏海报和播放按钮
+                if (posterOverlay) {
+                    posterOverlay.style.display = 'none';
+                }
+                
+                // 尝试播放视频
+                if (video) {
+                    video.play().catch(err => {
+                        console.error('视频播放失败:', err);
+                        // 播放失败时重新显示海报
+                        if (posterOverlay) {
+                            posterOverlay.style.display = 'flex';
                         }
                     });
                 }
-                
-                // 视频结束时重新显示自定义控制层
+            }
+            
+            // 为播放按钮添加点击事件
+            if (playBtn) {
+                playBtn.addEventListener('click', function(e) {
+                    startVideo();
+                });
+            }
+            
+            // 为海报区域添加点击事件 - 排除播放按钮
+            if (posterOverlay) {
+                posterOverlay.addEventListener('click', function(e) {
+                    // 确保点击不是在播放按钮上
+                    if (e.target !== playBtn && !playBtn.contains(e.target)) {
+                        startVideo();
+                    }
+                });
+            }
+            
+            // 视频播放结束时重新显示海报
+            if (video) {
                 video.addEventListener('ended', function() {
-                    console.log('视频播放结束');
-                    if (customControls) {
-                        customControls.style.display = 'flex';
+                    if (posterOverlay) {
+                        posterOverlay.style.display = 'flex';
                     }
                 });
                 
                 // 监听视频错误
                 video.addEventListener('error', function(e) {
                     console.error('视频播放错误:', e);
-                    if (customControls) {
-                        customControls.style.display = 'flex';
+                    if (posterOverlay) {
+                        posterOverlay.style.display = 'flex';
                     }
-                });
-                
-                // 防止视频点击事件和自定义控制层冲突
-                video.addEventListener('click', function(e) {
-                    // 如果视频暂停，则尝试播放；否则暂停视频
-                    if (video.paused) {
-                        video.play();
-                    } else {
-                        video.pause();
-                    }
-                    e.stopPropagation();
                 });
             }
+            
         }, { once: true }); // 只触发一次事件监听
     }
     
-    // 添加全局样式以确保视频容器在各种设备上正确显示
+    // 添加全局样式
     const style = document.createElement('style');
     style.textContent = `
         #videoPlaceholder {
@@ -600,7 +587,7 @@ document.addEventListener('DOMContentLoaded', function() {
             background-color: #000;
         }
         
-        #customVideoControls {
+        #posterOverlay {
             position: absolute;
             top: 0;
             left: 0;
@@ -610,7 +597,6 @@ document.addEventListener('DOMContentLoaded', function() {
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
             z-index: 2;
         }
         
@@ -621,22 +607,25 @@ document.addEventListener('DOMContentLoaded', function() {
             position: absolute;
             top: 0;
             left: 0;
+            z-index: 2;
         }
         
-        #playButton {
+        #playBtn {
+            position: relative;
+            z-index: 3;
             width: 80px;
             height: 80px;
             background-color: rgba(0,0,0,0.6);
+            border: none;
             border-radius: 50%;
+            cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-            z-index: 3;
-            transition: transform 0.2s ease, background-color 0.2s ease;
+            transition: transform 0.2s ease;
         }
         
-        #playButton:hover {
+        #playBtn:hover {
             transform: scale(1.1);
             background-color: rgba(0,0,0,0.8);
         }
