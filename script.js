@@ -439,26 +439,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-// 检测是否为苹果设备（iOS或macOS）
-function isAppleDevice() {
-    // 检测常见的苹果设备平台
-    const userAgent = navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod|macintosh/.test(userAgent);
-}
-
-// 进一步检测是否为iOS设备
-function isIOSDevice() {
-    const userAgent = navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(userAgent) || 
-           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // 支持iPad Pro检测
-}
-
-// 检测是否为安卓设备
-function isAndroidDevice() {
-    const userAgent = navigator.userAgent.toLowerCase();
-    return /android/.test(userAgent);
-}
-
 // 视频播放功能
 document.addEventListener('DOMContentLoaded', function() {
     const videoPlaceholder = document.getElementById('videoPlaceholder');
@@ -485,9 +465,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalBorder = originalStyle.border;
             const originalPadding = originalStyle.padding;
             
-            // 判断是否为安卓设备
-            const isAndroid = isAndroidDevice();
-            
             // 更新视频HTML，增加对移动设备和横竖屏的支持
             videoPlaceholder.innerHTML = `
                 <div class="video-container" style="position:relative; width:100%; height:100%; margin:0 auto; padding:0; border:none; overflow:hidden;">
@@ -496,327 +473,91 @@ document.addEventListener('DOMContentLoaded', function() {
                            playsinline
                            webkit-playsinline
                            x5-playsinline
-                           preload="metadata"
-                           style="width:100%; height:100%; display:block; margin:0; padding:0; border:none; object-fit:cover; background-color:#000; transition: transform 0.3s ease; z-index:1;">
+                           preload="auto"
+                           style="width:100%; height:100%; display:block; margin:0; padding:0; border:none; object-fit:cover; background-color:#000; z-index:1;">
                         <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
-                    <div id="videoPosterContainer" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:5; background-color:#000; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-                        <img id="videoPoster" src="${thumbnailSrc}" alt="视频封面" style="width:100%; height:100%; object-fit:cover;">
-                        <div id="videoPlayBtn" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:80px; height:80px; background-color:rgba(0,0,0,0.5); border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:6;">
+                    <div id="customVideoControls" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:2; cursor:pointer; display:flex; justify-content:center; align-items:center; background-color:#000;">
+                        <img id="videoPoster" src="${thumbnailSrc}" alt="视频封面" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0;">
+                        <div id="playButton" style="width:80px; height:80px; background-color:rgba(0,0,0,0.6); border-radius:50%; display:flex; justify-content:center; align-items:center; position:relative; z-index:3;">
                             <div style="width:0; height:0; border-style:solid; border-width:20px 0 20px 35px; border-color:transparent transparent transparent white; margin-left:8px;"></div>
                         </div>
                     </div>
-                    <div id="videoHint" style="position:absolute; top:10px; left:0; right:0; text-align:center; color:white; background-color:rgba(0,0,0,0.5); padding:5px; font-size:14px; opacity:0; transition:opacity 0.3s; z-index:2; pointer-events:none;">双击左侧或右侧可跳过10s</div>
-                    ${isAndroid ? `<div id="playPauseButton" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:60px; height:60px; background-color:rgba(0,0,0,0.5); border-radius:50%; display:none; justify-content:center; align-items:center; cursor:pointer; z-index:3; opacity:0; transition:opacity 0.3s; box-shadow:0 0 10px rgba(0,0,0,0.3);">
-                        <div id="playIcon" style="width:0; height:0; border-style:solid; border-width:15px 0 15px 25px; border-color:transparent transparent transparent white; margin-left:5px; display:none;"></div>
-                        <div id="pauseIcon" style="width:20px; height:30px; display:none; justify-content:space-between;">
-                            <div style="width:7px; height:100%; background-color:white;"></div>
-                            <div style="width:7px; height:100%; background-color:white;"></div>
-                        </div>
-                    </div>` : ''}
                 </div>
             `;
             
-            // 设置播放器容器样式，保持与原始边框一致
-            videoPlaceholder.style.display = 'flex';
-            videoPlaceholder.style.justifyContent = 'center';
-            videoPlaceholder.style.alignItems = 'center';
-            videoPlaceholder.style.maxWidth = '100%';
-            videoPlaceholder.style.margin = '0 auto';
-            videoPlaceholder.style.overflow = 'hidden';
-            videoPlaceholder.style.aspectRatio = '16/9'; // 设置默认宽高比
-            
-            // 获取视频元素和容器
+            // 获取视频元素和控制元素
             const video = document.getElementById('mainVideo');
-            const videoContainer = video ? video.parentElement : null;
-            const videoHint = document.getElementById('videoHint');
-            const videoPosterContainer = document.getElementById('videoPosterContainer');
-            const videoPoster = document.getElementById('videoPoster');
-            const videoPlayBtn = document.getElementById('videoPlayBtn');
-            const playPauseButton = document.getElementById('playPauseButton');
-            const playIcon = document.getElementById('playIcon');
-            const pauseIcon = document.getElementById('pauseIcon');
+            const customControls = document.getElementById('customVideoControls');
+            const playButton = document.getElementById('playButton');
             
-            // 跟踪视频是否处于放大状态
-            let isVideoZoomed = false;
-            
-            // 响应屏幕方向变化和视频尺寸
-            function adjustVideoSize() {
-                if (!video || !videoContainer) return;
-                
-                // 获取视频的原始尺寸
-                const videoWidth = video.videoWidth || 16;
-                const videoHeight = video.videoHeight || 9;
-                const videoRatio = videoWidth / videoHeight;
-                
-                // 设置容器宽高比与视频一致
-                videoPlaceholder.style.aspectRatio = `${videoWidth}/${videoHeight}`;
-                videoContainer.style.aspectRatio = `${videoWidth}/${videoHeight}`;
-                
-                if (window.matchMedia("(orientation: portrait)").matches) {
-                    // 竖屏模式
-                    videoContainer.style.width = '100%';
-                    videoContainer.style.height = '100%';
-                    video.style.width = '100%';
-                    video.style.height = '100%';
-                } else {
-                    // 横屏模式
-                    videoContainer.style.width = '100%';
-                    videoContainer.style.height = '100%';
-                    video.style.width = '100%';
-                    video.style.height = '100%';
-                }
-                
-                // 确保视频播放区域填充整个容器但保持比例
-                if (window.innerWidth / window.innerHeight > videoRatio) {
-                    // 如果窗口宽高比大于视频宽高比，视频应该填充高度
-                    video.style.objectFit = 'contain';
-                } else {
-                    // 否则，视频应该填充宽度
-                    video.style.objectFit = 'contain';
-                }
-                
-                // 重置缩放状态
-                isVideoZoomed = false;
-                video.style.transform = 'scale(1)';
-            }
-            
-            // 更新播放/暂停按钮状态
-            function updatePlayPauseButton() {
-                if (!isAndroid || !playPauseButton || !playIcon || !pauseIcon) return;
-                
-                if (video.paused) {
-                    // 视频暂停时显示播放图标
-                    playIcon.style.display = 'block';
-                    pauseIcon.style.display = 'none';
-                } else {
-                    // 视频播放时显示暂停图标
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'flex';
-                }
-            }
-            
-            // 切换视频缩放状态
-            function toggleVideoZoom() {
-                if (!video) return;
-                
-                isVideoZoomed = !isVideoZoomed;
-                
-                if (isVideoZoomed) {
-                    // 放大视频
-                    video.style.transform = 'scale(1.5)';
-                    video.style.objectFit = 'cover';
-                } else {
-                    // 恢复原始尺寸
-                    video.style.transform = 'scale(1)';
-                    video.style.objectFit = 'contain';
-                }
-                
-                // 显示缩放提示
-                if (videoHint) {
-                    videoHint.textContent = isVideoZoomed ? "已放大" : "已还原";
-                    videoHint.style.opacity = '1';
-                    setTimeout(() => {
-                        videoHint.style.opacity = '0';
-                    }, 800);
-                }
-            }
-            
-            // 初始调用一次以设置正确的初始样式
+            // 设置视频元素属性
             if (video) {
-                // 视频元数据加载后再进行尺寸调整
-                video.addEventListener('loadedmetadata', function() {
-                    console.log('视频元数据已加载', video.videoWidth, video.videoHeight);
-                    adjustVideoSize();
-                });
-            } else {
-                adjustVideoSize();
-            }
-            
-            // 监听屏幕方向变化
-            window.addEventListener('orientationchange', adjustVideoSize);
-            window.addEventListener('resize', adjustVideoSize);
-            
-            if (video) {
-                // 标记视频已初始化
-                videoInitialized = true;
-                
-                // 添加通用播放按钮点击事件 - 适用于所有设备
-                if (videoPlayBtn && videoPosterContainer) {
-                    // 移除所有可能已存在的点击事件监听器
-                    const newVideoPlayBtn = videoPlayBtn.cloneNode(true);
-                    videoPlayBtn.parentNode.replaceChild(newVideoPlayBtn, videoPlayBtn);
-                    videoPlayBtn = newVideoPlayBtn;
+                // 点击自定义控制层播放视频
+                if (customControls && playButton) {
+                    // 统一的播放处理函数
+                    const startPlayback = function() {
+                        console.log('尝试播放视频');
+                        
+                        // 隐藏自定义控制层
+                        customControls.style.display = 'none';
+                        
+                        // 尝试播放视频
+                        const playPromise = video.play();
+                        
+                        if (playPromise !== undefined) {
+                            playPromise
+                                .then(() => {
+                                    console.log('视频播放成功');
+                                })
+                                .catch(err => {
+                                    console.error('视频播放失败:', err);
+                                    // 播放失败时重新显示控制层
+                                    customControls.style.display = 'flex';
+                                });
+                        }
+                    };
                     
-                    // 移除海报容器可能已存在的点击事件监听器
-                    const newVideoPosterContainer = videoPosterContainer.cloneNode(true);
-                    newVideoPosterContainer.querySelector('#videoPlayBtn').remove(); // 移除旧的播放按钮
-                    videoPosterContainer.parentNode.replaceChild(newVideoPosterContainer, videoPosterContainer);
-                    videoPosterContainer = newVideoPosterContainer;
+                    // 为播放按钮添加点击事件
+                    playButton.addEventListener('click', function(e) {
+                        e.stopPropagation(); // 阻止冒泡到自定义控制层
+                        startPlayback();
+                    });
                     
-                    // 重新添加播放按钮到海报容器
-                    videoPosterContainer.appendChild(videoPlayBtn);
-                    
-                    // 单独处理iOS设备的播放按钮点击
-                    if (isIOSDevice()) {
-                        // 为iOS设备特别优化的播放按钮点击处理
-                        videoPlayBtn.addEventListener('click', function(event) {
-                            console.log('iOS播放按钮被点击');
-                            // 阻止事件冒泡和默认行为
-                            event.stopPropagation();
-                            event.preventDefault();
-                            
-                            // 立即隐藏海报容器
-                            videoPosterContainer.style.display = 'none';
-                            
-                            // 直接播放视频，不等待click事件处理完成
-                            setTimeout(() => {
-                                video.play()
-                                    .then(() => {
-                                        console.log('iOS视频开始播放成功');
-                                    })
-                                    .catch(err => {
-                                        console.error('iOS播放失败:', err);
-                                        // 如果播放失败，重新显示海报
-                                        videoPosterContainer.style.display = 'flex';
-                                    });
-                            }, 10);
-                        }, {once: false, capture: true}); // 使用捕获阶段，确保此处理程序先执行
-                    } else {
-                        // 非iOS设备的标准处理
-                        videoPlayBtn.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            console.log('播放按钮被点击');
-                            
-                            // 隐藏海报容器
-                            videoPosterContainer.style.display = 'none';
-                            
-                            // 尝试播放视频
-                            try {
-                                video.play()
-                                    .then(() => {
-                                        console.log('视频开始播放成功');
-                                    })
-                                    .catch(err => {
-                                        console.error('视频播放失败:', err);
-                                        // 如果播放失败，重新显示海报
-                                        videoPosterContainer.style.display = 'flex';
-                                    });
-                            } catch (err) {
-                                console.error('播放视频出错:', err);
-                                // 如果出错，重新显示海报
-                                videoPosterContainer.style.display = 'flex';
-                            }
-                        });
-                    }
-                    
-                    // 不再为整个海报容器添加点击事件，避免事件冲突
+                    // 为整个控制层添加点击事件
+                    customControls.addEventListener('click', function(e) {
+                        if (e.target !== playButton) {
+                            startPlayback();
+                        }
+                    });
                 }
                 
-                // 监听视频播放状态变化
-                video.addEventListener('play', function() {
-                    console.log('视频开始播放');
-                    adjustVideoSize();
-                    
-                    // 确保播放时隐藏海报
-                    if (videoPosterContainer) {
-                        videoPosterContainer.style.display = 'none';
-                    }
-                    
-                    // 安卓设备再次显示提示
-                    if (isAndroidDevice() && videoHint && videoHint.style.opacity === '0') {
-                        videoHint.textContent = "双击左侧或右侧可跳过10s";
-                        videoHint.style.opacity = '1';
-                        setTimeout(() => {
-                            videoHint.style.opacity = '0';
-                        }, 3000);
-                    }
-                });
-                
-                // 监听播放结束事件
+                // 视频结束时重新显示自定义控制层
                 video.addEventListener('ended', function() {
                     console.log('视频播放结束');
-                    // 视频结束后重新显示海报
-                    if (videoPosterContainer) {
-                        videoPosterContainer.style.display = 'flex';
+                    if (customControls) {
+                        customControls.style.display = 'flex';
                     }
                 });
                 
-                // 监听视频暂停事件
-                video.addEventListener('pause', function() {
-                    console.log('视频暂停');
-                    // 视频暂停时不显示海报，保持视频当前帧
-                });
-                
-                // 修复iOS事件处理
-                video.addEventListener('canplay', function() {
-                    console.log('视频可以播放了');
-                    adjustVideoSize();
-                });
-                
-                // 监听播放错误
+                // 监听视频错误
                 video.addEventListener('error', function(e) {
                     console.error('视频播放错误:', e);
-                    // 播放错误时显示海报
-                    if (videoPosterContainer) {
-                        videoPosterContainer.style.display = 'flex';
+                    if (customControls) {
+                        customControls.style.display = 'flex';
                     }
                 });
                 
-                // 专门处理iOS设备
-                if (isIOSDevice()) {
-                    console.log('iOS设备检测到，使用简化处理方式');
-                    
-                    // 移除可能存在的事件监听器
-                    const newVideo = video.cloneNode(true);
-                    video.parentNode.replaceChild(newVideo, video);
-                    video = newVideo;
-                    
-                    // 重新添加必要的监听器
-                    video.addEventListener('playing', function() {
-                        console.log('iOS视频实际开始播放');
-                        // 确保播放时海报被隐藏
-                        if (videoPosterContainer) {
-                            videoPosterContainer.style.display = 'none';
-                        }
-                    });
-                    
-                    // 防止iOS自带控件与我们的自定义播放按钮冲突
-                    video.addEventListener('click', function(e) {
-                        // 阻止视频元素上的点击传播
-                        e.stopPropagation();
-                    });
-                }
-                
-                // 为视频控制器添加键盘快捷键支持
-                document.addEventListener('keydown', function(e) {
-                    if (!videoInitialized) return;
-                    
-                    // 空格键：播放/暂停
-                    if (e.code === 'Space') {
-                        e.preventDefault();
-                        if (video.paused) {
-                            video.play();
-                        } else {
-                            video.pause();
-                        }
+                // 防止视频点击事件和自定义控制层冲突
+                video.addEventListener('click', function(e) {
+                    // 如果视频暂停，则尝试播放；否则暂停视频
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
                     }
-                    
-                    // 左箭头：后退10秒
-                    if (e.code === 'ArrowLeft') {
-                        e.preventDefault();
-                        video.currentTime = Math.max(0, video.currentTime - 10);
-                        showSeekIndicator(video, 'backward');
-                    }
-                    
-                    // 右箭头：前进10秒
-                    if (e.code === 'ArrowRight') {
-                        e.preventDefault();
-                        video.currentTime = Math.min(video.duration, video.currentTime + 10);
-                        showSeekIndicator(video, 'forward');
-                    }
+                    e.stopPropagation();
                 });
             }
         }, { once: true }); // 只触发一次事件监听
@@ -857,34 +598,32 @@ document.addEventListener('DOMContentLoaded', function() {
             border: none;
             object-fit: contain;
             background-color: #000;
-            transition: transform 0.3s ease;
         }
         
-        #videoPosterContainer {
+        #customVideoControls {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: #000;
-            z-index: 5;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            cursor: pointer;
+            z-index: 2;
         }
         
         #videoPoster {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         
-        #videoPlayBtn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        #playButton {
             width: 80px;
             height: 80px;
             background-color: rgba(0,0,0,0.6);
@@ -892,13 +631,13 @@ document.addEventListener('DOMContentLoaded', function() {
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            z-index: 6;
+            position: relative;
+            z-index: 3;
             transition: transform 0.2s ease, background-color 0.2s ease;
         }
         
-        #videoPlayBtn:hover {
-            transform: translate(-50%, -50%) scale(1.1);
+        #playButton:hover {
+            transform: scale(1.1);
             background-color: rgba(0,0,0,0.8);
         }
         
@@ -915,38 +654,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 width: 100%;
                 max-height: 40vh;
             }
-        }
-        
-        /* 确保视频控件显示 */
-        video::-webkit-media-controls-panel {
-            display: flex !important;
-            opacity: 1 !important;
-            background-color: rgba(0, 0, 0, 0.5) !important;
-        }
-        
-        video::-webkit-media-controls-play-button,
-        video::-webkit-media-controls-timeline,
-        video::-webkit-media-controls-current-time-display,
-        video::-webkit-media-controls-time-remaining-display,
-        video::-webkit-media-controls-mute-button,
-        video::-webkit-media-controls-volume-slider,
-        video::-webkit-media-controls-fullscreen-button {
-            display: inline-block !important;
-            opacity: 1 !important;
-        }
-        
-        /* 处理全屏模式 */
-        video::-webkit-media-controls-fullscreen-button {
-            display: block;
-        }
-        
-        video:fullscreen, 
-        video:-webkit-full-screen,
-        video:-moz-full-screen,
-        video:-ms-fullscreen {
-            object-fit: contain;
-            width: 100%;
-            height: 100%;
         }
     `;
     document.head.appendChild(style);
@@ -1057,4 +764,24 @@ function toggleFaq(element) {
             icon.className = 'fas fa-plus';
         }
     }
+}
+
+// 检测是否为苹果设备（iOS或macOS）
+function isAppleDevice() {
+    // 检测常见的苹果设备平台
+    const userAgent = navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod|macintosh/.test(userAgent);
+}
+
+// 进一步检测是否为iOS设备
+function isIOSDevice() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent) || 
+           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // 支持iPad Pro检测
+}
+
+// 检测是否为安卓设备
+function isAndroidDevice() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return /android/.test(userAgent);
 }
