@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function() {
             videoPlaceholder.innerHTML = `
                 <div class="video-container" style="position:relative; width:100%; height:100%; margin:0 auto; padding:0; border:none; overflow:hidden;">
                     <video id="mainVideo"
-                           controls
+                           ${isAndroid ? '' : 'controls'}
                            playsinline
                            webkit-playsinline
                            poster="${thumbnailSrc}"
@@ -696,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (isAndroidDevice()) {
                     // 显示提示
                     if (videoHint) {
-                        videoHint.textContent = "双击左侧/右侧跳转，双击中间放大";
+                        videoHint.textContent = "双击左侧或右侧可跳过10s";
                         videoHint.style.opacity = '1';
                         setTimeout(() => {
                             videoHint.style.opacity = '0';
@@ -791,7 +791,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // 安卓设备再次显示提示
                     if (isAndroidDevice() && videoHint && videoHint.style.opacity === '0') {
-                        videoHint.textContent = "双击左侧/右侧跳转，双击中间放大";
+                        videoHint.textContent = "双击左侧或右侧可跳过10s";
                         videoHint.style.opacity = '1';
                         setTimeout(() => {
                             videoHint.style.opacity = '0';
