@@ -456,8 +456,18 @@ function isIOSDevice() {
 // 视频播放功能
 document.addEventListener('DOMContentLoaded', function() {
     const videoPlaceholder = document.getElementById('videoPlaceholder');
+    
+    // 标记是否已初始化视频播放器
+    let videoInitialized = false;
+    
     if (videoPlaceholder) {
-        videoPlaceholder.addEventListener('click', function() {
+        // 只在首次点击时初始化视频
+        videoPlaceholder.addEventListener('click', function(e) {
+            // 如果视频已经初始化，不要再处理点击事件
+            if (videoInitialized) {
+                return;
+            }
+            
             // 获取当前的视频缩略图路径
             const thumbnailImg = videoPlaceholder.querySelector('.video-thumbnail');
             const thumbnailSrc = thumbnailImg ? thumbnailImg.src : './images/poster.jpg';
@@ -465,16 +475,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // 更新视频HTML，增加对iOS的更好支持
             videoPlaceholder.innerHTML = `
                 <div class="video-container" style="position:relative; width:fit-content; max-width:100%; margin:0 auto; padding:0; border:none; display:inline-block;">
-                    <video controls playsinline 
+                    <video id="mainVideo"
+                           controls
+                           playsinline
                            webkit-playsinline
-                           x5-playsinline
-                           x-webkit-airplay="allow"
-                           x5-video-player-type="h5"
-                           x5-video-player-fullscreen="true"
-                           x5-video-orientation="portraint"
-                           preload="metadata"
                            poster="${thumbnailSrc}"
-                           id="mainVideo"
+                           preload="metadata"
                            style="max-width:100%; display:block; width:auto; height:auto; margin:0; padding:0; border:none;">
                         <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
@@ -489,40 +495,80 @@ document.addEventListener('DOMContentLoaded', function() {
             videoPlaceholder.style.maxWidth = '100%';
             videoPlaceholder.style.margin = '0 auto';
             
-            // 获取视频元素并尝试播放
+            // 获取视频元素并设置事件监听
             const video = document.getElementById('mainVideo');
             if (video) {
-                // 为iOS设备添加特殊处理
+                // 标记视频已初始化
+                videoInitialized = true;
+                
+                // 阻止视频区域的点击事件冒泡
+                video.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+                
+                // 修复iOS事件处理
+                video.addEventListener('loadedmetadata', function() {
+                    console.log('视频元数据已加载');
+                });
+                
+                // 修复iOS事件处理
+                video.addEventListener('canplay', function() {
+                    console.log('视频可以播放了');
+                });
+                
+                // 监听播放错误
+                video.addEventListener('error', function(e) {
+                    console.error('视频播放错误:', e);
+                });
+                
+                // 只在首次加载时尝试自动播放
                 if (isIOSDevice()) {
-                    // 确保视频初始化正确
-                    video.load();
-                    
-                    // 添加可播放事件监听
-                    video.addEventListener('canplay', function() {
-                        console.log('视频可以播放了');
-                    });
-                    
-                    // 为iOS添加特殊处理
-                    video.addEventListener('webkitendfullscreen', function() {
-                        // iOS特有事件，处理退出全屏
-                        console.log('iOS退出全屏');
-                        // 可能需要在这里处理一些状态
-                    });
+                    // iOS需要用户交互后才能播放
+                    console.log('iOS设备检测到，等待用户交互后播放');
+                } else {
+                    // 非iOS设备尝试自动播放
+                    try {
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => {
+                                console.log('自动播放失败，需要用户交互:', e);
+                            });
+                        }
+                    } catch (err) {
+                        console.log('播放器初始化错误', err);
+                    }
                 }
                 
-                // 尝试自动播放 (用户交互后可能会成功)
-                try {
-                    const playPromise = video.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(e => {
-                            console.log('自动播放失败，需要用户交互:', e);
-                        });
+                // 为视频控制器添加键盘快捷键支持
+                document.addEventListener('keydown', function(e) {
+                    if (!videoInitialized) return;
+                    
+                    // 空格键：播放/暂停
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        if (video.paused) {
+                            video.play();
+                        } else {
+                            video.pause();
+                        }
                     }
-                } catch (err) {
-                    console.log('播放器初始化错误', err);
-                }
+                    
+                    // 左箭头：后退10秒
+                    if (e.code === 'ArrowLeft') {
+                        e.preventDefault();
+                        video.currentTime = Math.max(0, video.currentTime - 10);
+                        showSeekIndicator(video, 'backward');
+                    }
+                    
+                    // 右箭头：前进10秒
+                    if (e.code === 'ArrowRight') {
+                        e.preventDefault();
+                        video.currentTime = Math.min(video.duration, video.currentTime + 10);
+                        showSeekIndicator(video, 'forward');
+                    }
+                });
             }
-        });
+        }, { once: true }); // 只触发一次事件监听
     }
 });
 
