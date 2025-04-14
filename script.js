@@ -480,10 +480,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // 检测是否为iOS设备
             const isIOS = isIOSDevice();
             
-            // 创建视频元素，为iOS设备添加额外属性和样式
+            // 创建视频元素，简化为使用原生控制器
             const videoHTML = `
                 <div class="video-container" style="position:relative; width:fit-content; max-width:100%; margin:0 auto; padding:0; border:none; box-sizing:border-box; display:inline-block; line-height:0;">
-                    <video ${isIOS ? '' : 'controls'} autoplay playsinline 
+                    <video width="auto" controls playsinline 
                            webkit-playsinline
                            x-webkit-airplay="allow"
                            x5-video-player-type="h5"
@@ -496,51 +496,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
-                    ${isIOS ? 
-                    `<div class="custom-video-controls" style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.5); display:flex; justify-content:center; align-items:center; padding:8px; z-index:10;">
-                        <button id="playPauseBtn" style="background:none; border:none; color:white; margin:0 10px; cursor:pointer; width:30px; height:30px; display:flex; justify-content:center; align-items:center;">
-                            <i class="fas fa-play" style="font-size:16px;"></i>
-                        </button>
-                        <div id="progressBarContainer" style="flex-grow:1; height:6px; background:rgba(255,255,255,0.3); position:relative; border-radius:3px; cursor:pointer;">
-                            <div id="progressBar" style="height:100%; width:0; background:white; border-radius:3px;"></div>
-                        </div>
-                        <div id="timeDisplay" style="color:white; margin-left:10px; font-size:12px;">0:00</div>
-                    </div>` : ''}
-                    <style>
-                        /* 隐藏iOS默认视频控制器 */
-                        #mainVideo::-webkit-media-controls {
-                            display: none !important;
-                        }
-                        #mainVideo::-webkit-media-controls-panel {
-                            display: none !important;
-                        }
-                        #mainVideo::-webkit-media-controls-play-button {
-                            display: none !important;
-                        }
-                        #mainVideo::-webkit-media-controls-timeline {
-                            display: none !important;
-                        }
-                        #mainVideo::-webkit-media-controls-current-time-display {
-                            display: none !important;
-                        }
-                        #mainVideo::-webkit-media-controls-time-remaining-display {
-                            display: none !important;
-                        }
-                        #mainVideo::-webkit-media-controls-mute-button {
-                            display: none !important;
-                        }
-                        #mainVideo::-webkit-media-controls-volume-slider {
-                            display: none !important;
-                        }
-                        #mainVideo::-webkit-media-controls-fullscreen-button {
-                            display: none !important;
-                        }
-                        /* 设置iOS中视频的特定样式 */
-                        .ios-video-fix {
-                            -webkit-transform: translateZ(0);
-                            transform: translateZ(0);
-                        }
-                    </style>
                 </div>
             `;
             videoPlaceholder.innerHTML = videoHTML;
@@ -554,7 +509,6 @@ document.addEventListener('DOMContentLoaded', function() {
             videoPlaceholder.style.padding = '0';
             videoPlaceholder.style.margin = '0 auto';
             videoPlaceholder.style.border = 'none';
-            videoPlaceholder.style.backgroundColor = 'transparent';
             videoPlaceholder.style.overflow = 'hidden';
             videoPlaceholder.style.lineHeight = '0';
             
@@ -563,247 +517,26 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 确保视频加载后调整尺寸
             if (video) {
-                video.onloadeddata = function() {
+                video.addEventListener('loadedmetadata', function() {
                     // 调整容器大小匹配视频
                     const container = video.parentElement;
-                    container.style.width = video.videoWidth + 'px';
+                    container.style.width = this.videoWidth + 'px';
                     container.style.maxWidth = '100%';
                     
-                    // 添加iOS特定类
+                    // 设置视频初始状态
                     if (isIOS) {
-                        video.classList.add('ios-video-fix');
-                        
-                        // 设置自定义控制器
-                        setupCustomControls(video);
+                        // 确保iOS设备使用原生控制器
+                        this.controls = true;
                     }
-                };
-            }
-            
-            // iOS设备的全屏按钮处理
-            if (isIOS) {
-                const fullscreenBtn = document.getElementById('fullscreenBtn');
-                if (fullscreenBtn) {
-                    fullscreenBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        enterFullScreen(video);
+                });
+                
+                // 处理iOS上的点击事件，确保控制器正常显示/隐藏
+                if (isIOS) {
+                    video.addEventListener('click', function(e) {
+                        // 允许事件冒泡，以便iOS的原生控制器可以正常响应
+                        e.stopPropagation = false;
                     });
                 }
-            }
-            
-            // 设置视频的元数据加载完成事件
-            if (video) {
-                video.onloadedmetadata = function() {
-                    // 确保视频控制条可见
-                    this.controls = true;
-                    
-                    // 移除默认的控制器样式
-                    this.classList.add('custom-controls');
-                    
-                    // 双击计时器变量
-                    let lastTapTime = 0;
-                    let lastTapX = 0;
-                    
-                    // 检测是否为iOS设备
-                    const isIOS = isIOSDevice();
-                    
-                    // iOS设备专用处理 - 添加一个透明覆盖层用于捕获点击事件
-                    if (isIOS) {
-                        // 创建覆盖层
-                        const overlay = document.createElement('div');
-                        overlay.id = 'videoOverlay';
-                        overlay.style.position = 'absolute';
-                        overlay.style.top = '0';
-                        overlay.style.left = '0';
-                        overlay.style.width = '100%';
-                        overlay.style.height = '80%'; // 覆盖视频的80%，留出底部控制栏
-                        overlay.style.zIndex = '2';
-                        overlay.style.cursor = 'pointer';
-                        
-                        // 将覆盖层添加到视频容器
-                        const videoContainer = this.parentElement;
-                        videoContainer.style.position = 'relative';
-                        videoContainer.appendChild(overlay);
-                        
-                        // 为覆盖层添加点击事件
-                        overlay.addEventListener('click', function(e) {
-                            if (video.paused) {
-                                video.play();
-                            } else {
-                                video.pause();
-                            }
-                            e.preventDefault();
-                            e.stopPropagation();
-                        }, {passive: false});
-                        
-                        // 处理快进快退双击操作
-                        let touchStartTime = 0;
-                        let touchStartX = 0;
-                        
-                        overlay.addEventListener('touchstart', function(e) {
-                            // 检测是否为多指触摸(可能是放大手势)
-                            if (e.touches.length > 1) {
-                                // 直接将事件传递给视频元素，不阻止默认行为
-                                overlay.style.pointerEvents = 'none';
-                                setTimeout(() => {
-                                    overlay.style.pointerEvents = 'auto';
-                                }, 500); // 500ms后恢复覆盖层事件捕获
-                                return;
-                            }
-                            
-                            const touch = e.touches[0];
-                            const currentTime = new Date().getTime();
-                            
-                            // 保存触摸起始信息
-                            touchStartTime = currentTime;
-                            touchStartX = touch.clientX;
-                            
-                            // 判断是否为双击（距离上次点击小于300ms）
-                            if (currentTime - lastTapTime < 300 && Math.abs(touchStartX - lastTapX) < 30) {
-                                const videoWidth = videoContainer.clientWidth;
-                                
-                                // 左侧快退
-                                if (touchStartX < videoWidth * 0.4) {
-                                    video.currentTime = Math.max(0, video.currentTime - 10);
-                                    showSeekIndicator(video, 'backward');
-                                }
-                                // 右侧快进
-                                else if (touchStartX > videoWidth * 0.6) {
-                                    video.currentTime = Math.min(video.duration, video.currentTime + 10);
-                                    showSeekIndicator(video, 'forward');
-                                }
-                                // 中间双击全屏
-                                else {
-                                    enterFullScreen(video);
-                                }
-                                
-                                e.preventDefault();
-                            }
-                            
-                            // 更新上次点击信息
-                            lastTapTime = currentTime;
-                            lastTapX = touchStartX;
-                        }, {passive: false});
-                        
-                        // 添加双击全屏功能
-                        overlay.addEventListener('dblclick', function(e) {
-                            enterFullScreen(video);
-                        });
-                        
-                        // 添加全屏按钮点击处理
-                        overlay.addEventListener('touchend', function(e) {
-                            // 检查点击位置是否在视频底部控制区域
-                            const rect = video.getBoundingClientRect();
-                            const touchY = e.changedTouches[0].clientY - rect.top;
-                            
-                            // 如果点击在底部20%区域，可能是控制条区域，不干预
-                            if (touchY > rect.height * 0.8) {
-                                // 临时禁用覆盖层捕获事件，让事件传递到控制条
-                                overlay.style.pointerEvents = 'none';
-                                setTimeout(() => {
-                                    overlay.style.pointerEvents = 'auto';
-                                }, 500);
-                            }
-                        });
-                    } 
-                    // 非iOS设备的标准处理
-                    else {
-                        // 添加点击视频暂停/播放功能
-                        this.addEventListener('click', function(e) {
-                            // 获取点击位置相对于视频元素的坐标
-                            const rect = this.getBoundingClientRect();
-                            const clickY = e.clientY - rect.top;
-                            const clickX = e.clientX - rect.left;
-                            
-                            // 控制条高度大约为视频高度的15%
-                            const controlsHeight = rect.height * 0.15;
-                            
-                            // 如果点击位置不在控制条区域
-                            if (clickY < rect.height - controlsHeight) {
-                                // 判断视频当前状态并切换
-                                if (this.paused) {
-                                    this.play();
-                                } else {
-                                    this.pause();
-                                }
-                                
-                                // 取消事件默认行为和冒泡，防止浏览器自动处理
-                                e.preventDefault();
-                                e.stopPropagation();
-                                return false;
-                            }
-                        });
-                        
-                        // 添加双击全屏功能
-                        this.addEventListener('dblclick', function(e) {
-                            enterFullScreen(this);
-                        });
-                        
-                        // 触摸事件处理（针对非iOS移动设备）
-                        this.addEventListener('touchend', function(e) {
-                            // 获取触摸结束位置相对于视频元素的坐标
-                            const rect = this.getBoundingClientRect();
-                            const touchY = e.changedTouches[0].clientY - rect.top;
-                            
-                            // 控制条高度大约为视频高度的20%（移动端触摸区域更大）
-                            const controlsHeight = rect.height * 0.2;
-                            
-                            // 如果触摸结束位置不在控制条区域
-                            if (touchY < rect.height - controlsHeight) {
-                                if (this.paused) {
-                                    this.play();
-                                } else {
-                                    this.pause();
-                                }
-                                // 防止事件传播和默认行为
-                                e.stopPropagation();
-                                e.preventDefault();
-                            }
-                        }, {passive: false});
-                    }
-                    
-                    // 防止控制栏播放按钮的冲突
-                    this.addEventListener('play', function(e) {
-                        // 允许控制栏发起的播放事件
-                        if (e.isTrusted) {
-                            e.stopPropagation();
-                        }
-                    });
-                    
-                    this.addEventListener('pause', function(e) {
-                        // 允许控制栏发起的暂停事件
-                        if (e.isTrusted) {
-                            e.stopPropagation();
-                        }
-                    });
-                    
-                    // 为速度菜单点击添加监听，防止蒙层
-                    this.addEventListener('ratechange', function() {
-                        // 移除可能出现的蒙层
-                        const mediaControls = document.querySelector('#mainVideo::-webkit-media-controls');
-                        if (mediaControls) {
-                            mediaControls.style.backgroundColor = 'transparent';
-                        }
-                    });
-                    
-                    // 添加MutationObserver监听DOM变化，移除可能动态添加的蒙层
-                    const observer = new MutationObserver(function(mutations) {
-                        // 遍历所有变化
-                        mutations.forEach(function(mutation) {
-                            // 检查是否有新节点添加
-                            if (mutation.addedNodes.length) {
-                                // 检查视频控制器
-                                const controls = document.querySelectorAll('#mainVideo::-webkit-media-controls, #mainVideo::-webkit-media-controls-panel');
-                                controls.forEach(control => {
-                                    control.style.backgroundColor = 'transparent';
-                                    control.style.backdropFilter = 'none';
-                                });
-                            }
-                        });
-                    });
-                    
-                    // 配置和启动观察器
-                    observer.observe(document.body, { childList: true, subtree: true });
-                };
             }
         });
     }
@@ -914,50 +647,4 @@ function toggleFaq(element) {
             icon.className = 'fas fa-plus';
         }
     }
-}
-
-function setupCustomControls(video) {
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const progressBar = document.getElementById('progressBar');
-    const progressBarContainer = document.getElementById('progressBarContainer');
-    const timeDisplay = document.getElementById('timeDisplay');
-    
-    if (!playPauseBtn || !progressBar || !timeDisplay) return;
-    
-    // 播放/暂停按钮
-    playPauseBtn.addEventListener('click', function() {
-        if (video.paused) {
-            video.play();
-            this.innerHTML = '<i class="fas fa-pause" style="font-size:16px;"></i>';
-        } else {
-            video.pause();
-            this.innerHTML = '<i class="fas fa-play" style="font-size:16px;"></i>';
-        }
-    });
-    
-    // 更新进度条和时间显示
-    video.addEventListener('timeupdate', function() {
-        const progress = (video.currentTime / video.duration) * 100;
-        progressBar.style.width = `${progress}%`;
-        
-        // 格式化时间显示
-        const minutes = Math.floor(video.currentTime / 60);
-        const seconds = Math.floor(video.currentTime % 60);
-        timeDisplay.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-    });
-    
-    // 点击进度条跳转
-    progressBarContainer.addEventListener('click', function(e) {
-        const percent = e.offsetX / this.offsetWidth;
-        video.currentTime = percent * video.duration;
-    });
-    
-    // 更新播放按钮状态
-    video.addEventListener('play', function() {
-        playPauseBtn.innerHTML = '<i class="fas fa-pause" style="font-size:16px;"></i>';
-    });
-    
-    video.addEventListener('pause', function() {
-        playPauseBtn.innerHTML = '<i class="fas fa-play" style="font-size:16px;"></i>';
-    });
 }
