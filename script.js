@@ -558,6 +558,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         let touchStartX = 0;
                         
                         overlay.addEventListener('touchstart', function(e) {
+                            // 检测是否为多指触摸(可能是放大手势)
+                            if (e.touches.length > 1) {
+                                // 直接将事件传递给视频元素，不阻止默认行为
+                                overlay.style.pointerEvents = 'none';
+                                setTimeout(() => {
+                                    overlay.style.pointerEvents = 'auto';
+                                }, 500); // 500ms后恢复覆盖层事件捕获
+                                return;
+                            }
+                            
                             const touch = e.touches[0];
                             const currentTime = new Date().getTime();
                             
@@ -587,6 +597,35 @@ document.addEventListener('DOMContentLoaded', function() {
                             lastTapTime = currentTime;
                             lastTapX = touchStartX;
                         }, {passive: false});
+                        
+                        // 添加双击全屏功能
+                        let doubleTapTimer = null;
+                        overlay.addEventListener('dblclick', function(e) {
+                            // 检查是否支持全屏API
+                            if (video.requestFullscreen) {
+                                video.requestFullscreen();
+                            } else if (video.webkitRequestFullscreen) { // Safari
+                                video.webkitRequestFullscreen();
+                            } else if (video.webkitEnterFullscreen) { // iOS Safari
+                                video.webkitEnterFullscreen();
+                            }
+                        });
+                        
+                        // 添加全屏按钮点击处理
+                        overlay.addEventListener('touchend', function(e) {
+                            // 检查点击位置是否在视频底部控制区域
+                            const rect = video.getBoundingClientRect();
+                            const touchY = e.changedTouches[0].clientY - rect.top;
+                            
+                            // 如果点击在底部20%区域，可能是控制条区域，不干预
+                            if (touchY > rect.height * 0.8) {
+                                // 临时禁用覆盖层捕获事件，让事件传递到控制条
+                                overlay.style.pointerEvents = 'none';
+                                setTimeout(() => {
+                                    overlay.style.pointerEvents = 'auto';
+                                }, 500);
+                            }
+                        });
                     } 
                     // 非iOS设备的标准处理
                     else {
