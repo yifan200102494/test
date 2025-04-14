@@ -453,6 +453,12 @@ function isIOSDevice() {
            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // 支持iPad Pro检测
 }
 
+// 检测是否为安卓设备
+function isAndroidDevice() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return /android/.test(userAgent);
+}
+
 // 视频播放功能
 document.addEventListener('DOMContentLoaded', function() {
     const videoPlaceholder = document.getElementById('videoPlaceholder');
@@ -479,6 +485,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalBorder = originalStyle.border;
             const originalPadding = originalStyle.padding;
             
+            // 判断是否为安卓设备
+            const isAndroid = isAndroidDevice();
+            
             // 更新视频HTML，增加对移动设备和横竖屏的支持
             videoPlaceholder.innerHTML = `
                 <div class="video-container" style="position:relative; width:100%; height:100%; margin:0 auto; padding:0; border:none; overflow:hidden;">
@@ -488,10 +497,18 @@ document.addEventListener('DOMContentLoaded', function() {
                            webkit-playsinline
                            poster="${thumbnailSrc}"
                            preload="metadata"
-                           style="width:100%; height:100%; display:block; margin:0; padding:0; border:none; object-fit:cover; background-color:#000;">
+                           style="width:100%; height:100%; display:block; margin:0; padding:0; border:none; object-fit:cover; background-color:#000; transition: transform 0.3s ease;">
                         <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
+                    <div id="videoHint" style="position:absolute; top:10px; left:0; right:0; text-align:center; color:white; background-color:rgba(0,0,0,0.5); padding:5px; font-size:14px; opacity:0; transition:opacity 0.3s; z-index:2; pointer-events:none;">双击左侧或右侧可跳过10s</div>
+                    ${isAndroid ? `<div id="playPauseButton" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:60px; height:60px; background-color:rgba(0,0,0,0.5); border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:3; opacity:0; transition:opacity 0.3s; box-shadow:0 0 10px rgba(0,0,0,0.3);">
+                        <div id="playIcon" style="width:0; height:0; border-style:solid; border-width:15px 0 15px 25px; border-color:transparent transparent transparent white; margin-left:5px; display:none;"></div>
+                        <div id="pauseIcon" style="width:20px; height:30px; display:flex; justify-content:space-between;">
+                            <div style="width:7px; height:100%; background-color:white;"></div>
+                            <div style="width:7px; height:100%; background-color:white;"></div>
+                        </div>
+                    </div>` : ''}
                 </div>
             `;
             
@@ -507,6 +524,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // 获取视频元素和容器
             const video = document.getElementById('mainVideo');
             const videoContainer = video ? video.parentElement : null;
+            const videoHint = document.getElementById('videoHint');
+            const playPauseButton = document.getElementById('playPauseButton');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            
+            // 跟踪视频是否处于放大状态
+            let isVideoZoomed = false;
             
             // 响应屏幕方向变化和视频尺寸
             function adjustVideoSize() {
@@ -543,6 +567,51 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 否则，视频应该填充宽度
                     video.style.objectFit = 'contain';
                 }
+                
+                // 重置缩放状态
+                isVideoZoomed = false;
+                video.style.transform = 'scale(1)';
+            }
+            
+            // 更新播放/暂停按钮状态
+            function updatePlayPauseButton() {
+                if (!isAndroid || !playPauseButton || !playIcon || !pauseIcon) return;
+                
+                if (video.paused) {
+                    // 视频暂停时显示播放图标
+                    playIcon.style.display = 'block';
+                    pauseIcon.style.display = 'none';
+                } else {
+                    // 视频播放时显示暂停图标
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'flex';
+                }
+            }
+            
+            // 切换视频缩放状态
+            function toggleVideoZoom() {
+                if (!video) return;
+                
+                isVideoZoomed = !isVideoZoomed;
+                
+                if (isVideoZoomed) {
+                    // 放大视频
+                    video.style.transform = 'scale(1.5)';
+                    video.style.objectFit = 'cover';
+                } else {
+                    // 恢复原始尺寸
+                    video.style.transform = 'scale(1)';
+                    video.style.objectFit = 'contain';
+                }
+                
+                // 显示缩放提示
+                if (videoHint) {
+                    videoHint.textContent = isVideoZoomed ? "已放大" : "已还原";
+                    videoHint.style.opacity = '1';
+                    setTimeout(() => {
+                        videoHint.style.opacity = '0';
+                    }, 800);
+                }
             }
             
             // 初始调用一次以设置正确的初始样式
@@ -564,6 +633,152 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 标记视频已初始化
                 videoInitialized = true;
                 
+                // 安卓设备上的中间播放/暂停按钮功能
+                if (isAndroid && playPauseButton) {
+                    // 初始化播放/暂停按钮
+                    updatePlayPauseButton();
+                    
+                    // 添加点击事件
+                    playPauseButton.addEventListener('click', function(e) {
+                        e.stopPropagation(); // 阻止事件冒泡
+                        
+                        if (video.paused) {
+                            video.play();
+                        } else {
+                            video.pause();
+                        }
+                        
+                        // 立即更新按钮状态
+                        updatePlayPauseButton();
+                    });
+                    
+                    // 显示按钮
+                    playPauseButton.style.opacity = '1';
+                    
+                    // 视频播放时3秒后隐藏按钮
+                    let hideButtonTimeout;
+                    
+                    function showPlayPauseButton() {
+                        playPauseButton.style.opacity = '1';
+                        
+                        // 清除之前的定时器
+                        clearTimeout(hideButtonTimeout);
+                        
+                        // 如果视频正在播放，设置3秒后隐藏按钮
+                        if (!video.paused) {
+                            hideButtonTimeout = setTimeout(() => {
+                                playPauseButton.style.opacity = '0';
+                            }, 3000);
+                        }
+                    }
+                    
+                    // 用户触摸视频时显示按钮
+                    video.addEventListener('touchstart', function() {
+                        showPlayPauseButton();
+                    });
+                    
+                    // 监听视频播放/暂停状态变化
+                    video.addEventListener('play', function() {
+                        updatePlayPauseButton();
+                        // 播放时3秒后隐藏按钮
+                        showPlayPauseButton();
+                    });
+                    
+                    video.addEventListener('pause', function() {
+                        updatePlayPauseButton();
+                        // 暂停时始终显示按钮
+                        playPauseButton.style.opacity = '1';
+                        clearTimeout(hideButtonTimeout);
+                    });
+                }
+                
+                // 为安卓设备添加双击跳转和缩放功能
+                if (isAndroidDevice()) {
+                    // 显示提示
+                    if (videoHint) {
+                        videoHint.textContent = "双击左侧/右侧跳转，双击中间放大";
+                        videoHint.style.opacity = '1';
+                        setTimeout(() => {
+                            videoHint.style.opacity = '0';
+                        }, 3000);
+                    }
+                    
+                    // 跟踪点击时间和位置
+                    let lastTapTime = 0;
+                    let lastTapX = 0;
+                    
+                    video.addEventListener('touchstart', function(e) {
+                        // 不阻止单击事件（播放/暂停）
+                    });
+                    
+                    // 检测双击
+                    video.addEventListener('click', function(e) {
+                        const currentTime = new Date().getTime();
+                        const tapX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+                        
+                        if (!tapX) return; // 如果无法获取点击位置，则退出
+                        
+                        // 计算屏幕区域
+                        const videoRect = video.getBoundingClientRect();
+                        const videoWidth = videoRect.width;
+                        
+                        // 将视频分为三个区域（左:30%, 中:40%, 右:30%）
+                        const leftWidth = videoWidth * 0.3;
+                        const rightWidth = videoWidth * 0.3;
+                        const centerWidth = videoWidth - leftWidth - rightWidth;
+                        
+                        const leftBoundary = videoRect.left + leftWidth;
+                        const rightBoundary = videoRect.right - rightWidth;
+                        
+                        // 记录当前点击坐标和时间
+                        lastTapX = tapX;
+                        
+                        // 判断双击（两次点击间隔小于300ms）
+                        if (currentTime - lastTapTime < 300) {
+                            // 已确认是双击，阻止默认行为
+                            e.preventDefault();
+                            
+                            // 判断点击区域
+                            if (tapX < leftBoundary) {
+                                // 左侧 - 后退10秒
+                                console.log("双击左侧，后退10秒");
+                                video.currentTime = Math.max(0, video.currentTime - 10);
+                                showSeekIndicator(video, 'backward');
+                                
+                                // 显示操作提示
+                                if (videoHint) {
+                                    videoHint.textContent = "后退10秒";
+                                    videoHint.style.opacity = '1';
+                                    setTimeout(() => {
+                                        videoHint.style.opacity = '0';
+                                    }, 800);
+                                }
+                            } else if (tapX > rightBoundary) {
+                                // 右侧 - 前进10秒
+                                console.log("双击右侧，前进10秒");
+                                video.currentTime = Math.min(video.duration, video.currentTime + 10);
+                                showSeekIndicator(video, 'forward');
+                                
+                                // 显示操作提示
+                                if (videoHint) {
+                                    videoHint.textContent = "前进10秒";
+                                    videoHint.style.opacity = '1';
+                                    setTimeout(() => {
+                                        videoHint.style.opacity = '0';
+                                    }, 800);
+                                }
+                            } else {
+                                // 中间 - 切换缩放状态
+                                console.log("双击中间，切换缩放");
+                                toggleVideoZoom();
+                            }
+                        }
+                        
+                        // 更新最后点击时间
+                        lastTapTime = currentTime;
+                    });
+                }
+                
                 // 阻止视频区域的点击事件冒泡
                 video.addEventListener('click', function(e) {
                     e.stopPropagation();
@@ -573,6 +788,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 video.addEventListener('play', function() {
                     console.log('视频开始播放');
                     adjustVideoSize();
+                    
+                    // 安卓设备再次显示提示
+                    if (isAndroidDevice() && videoHint && videoHint.style.opacity === '0') {
+                        videoHint.textContent = "双击左侧/右侧跳转，双击中间放大";
+                        videoHint.style.opacity = '1';
+                        setTimeout(() => {
+                            videoHint.style.opacity = '0';
+                        }, 3000);
+                    }
                 });
                 
                 // 修复iOS事件处理
@@ -671,6 +895,7 @@ document.addEventListener('DOMContentLoaded', function() {
             border: none;
             object-fit: contain;
             background-color: #000;
+            transition: transform 0.3s ease;
         }
         
         /* 调整横竖屏下的视频播放器样式 */
