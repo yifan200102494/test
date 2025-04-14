@@ -311,7 +311,7 @@ const scriptData = {
         playersEn: "7 players",
         image: "./images/xuexiang.jpg",
         description: "“这世界上的真相只有一个，排除所有的不可能，剩下的那一个，无论有多么的让你不可置信，那都是真相。”“年三十，北道河，村里出了个杀人魔”“七个小孩来串门，联起手来把案破”",
-        descriptionEn: "“There is only one truth in this world: once you've eliminated all impossibilities, whatever remains—no matter how unbelievable—must be the truth.”“New Year’s Eve. Beidao River. A murderer emerged from the village.”“Seven children came to visit—and together, they uncovered the killer.”"
+        descriptionEn: "“There is only one truth in this world: once you've eliminated all impossibilities, whatever remains—no matter how unbelievable—must be the truth.”“New Year's Eve. Beidao River. A murderer emerged from the village.”“Seven children came to visit—and together, they uncovered the killer.”"
     },
     script2: {
         name: "青楼",
@@ -322,8 +322,8 @@ const scriptData = {
         players: "7人",
         playersEn: "7 players",
         image: "./images/qinglou.jpg",
-        description: "唐朝，可谓歌舞盛华，乐文辉煌。与此同时，女伎们的身价也推向了巅峰。青楼之市火爆，歌舞伎成了热门之业。沦落为青楼女子虽不光彩，但依然有很多人选择这一职业，在这些女子中，琴棋书画兼备的也大有人在…在长安城内，有一青楼，名为“玉满楼”，别名“玉月满花”，此中之女子皆是琴棋书画兼备，相传呐，那都是卖艺不卖身的存在。我们的故事就要从这玉满楼开始说起。",
-        descriptionEn: "In the Tang Dynasty, an era famed for its flourishing music, dance, and literature, the value of female performers soared to unprecedented heights. The entertainment quarters thrived, and the art of song and dance became one of the most coveted professions. Though falling into the life of a courtesan was often seen as dishonorable, many still chose this path—and among them, there were those well-versed in the four arts: music, chess, calligraphy, and painting.Within the grand city of Chang’an stood a famed establishment known as Yuman Lou, also called “Jade Moon in Bloom.”It was said that the women of this house sold only their art, not their bodies. Talented, elegant, and enigmatic, they were revered as artists rather than mere entertainers.And so, our story begins—within the walls of Yuman Lou, where beauty hides secrets, and every performance may veil a deeper truth..."
+        description: "唐朝，可谓歌舞盛华，乐文辉煌。与此同时，女伎们的身价也推向了巅峰。青楼之市火爆，歌舞伎成了热门之业。沦落为青楼女子虽不光彩，但依然有很多人选择这一职业，在这些女子中，琴棋书画兼备的也大有人在…在长安城内，有一青楼，名为\"玉满楼\"，别名\"玉月满花\"，此中之女子皆是琴棋书画兼备，相传呐，那都是卖艺不卖身的存在。我们的故事就要从这玉满楼开始说起。",
+        descriptionEn: "In the Tang Dynasty, an era famed for its flourishing music, dance, and literature, the value of female performers soared to unprecedented heights. The entertainment quarters thrived, and the art of song and dance became one of the most coveted professions. Though falling into the life of a courtesan was often seen as dishonorable, many still chose this path—and among them, there were those well-versed in the four arts: music, chess, calligraphy, and painting.Within the grand city of Chang'an stood a famed establishment known as Yuman Lou, also called \"Jade Moon in Bloom.\"It was said that the women of this house sold only their art, not their bodies. Talented, elegant, and enigmatic, they were revered as artists rather than mere entertainers.And so, our story begins—within the walls of Yuman Lou, where beauty hides secrets, and every performance may veil a deeper truth..."
     },
     script3: {
         name: "病娇男孩的精分日记",
@@ -334,8 +334,8 @@ const scriptData = {
         players: "7人",
         playersEn: "7 players",
         image: "./images/bingjiao.jpg",
-        description: "“我有七个我，我便拥有了更丰盈的生命和更孤单的生活；热闹是我的，孤独也是我的”",
-        descriptionEn: "“With seven selves, I live a fuller life—and a lonelier one.The noise belongs to me, and so does the silence.”"
+        description: "\"我有七个我，我便拥有了更丰盈的生命和更孤单的生活；热闹是我的，孤独也是我的\"",
+        descriptionEn: "\"With seven selves, I live a fuller life—and a lonelier one.The noise belongs to me, and so does the silence.\""
     }
 };
 
@@ -439,6 +439,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+// 检测是否为苹果设备（iOS或macOS）
+function isAppleDevice() {
+    // 检测常见的苹果设备平台
+    const userAgent = navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod|macintosh/.test(userAgent);
+}
+
+// 进一步检测是否为iOS设备
+function isIOSDevice() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent) || 
+           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // 支持iPad Pro检测
+}
+
 // 视频播放功能
 document.addEventListener('DOMContentLoaded', function() {
     const videoPlaceholder = document.getElementById('videoPlaceholder');
@@ -507,31 +521,123 @@ document.addEventListener('DOMContentLoaded', function() {
                     let lastTapTime = 0;
                     let lastTapX = 0;
                     
-                    // 添加点击视频暂停/播放功能
-                    this.addEventListener('click', function(e) {
-                        // 获取点击位置相对于视频元素的坐标
-                        const rect = this.getBoundingClientRect();
-                        const clickY = e.clientY - rect.top;
-                        const clickX = e.clientX - rect.left;
+                    // 检测是否为iOS设备
+                    const isIOS = isIOSDevice();
+                    
+                    // iOS设备专用处理 - 添加一个透明覆盖层用于捕获点击事件
+                    if (isIOS) {
+                        // 创建覆盖层
+                        const overlay = document.createElement('div');
+                        overlay.id = 'videoOverlay';
+                        overlay.style.position = 'absolute';
+                        overlay.style.top = '0';
+                        overlay.style.left = '0';
+                        overlay.style.width = '100%';
+                        overlay.style.height = '80%'; // 覆盖视频的80%，留出底部控制栏
+                        overlay.style.zIndex = '2';
+                        overlay.style.cursor = 'pointer';
                         
-                        // 控制条高度大约为视频高度的15%
-                        const controlsHeight = rect.height * 0.15;
+                        // 将覆盖层添加到视频容器
+                        const videoContainer = this.parentElement;
+                        videoContainer.style.position = 'relative';
+                        videoContainer.appendChild(overlay);
                         
-                        // 如果点击位置不在控制条区域
-                        if (clickY < rect.height - controlsHeight) {
-                            // 判断视频当前状态并切换
-                            if (this.paused) {
-                                this.play();
+                        // 为覆盖层添加点击事件
+                        overlay.addEventListener('click', function(e) {
+                            if (video.paused) {
+                                video.play();
                             } else {
-                                this.pause();
+                                video.pause();
                             }
-                            
-                            // 取消事件默认行为和冒泡，防止浏览器自动处理
                             e.preventDefault();
                             e.stopPropagation();
-                            return false;
-                        }
-                    });
+                        }, {passive: false});
+                        
+                        // 处理快进快退双击操作
+                        let touchStartTime = 0;
+                        let touchStartX = 0;
+                        
+                        overlay.addEventListener('touchstart', function(e) {
+                            const touch = e.touches[0];
+                            const currentTime = new Date().getTime();
+                            
+                            // 保存触摸起始信息
+                            touchStartTime = currentTime;
+                            touchStartX = touch.clientX;
+                            
+                            // 判断是否为双击（距离上次点击小于300ms）
+                            if (currentTime - lastTapTime < 300 && Math.abs(touchStartX - lastTapX) < 30) {
+                                const videoWidth = videoContainer.clientWidth;
+                                
+                                // 左侧快退
+                                if (touchStartX < videoWidth * 0.4) {
+                                    video.currentTime = Math.max(0, video.currentTime - 10);
+                                    showSeekIndicator(video, 'backward');
+                                }
+                                // 右侧快进
+                                else if (touchStartX > videoWidth * 0.6) {
+                                    video.currentTime = Math.min(video.duration, video.currentTime + 10);
+                                    showSeekIndicator(video, 'forward');
+                                }
+                                
+                                e.preventDefault();
+                            }
+                            
+                            // 更新上次点击信息
+                            lastTapTime = currentTime;
+                            lastTapX = touchStartX;
+                        }, {passive: false});
+                    } 
+                    // 非iOS设备的标准处理
+                    else {
+                        // 添加点击视频暂停/播放功能
+                        this.addEventListener('click', function(e) {
+                            // 获取点击位置相对于视频元素的坐标
+                            const rect = this.getBoundingClientRect();
+                            const clickY = e.clientY - rect.top;
+                            const clickX = e.clientX - rect.left;
+                            
+                            // 控制条高度大约为视频高度的15%
+                            const controlsHeight = rect.height * 0.15;
+                            
+                            // 如果点击位置不在控制条区域
+                            if (clickY < rect.height - controlsHeight) {
+                                // 判断视频当前状态并切换
+                                if (this.paused) {
+                                    this.play();
+                                } else {
+                                    this.pause();
+                                }
+                                
+                                // 取消事件默认行为和冒泡，防止浏览器自动处理
+                                e.preventDefault();
+                                e.stopPropagation();
+                                return false;
+                            }
+                        });
+                        
+                        // 触摸事件处理（针对非iOS移动设备）
+                        this.addEventListener('touchend', function(e) {
+                            // 获取触摸结束位置相对于视频元素的坐标
+                            const rect = this.getBoundingClientRect();
+                            const touchY = e.changedTouches[0].clientY - rect.top;
+                            
+                            // 控制条高度大约为视频高度的20%（移动端触摸区域更大）
+                            const controlsHeight = rect.height * 0.2;
+                            
+                            // 如果触摸结束位置不在控制条区域
+                            if (touchY < rect.height - controlsHeight) {
+                                if (this.paused) {
+                                    this.play();
+                                } else {
+                                    this.pause();
+                                }
+                                // 防止事件传播和默认行为
+                                e.stopPropagation();
+                                e.preventDefault();
+                            }
+                        }, {passive: false});
+                    }
                     
                     // 防止控制栏播放按钮的冲突
                     this.addEventListener('play', function(e) {
@@ -556,66 +662,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             mediaControls.style.backgroundColor = 'transparent';
                         }
                     });
-                    
-                    // 添加触摸事件监听（针对移动设备）
-                    this.addEventListener('touchstart', function(e) {
-                        // 记录触摸起始位置
-                        const touch = e.touches[0];
-                        const touchX = touch.clientX - this.getBoundingClientRect().left;
-                        const touchY = touch.clientY - this.getBoundingClientRect().top;
-                        
-                        // 计算双击时间间隔
-                        const currentTime = new Date().getTime();
-                        const tapLength = currentTime - lastTapTime;
-                        
-                        // 如果不在控制区域，且是双击（300ms内的两次点击）
-                        const controlsHeight = this.getBoundingClientRect().height * 0.2;
-                        if (touchY < this.getBoundingClientRect().height - controlsHeight && tapLength < 300 && Math.abs(touchX - lastTapX) < 30) {
-                            // 根据双击位置执行快进或快退
-                            const videoWidth = this.getBoundingClientRect().width;
-                            
-                            // 左侧区域快退10秒
-                            if (touchX < videoWidth * 0.4) {
-                                this.currentTime = Math.max(0, this.currentTime - 10);
-                                // 显示快退提示
-                                showSeekIndicator(this, 'backward');
-                            }
-                            // 右侧区域快进10秒
-                            else if (touchX > videoWidth * 0.6) {
-                                this.currentTime = Math.min(this.duration, this.currentTime + 10);
-                                // 显示快进提示
-                                showSeekIndicator(this, 'forward');
-                            }
-                            
-                            // 阻止默认行为防止播放/暂停触发
-                            e.preventDefault();
-                        }
-                        
-                        // 更新上次点击时间和位置
-                        lastTapTime = currentTime;
-                        lastTapX = touchX;
-                    }, {passive: false});
-                    
-                    this.addEventListener('touchend', function(e) {
-                        // 获取触摸结束位置相对于视频元素的坐标
-                        const rect = this.getBoundingClientRect();
-                        const touchY = e.changedTouches[0].clientY - rect.top;
-                        
-                        // 控制条高度大约为视频高度的20%（移动端触摸区域更大）
-                        const controlsHeight = rect.height * 0.2;
-                        
-                        // 如果触摸结束位置不在控制条区域
-                        if (touchY < rect.height - controlsHeight) {
-                            if (this.paused) {
-                                this.play();
-                            } else {
-                                this.pause();
-                            }
-                            // 防止事件传播和默认行为
-                            e.stopPropagation();
-                            e.preventDefault();
-                        }
-                    }, {passive: false});
                     
                     // 添加MutationObserver监听DOM变化，移除可能动态添加的蒙层
                     const observer = new MutationObserver(function(mutations) {
@@ -701,13 +747,6 @@ function showSeekIndicator(videoElement, direction) {
             }
         }, 500);
     }, 800);
-}
-
-// 检测是否为苹果设备（iOS或macOS）
-function isAppleDevice() {
-    // 检测常见的苹果设备平台
-    const userAgent = navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod|macintosh/.test(userAgent);
 }
 
 // 打开地图函数 - 自动检测设备类型并打开相应地图
