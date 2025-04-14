@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function() {
             videoPlaceholder.innerHTML = `
                 <div class="video-container" style="position:relative; width:100%; height:100%; margin:0 auto; padding:0; border:none; overflow:hidden;">
                     <video id="mainVideo"
-                           ${isAndroid ? '' : 'controls'}
+                           controls
                            playsinline
                            webkit-playsinline
                            poster="${thumbnailSrc}"
@@ -502,9 +502,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
                     <div id="videoHint" style="position:absolute; top:10px; left:0; right:0; text-align:center; color:white; background-color:rgba(0,0,0,0.5); padding:5px; font-size:14px; opacity:0; transition:opacity 0.3s; z-index:2; pointer-events:none;">双击左侧或右侧可跳过10s</div>
-                    ${isAndroid ? `<div id="playPauseButton" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:60px; height:60px; background-color:rgba(0,0,0,0.5); border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:3; opacity:0; transition:opacity 0.3s; box-shadow:0 0 10px rgba(0,0,0,0.3);">
+                    ${isAndroid ? `<div id="playPauseButton" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:60px; height:60px; background-color:rgba(0,0,0,0.5); border-radius:50%; display:none; justify-content:center; align-items:center; cursor:pointer; z-index:3; opacity:0; transition:opacity 0.3s; box-shadow:0 0 10px rgba(0,0,0,0.3);">
                         <div id="playIcon" style="width:0; height:0; border-style:solid; border-width:15px 0 15px 25px; border-color:transparent transparent transparent white; margin-left:5px; display:none;"></div>
-                        <div id="pauseIcon" style="width:20px; height:30px; display:flex; justify-content:space-between;">
+                        <div id="pauseIcon" style="width:20px; height:30px; display:none; justify-content:space-between;">
                             <div style="width:7px; height:100%; background-color:white;"></div>
                             <div style="width:7px; height:100%; background-color:white;"></div>
                         </div>
