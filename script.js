@@ -482,8 +482,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 创建视频元素，为iOS设备添加额外属性和样式
             const videoHTML = `
-                <div class="video-container" style="position:relative; width:100%;">
-                    <video width="100%" height="220px" controls autoplay playsinline 
+                <div class="video-container" style="position:relative; width:fit-content; max-width:100%; margin:0 auto; padding:0; border:none; box-sizing:border-box; display:inline-block; line-height:0;">
+                    <video width="auto" controls autoplay playsinline 
                            webkit-playsinline
                            x-webkit-airplay="allow"
                            x5-video-player-type="h5"
@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function() {
                            preload="auto"
                            poster="${thumbnailSrc}"
                            id="mainVideo"
-                           style="cursor: pointer; background-color: #000;">
+                           style="cursor: pointer; background-color: #000; max-width:100%; display:block; width:auto; height:auto; margin:0; padding:0; border:none;">
                         <source src="./images/xuanchuanshiping.mp4" type="video/mp4">
                         <p data-en="Your browser does not support HTML5 video.">您的浏览器不支持HTML5视频。</p>
                     </video>
@@ -532,8 +532,31 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             videoPlaceholder.innerHTML = videoHTML;
             
+            // 更新videoPlaceholder的样式，使其适应视频大小
+            videoPlaceholder.style.display = 'flex';
+            videoPlaceholder.style.justifyContent = 'center';
+            videoPlaceholder.style.alignItems = 'center';
+            videoPlaceholder.style.width = 'auto';
+            videoPlaceholder.style.maxWidth = '100%';
+            videoPlaceholder.style.padding = '0';
+            videoPlaceholder.style.margin = '0 auto';
+            videoPlaceholder.style.border = 'none';
+            videoPlaceholder.style.backgroundColor = 'transparent';
+            videoPlaceholder.style.overflow = 'hidden';
+            videoPlaceholder.style.lineHeight = '0';
+            
             // 获取视频元素
             const video = document.getElementById('mainVideo');
+            
+            // 确保视频加载后调整尺寸
+            if (video) {
+                video.onloadeddata = function() {
+                    // 调整容器大小匹配视频
+                    const container = video.parentElement;
+                    container.style.width = video.videoWidth + 'px';
+                    container.style.maxWidth = '100%';
+                };
+            }
             
             // iOS设备的全屏按钮处理
             if (isIOS) {
