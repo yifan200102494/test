@@ -29,6 +29,161 @@
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
         }
+        
+        /* 图片轮播样式 */
+        .product-image-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .product-image-slider {
+            position: relative;
+            width: 100%;
+            padding-top: 75%; /* 4:3比例 */
+        }
+        
+        .product-image-slider .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background-color: #f5f5f5;
+        }
+        
+        .product-image-slider .slide:first-child {
+            opacity: 1;
+        }
+        
+        /* 滑动指示器 */
+        .swipe-hint {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 5;
+        }
+        
+        .swipe-hint-arrow {
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-size: 18px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            pointer-events: auto; /* 允许箭头接收点击事件 */
+            cursor: pointer;
+            z-index: 10; /* 确保箭头在最上层 */
+        }
+        
+        .product-image-container:hover .swipe-hint {
+            opacity: 1;
+        }
+        
+        .slider-nav {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 5;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+        
+        .slider-dot.active {
+            background-color: white;
+        }
+        
+        /* 产品卡片样式 */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background-color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .product-description {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* PC端响应式调整 */
+        @media (min-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                max-width: 1200px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .product-card {
+                display: flex;
+                flex-direction: column;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            
+            .product-image-slider {
+                height: 0;
+                padding-top: 100%; /* 1:1比例在PC端 */
+            }
+        }
+        
+        /* 删除禁用图片弹出的样式 */
+        
     </style>
 </head>
 <body>
@@ -92,8 +247,25 @@
         <div class="product-grid fade-in">
             <!-- 服饰类产品 -->
             <div class="product-card" data-category="apparel">
-                <div class="product-image">
-                    <img src="./images/zhoubian-1.jpg" alt="测试" data-en-alt="test">
+                <div class="product-image-container">
+                    <div class="product-image-slider">
+                        <img src="./images/zhoubian-1.jpg" alt="挂件图片1" data-en-alt="Charm image 1" class="slide">
+                        <img src="./images/zhoubian-2.jpg" alt="挂件图片2" data-en-alt="Charm image 2" class="slide">
+                        <img src="./images/zhoubian-3.jpg" alt="挂件图片3" data-en-alt="Charm image 3" class="slide">
+                        <div class="swipe-hint">
+                            <div class="swipe-hint-arrow left-arrow">
+                                <i class="fas fa-chevron-left"></i>
+                            </div>
+                            <div class="swipe-hint-arrow right-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                        <div class="slider-nav">
+                            <span class="slider-dot active" data-index="0"></span>
+                            <span class="slider-dot" data-index="1"></span>
+                            <span class="slider-dot" data-index="2"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="product-info">
                     <h3 data-en="Character-specific perler bead charms from Rogue Narrative.">《流氓叙事》人物专属拼豆挂件</h3>
@@ -106,32 +278,7 @@
                 </div>
             </div>
             
-            <div class="product-card" data-category="apparel">
-                <div class="product-image">
-                    <img src="./images/zhoubian-2.jpg" alt="测试" data-en-alt="test">
-                </div>
-                <div class="product-info">
-                    <h3 data-en="test">测试</h3>
-                    <p class="product-description" data-en="test">测试</p>
-                    <div class="product-price">
-                        <span data-en="£test">测试</span>
-                    </div>
-                </div>
-            </div>
             
-            <!-- 配件类产品 -->
-            <div class="product-card" data-category="accessories">
-                <div class="product-image">
-                    <img src="./images/zhoubian-3.jpg" alt="测试" data-en-alt="test">
-                </div>
-                <div class="product-info">
-                    <h3 data-en="test">测试</h3>
-                    <p class="product-description" data-en="test">测试</p>
-                    <div class="product-price">
-                        <span data-en="£test">测试</span>
-                    </div>
-                </div>
-            </div>
            
         </div>
         
@@ -162,6 +309,31 @@
     <!-- 添加周边产品筛选脚本 -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // 支持点击图片打开大图
+        function setupPopupSupport() {
+            const slides = document.querySelectorAll('.product-image-slider .slide');
+            
+            // 使用data-popup属性控制图片点击行为
+            slides.forEach(slide => {
+                // 允许图片点击弹出
+                slide.setAttribute('data-popup', 'true');
+                
+                // 防止在拖动过程中触发图片弹出
+                let isDragging = false;
+                slide.addEventListener('mousedown', () => { isDragging = false; });
+                slide.addEventListener('mousemove', () => { isDragging = true; });
+                slide.addEventListener('mouseup', (e) => {
+                    // 如果是拖动操作结束，不触发图片点击事件
+                    if (isDragging) {
+                        e.stopPropagation();
+                    }
+                });
+            });
+        }
+        
+        // 等待一小段时间后设置弹出功能，确保页面已完全初始化
+        setTimeout(setupPopupSupport, 500);
+        
         // 删除产品分类筛选功能
         
         // 删除产品详情按钮点击事件
@@ -171,6 +343,169 @@
         if (membershipBtn) {
             membershipBtn.addEventListener('click', function() {
                 window.location.href = 'contact.html';
+            });
+        }
+        
+        // 图片轮播功能
+        const slides = document.querySelectorAll('.product-image-slider .slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        let currentIndex = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        // 切换到指定幻灯片的函数
+        function showSlide(index) {
+            // 确保索引在有效范围内
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+            
+            currentIndex = index;
+            
+            // 隐藏所有幻灯片
+            slides.forEach(slide => {
+                slide.style.opacity = 0;
+            });
+            
+            // 显示选中的幻灯片
+            slides[currentIndex].style.opacity = 1;
+            
+            // 更新圆点状态
+            dots.forEach(d => d.classList.remove('active'));
+            dots[currentIndex].classList.add('active');
+        }
+        
+        // 切换到下一张幻灯片
+        function nextSlide() {
+            showSlide(currentIndex + 1);
+        }
+        
+        // 切换到上一张幻灯片
+        function prevSlide() {
+            showSlide(currentIndex - 1);
+        }
+        
+        if (slides.length > 0 && dots.length > 0) {
+            // 为每个点添加点击事件
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    showSlide(index);
+                });
+            });
+            
+            // 为左右箭头添加点击事件
+            const leftArrows = document.querySelectorAll('.swipe-hint-arrow.left-arrow');
+            const rightArrows = document.querySelectorAll('.swipe-hint-arrow.right-arrow');
+            
+            leftArrows.forEach(arrow => {
+                arrow.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // 防止事件冒泡
+                    prevSlide();
+                    return false; // 阻止默认事件和事件冒泡
+                });
+            });
+            
+            rightArrows.forEach(arrow => {
+                arrow.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // 防止事件冒泡
+                    nextSlide();
+                    return false; // 阻止默认事件和事件冒泡
+                });
+            });
+            
+            // 添加左右滑动功能
+            const sliders = document.querySelectorAll('.product-image-slider');
+            
+            sliders.forEach(slider => {
+                // 触摸开始
+                slider.addEventListener('touchstart', function(e) {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+                
+                // 触摸结束
+                slider.addEventListener('touchend', function(e) {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                }, { passive: true });
+                
+                // 处理滑动方向
+                function handleSwipe() {
+                    const swipeDistance = touchEndX - touchStartX;
+                    const minSwipeDistance = 50; // 最小滑动距离，避免误触
+                    
+                    if (swipeDistance > minSwipeDistance) {
+                        // 向右滑动，显示上一张
+                        prevSlide();
+                    } else if (swipeDistance < -minSwipeDistance) {
+                        // 向左滑动，显示下一张
+                        nextSlide();
+                    }
+                }
+                
+                // 添加鼠标左右拖动功能（PC端）
+                let isDragging = false;
+                let startX = 0;
+                
+                slider.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    startX = e.clientX;
+                    e.preventDefault();
+                });
+                
+                slider.addEventListener('mousemove', function(e) {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                });
+                
+                slider.addEventListener('mouseup', function(e) {
+                    if (!isDragging) return;
+                    
+                    const endX = e.clientX;
+                    const diffX = endX - startX;
+                    const minDragDistance = 50;
+                    
+                    if (diffX > minDragDistance) {
+                        prevSlide();
+                    } else if (diffX < -minDragDistance) {
+                        nextSlide();
+                    }
+                    
+                    isDragging = false;
+                });
+                
+                slider.addEventListener('mouseleave', function() {
+                    isDragging = false;
+                });
+            });
+            
+            // 自动轮播
+            let autoplayInterval;
+            
+            function startAutoplay() {
+                autoplayInterval = setInterval(() => {
+                    nextSlide();
+                }, 5000); // 每5秒切换一次
+            }
+            
+            function stopAutoplay() {
+                clearInterval(autoplayInterval);
+            }
+            
+            // 开始自动轮播
+            startAutoplay();
+            
+            // 当用户交互时停止自动轮播
+            sliders.forEach(slider => {
+                slider.addEventListener('mouseenter', stopAutoplay);
+                slider.addEventListener('touchstart', stopAutoplay, { passive: true });
+                
+                // 当用户离开时恢复自动轮播
+                slider.addEventListener('mouseleave', startAutoplay);
+                slider.addEventListener('touchend', function() {
+                    setTimeout(startAutoplay, 3000);
+                }, { passive: true });
             });
         }
     });
