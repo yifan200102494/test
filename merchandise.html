@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周边产品 - 奇闻异事</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="custom.css">
+    <link rel="stylesheet" href="merchandise-cards.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 视频控制样式 -->
+    <style>
+        /* 全局视频控制器透明背景 */
+        video::-webkit-media-controls-panel {
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+        
+        /* 确保速度面板不会导致蒙层 */
+        video::-webkit-media-controls-overflow-button {
+            background-color: transparent !important;
+        }
+        
+        /* 控制面板下拉菜单 */
+        video::-internal-media-controls-overflow-menu-list {
+            background-color: rgba(0, 0, 0, 0.7) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar">
+        <div class="logo">
+            <a href="index.html">
+              <div class="logo-text">
+                <span class="logo-cn">奇闻异事</span>
+                <span class="logo-en">Social Box</span>
+              </div>
+              <img src="./images/logo.jpg" alt="Logo" />
+            </a>
+        </div>
+        <!-- 直接添加onclick事件处理 -->
+        <div class="lang-switch" id="langSwitch" onclick="toggleLanguage()">
+            <span class="current-lang">中</span>
+            <span class="lang-divider">/</span>
+            <span>EN</span>
+        </div>
+        <div class="menu-btn" id="menuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu" id="menu">
+            <ul>
+                <li><a href="index.html" data-en="Home">首页</a></li>
+                <li class="has-submenu">
+                    <a href="business.html" data-en="Main Business">主营业务</a>
+                    <ul class="submenu">
+                        <li><a href="business.html" data-en="Board Games">桌面游戏</a></li>
+                        <li><a href="mahjong.html" data-en="Mahjong">麻将</a></li>
+                        <li><a href="bar.html" data-en="Bar">酒吧</a></li>
+                    </ul>
+                </li>
+                <li><a href="events.html" data-en="Events">活动</a></li>
+                <li><a href="environment.html" data-en="Environment">店铺环境</a></li>
+                <li><a href="merchandise.html" data-en="Merchandise">周边产品</a></li>
+                <li><a href="feedback.html" data-en="Feedback">顾客反馈</a></li>
+                <li><a href="contact.html" data-en="Contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 首页标题区域 -->
+    <section class="hero business-hero">
+        <h1 data-en="Exclusive Merchandise">精选周边产品</h1>
+        <p data-en="Bring home the mystery with our exclusive merchandise collection">带回家的专属奇闻异事体验</p>
+        <a href="#merchandise-products" class="btn" data-en="Explore Products">浏览产品</a>
+    </section>
+    
+    <!-- 周边产品介绍 -->
+    <section class="section" id="merchandise-products">
+        <h2 class="section-title fade-in" data-en="Our Merchandise">周边产品系列</h2>
+        <div class="about-content fade-in">
+            <p data-en="Extend your murder mystery experience beyond our venue with our exclusive merchandise. Each item is carefully designed to capture the essence of our immersive gaming world, allowing you to bring a piece of the mystery home with you.">将剧本杀体验延伸到门店之外，我们精心设计的每一件周边产品都凝聚了沉浸式游戏世界的精髓，让您能够将一份神秘带回家。</p>
+        </div>
+        
+        <!-- 产品展示区 -->
+        <div class="product-grid fade-in">
+            <!-- 服饰类产品 -->
+            <div class="product-card" data-category="apparel">
+                <div class="product-image">
+                    <img src="./images/zhoubian-1.jpg" alt="测试" data-en-alt="test">
+                </div>
+                <div class="product-info">
+                    <h3 data-en="test">测试</h3>
+                    <p class="product-description" data-en="test">测试</p>
+                    <div class="product-price">
+                        <span data-en="£test">测试</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-category="apparel">
+                <div class="product-image">
+                    <img src="./images/zhoubian-2.jpg" alt="测试" data-en-alt="test">
+                </div>
+                <div class="product-info">
+                    <h3 data-en="test">测试</h3>
+                    <p class="product-description" data-en="test">测试</p>
+                    <div class="product-price">
+                        <span data-en="£test">测试</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 配件类产品 -->
+            <div class="product-card" data-category="accessories">
+                <div class="product-image">
+                    <img src="./images/zhoubian-3.jpg" alt="测试" data-en-alt="test">
+                </div>
+                <div class="product-info">
+                    <h3 data-en="test">测试</h3>
+                    <p class="product-description" data-en="test">测试</p>
+                    <div class="product-price">
+                        <span data-en="£test">测试</span>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        
+        <!-- 会员特惠信息 -->
+        <div class="membership-info fade-in">
+            <button class="btn membership-btn" data-en="Contact Us">联系我们</button>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html" data-en="Home">首页</a>
+            <a href="events.html" data-en="Events">活动</a>
+            <a href="environment.html" data-en="Environment">店铺环境</a>
+           
+            <a href="feedback.html" data-en="Feedback">顾客反馈</a>
+            <a href="contact.html" data-en="Contact">联系我们</a>
+            <a href="contact.html#faq" data-en="FAQ">常见问题</a>
+        </div>
+        <div class="copyright">
+            <span data-en="&copy; 2025 Social Box Murder Mystery. All Rights Reserved"><a href="copyright.html">&copy; 2025 奇闻异事剧本杀 版权所有</a></span>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+    <script src="image-popup.js"></script>
+    <!-- 添加周边产品筛选脚本 -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 删除产品分类筛选功能
+        
+        // 删除产品详情按钮点击事件
+        
+        // 会员按钮点击事件
+        const membershipBtn = document.querySelector('.membership-btn');
+        if (membershipBtn) {
+            membershipBtn.addEventListener('click', function() {
+                window.location.href = 'contact.html';
+            });
+        }
+    });
+    </script>
+</body>
+</html> 
