@@ -418,6 +418,18 @@
     max-height: none;
 }
 
+/* 菜单预览图片响应式样式 */
+@media (max-width: 768px) {
+    #menu-preview div {
+        width: 95% !important;
+        max-width: 400px !important;
+    }
+    
+    #menu-preview img {
+        margin: 0 auto !important;
+    }
+}
+
 /* 区域容器布局优化 - 用于反馈页面 */
 .areas-container {
     display: grid;
