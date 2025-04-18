@@ -309,34 +309,109 @@
     <!-- 添加周边产品筛选脚本 -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // 支持点击图片打开大图
-        function setupPopupSupport() {
-            const slides = document.querySelectorAll('.product-image-slider .slide');
+        // 直接重写图片点击功能
+        function setupImagePopupSupport() {
+            // 获取所有产品卡片的轮播图容器
+            const productCards = document.querySelectorAll('.product-card');
             
-            // 使用data-popup属性控制图片点击行为
-            slides.forEach(slide => {
-                // 允许图片点击弹出
-                slide.setAttribute('data-popup', 'true');
+            // 遍历每个产品卡片
+            productCards.forEach(card => {
+                const slider = card.querySelector('.product-image-slider');
+                const slides = slider.querySelectorAll('.slide');
                 
-                // 防止在拖动过程中触发图片弹出
-                let isDragging = false;
-                slide.addEventListener('mousedown', () => { isDragging = false; });
-                slide.addEventListener('mousemove', () => { isDragging = true; });
-                slide.addEventListener('mouseup', (e) => {
-                    // 如果是拖动操作结束，不触发图片点击事件
-                    if (isDragging) {
+                // 阻止所有幻灯片的默认点击事件
+                slides.forEach(slide => {
+                    // 标记为不使用默认弹出
+                    slide.setAttribute('data-popup', 'false');
+                    slide.setAttribute('data-popup-initialized', 'true');
+                    
+                    // 移除所有现有的点击事件
+                    const newSlide = slide.cloneNode(true);
+                    slide.parentNode.replaceChild(newSlide, slide);
+                });
+                
+                // 为整个轮播容器添加点击事件
+                slider.addEventListener('click', function(e) {
+                    // 找到当前显示的幻灯片
+                    const currentSlide = slider.querySelector('.slide[style*="opacity: 1"]') || 
+                                         slider.querySelector('.slide:first-child');
+                    
+                    if (currentSlide) {
+                        // 阻止事件冒泡和默认行为
+                        e.preventDefault();
                         e.stopPropagation();
+                        
+                        // 直接调用图片弹出函数
+                        const img = new Image();
+                        img.src = currentSlide.src;
+                        img.onload = function() {
+                            // 创建临时弹出层元素
+                            const popupOverlay = document.createElement('div');
+                            popupOverlay.className = 'image-popup-overlay';
+                            popupOverlay.style.display = 'block';
+                            popupOverlay.style.position = 'fixed';
+                            popupOverlay.style.top = '0';
+                            popupOverlay.style.left = '0';
+                            popupOverlay.style.width = '100%';
+                            popupOverlay.style.height = '100%';
+                            popupOverlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                            popupOverlay.style.zIndex = '10000';
+                            popupOverlay.style.display = 'flex';
+                            popupOverlay.style.alignItems = 'center';
+                            popupOverlay.style.justifyContent = 'center';
+                            
+                            // 创建弹出图片元素
+                            const popupImg = document.createElement('img');
+                            popupImg.src = currentSlide.src;
+                            popupImg.alt = currentSlide.alt || '';
+                            popupImg.style.maxWidth = '90%';
+                            popupImg.style.maxHeight = '90%';
+                            popupImg.style.objectFit = 'contain';
+                            
+                            // 创建关闭按钮
+                            const closeBtn = document.createElement('div');
+                            closeBtn.style.position = 'absolute';
+                            closeBtn.style.top = '20px';
+                            closeBtn.style.right = '20px';
+                            closeBtn.style.width = '40px';
+                            closeBtn.style.height = '40px';
+                            closeBtn.style.borderRadius = '50%';
+                            closeBtn.style.backgroundColor = 'rgba(255,255,255,0.3)';
+                            closeBtn.style.cursor = 'pointer';
+                            closeBtn.style.display = 'flex';
+                            closeBtn.style.alignItems = 'center';
+                            closeBtn.style.justifyContent = 'center';
+                            closeBtn.innerHTML = '<span style="color:white;font-size:24px;">×</span>';
+                            
+                            // 添加元素到弹出层
+                            popupOverlay.appendChild(popupImg);
+                            popupOverlay.appendChild(closeBtn);
+                            document.body.appendChild(popupOverlay);
+                            
+                            // 禁止滚动
+                            document.body.style.overflow = 'hidden';
+                            
+                            // 添加关闭事件
+                            closeBtn.addEventListener('click', function() {
+                                document.body.removeChild(popupOverlay);
+                                document.body.style.overflow = '';
+                            });
+                            
+                            // 点击空白处关闭
+                            popupOverlay.addEventListener('click', function(evt) {
+                                if (evt.target === popupOverlay) {
+                                    document.body.removeChild(popupOverlay);
+                                    document.body.style.overflow = '';
+                                }
+                            });
+                        };
                     }
                 });
             });
         }
         
-        // 等待一小段时间后设置弹出功能，确保页面已完全初始化
-        setTimeout(setupPopupSupport, 500);
-        
-        // 删除产品分类筛选功能
-        
-        // 删除产品详情按钮点击事件
+        // 立即设置图片弹出功能
+        setupImagePopupSupport();
         
         // 会员按钮点击事件
         const membershipBtn = document.querySelector('.membership-btn');
@@ -347,44 +422,47 @@
         }
         
         // 图片轮播功能
-        const slides = document.querySelectorAll('.product-image-slider .slide');
-        const dots = document.querySelectorAll('.slider-dot');
-        let currentIndex = 0;
-        let touchStartX = 0;
-        let touchEndX = 0;
+        const productCards = document.querySelectorAll('.product-card');
         
-        // 切换到指定幻灯片的函数
-        function showSlide(index) {
-            // 确保索引在有效范围内
-            if (index < 0) index = slides.length - 1;
-            if (index >= slides.length) index = 0;
+        productCards.forEach(card => {
+            const slider = card.querySelector('.product-image-slider');
+            const slides = slider.querySelectorAll('.slide');
+            const dots = slider.querySelectorAll('.slider-dot');
+            let currentIndex = 0;
+            let touchStartX = 0;
+            let touchEndX = 0;
             
-            currentIndex = index;
+            // 切换到指定幻灯片的函数
+            function showSlide(index) {
+                // 确保索引在有效范围内
+                if (index < 0) index = slides.length - 1;
+                if (index >= slides.length) index = 0;
+                
+                currentIndex = index;
+                
+                // 隐藏所有幻灯片
+                slides.forEach(slide => {
+                    slide.style.opacity = 0;
+                });
+                
+                // 显示选中的幻灯片
+                slides[currentIndex].style.opacity = 1;
+                
+                // 更新圆点状态
+                dots.forEach(d => d.classList.remove('active'));
+                dots[currentIndex].classList.add('active');
+            }
             
-            // 隐藏所有幻灯片
-            slides.forEach(slide => {
-                slide.style.opacity = 0;
-            });
+            // 切换到下一张幻灯片
+            function nextSlide() {
+                showSlide(currentIndex + 1);
+            }
             
-            // 显示选中的幻灯片
-            slides[currentIndex].style.opacity = 1;
+            // 切换到上一张幻灯片
+            function prevSlide() {
+                showSlide(currentIndex - 1);
+            }
             
-            // 更新圆点状态
-            dots.forEach(d => d.classList.remove('active'));
-            dots[currentIndex].classList.add('active');
-        }
-        
-        // 切换到下一张幻灯片
-        function nextSlide() {
-            showSlide(currentIndex + 1);
-        }
-        
-        // 切换到上一张幻灯片
-        function prevSlide() {
-            showSlide(currentIndex - 1);
-        }
-        
-        if (slides.length > 0 && dots.length > 0) {
             // 为每个点添加点击事件
             dots.forEach(dot => {
                 dot.addEventListener('click', function() {
@@ -394,90 +472,82 @@
             });
             
             // 为左右箭头添加点击事件
-            const leftArrows = document.querySelectorAll('.swipe-hint-arrow.left-arrow');
-            const rightArrows = document.querySelectorAll('.swipe-hint-arrow.right-arrow');
+            const leftArrow = slider.querySelector('.swipe-hint-arrow.left-arrow');
+            const rightArrow = slider.querySelector('.swipe-hint-arrow.right-arrow');
             
-            leftArrows.forEach(arrow => {
-                arrow.addEventListener('click', function(e) {
+            if (leftArrow) {
+                leftArrow.addEventListener('click', function(e) {
                     e.preventDefault();
-                    e.stopPropagation(); // 防止事件冒泡
+                    e.stopPropagation();
                     prevSlide();
-                    return false; // 阻止默认事件和事件冒泡
                 });
-            });
+            }
             
-            rightArrows.forEach(arrow => {
-                arrow.addEventListener('click', function(e) {
+            if (rightArrow) {
+                rightArrow.addEventListener('click', function(e) {
                     e.preventDefault();
-                    e.stopPropagation(); // 防止事件冒泡
+                    e.stopPropagation();
                     nextSlide();
-                    return false; // 阻止默认事件和事件冒泡
                 });
+            }
+            
+            // 添加触摸滑动功能
+            slider.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            
+            slider.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+            
+            // 处理滑动方向
+            function handleSwipe() {
+                const swipeDistance = touchEndX - touchStartX;
+                const minSwipeDistance = 50; // 最小滑动距离
+                
+                if (swipeDistance > minSwipeDistance) {
+                    // 向右滑动，显示上一张
+                    prevSlide();
+                } else if (swipeDistance < -minSwipeDistance) {
+                    // 向左滑动，显示下一张
+                    nextSlide();
+                }
+            }
+            
+            // 添加鼠标拖动功能
+            let isDragging = false;
+            let startX = 0;
+            
+            slider.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                startX = e.clientX;
+                e.preventDefault();
             });
             
-            // 添加左右滑动功能
-            const sliders = document.querySelectorAll('.product-image-slider');
+            slider.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+            });
             
-            sliders.forEach(slider => {
-                // 触摸开始
-                slider.addEventListener('touchstart', function(e) {
-                    touchStartX = e.changedTouches[0].screenX;
-                }, { passive: true });
+            slider.addEventListener('mouseup', function(e) {
+                if (!isDragging) return;
                 
-                // 触摸结束
-                slider.addEventListener('touchend', function(e) {
-                    touchEndX = e.changedTouches[0].screenX;
-                    handleSwipe();
-                }, { passive: true });
+                const endX = e.clientX;
+                const diffX = endX - startX;
+                const minDragDistance = 50;
                 
-                // 处理滑动方向
-                function handleSwipe() {
-                    const swipeDistance = touchEndX - touchStartX;
-                    const minSwipeDistance = 50; // 最小滑动距离，避免误触
-                    
-                    if (swipeDistance > minSwipeDistance) {
-                        // 向右滑动，显示上一张
-                        prevSlide();
-                    } else if (swipeDistance < -minSwipeDistance) {
-                        // 向左滑动，显示下一张
-                        nextSlide();
-                    }
+                if (diffX > minDragDistance) {
+                    prevSlide();
+                } else if (diffX < -minDragDistance) {
+                    nextSlide();
                 }
                 
-                // 添加鼠标左右拖动功能（PC端）
-                let isDragging = false;
-                let startX = 0;
-                
-                slider.addEventListener('mousedown', function(e) {
-                    isDragging = true;
-                    startX = e.clientX;
-                    e.preventDefault();
-                });
-                
-                slider.addEventListener('mousemove', function(e) {
-                    if (!isDragging) return;
-                    e.preventDefault();
-                });
-                
-                slider.addEventListener('mouseup', function(e) {
-                    if (!isDragging) return;
-                    
-                    const endX = e.clientX;
-                    const diffX = endX - startX;
-                    const minDragDistance = 50;
-                    
-                    if (diffX > minDragDistance) {
-                        prevSlide();
-                    } else if (diffX < -minDragDistance) {
-                        nextSlide();
-                    }
-                    
-                    isDragging = false;
-                });
-                
-                slider.addEventListener('mouseleave', function() {
-                    isDragging = false;
-                });
+                isDragging = false;
+            });
+            
+            slider.addEventListener('mouseleave', function() {
+                isDragging = false;
             });
             
             // 自动轮播
@@ -497,17 +567,15 @@
             startAutoplay();
             
             // 当用户交互时停止自动轮播
-            sliders.forEach(slider => {
-                slider.addEventListener('mouseenter', stopAutoplay);
-                slider.addEventListener('touchstart', stopAutoplay, { passive: true });
-                
-                // 当用户离开时恢复自动轮播
-                slider.addEventListener('mouseleave', startAutoplay);
-                slider.addEventListener('touchend', function() {
-                    setTimeout(startAutoplay, 3000);
-                }, { passive: true });
-            });
-        }
+            slider.addEventListener('mouseenter', stopAutoplay);
+            slider.addEventListener('touchstart', stopAutoplay, { passive: true });
+            
+            // 当用户离开时恢复自动轮播
+            slider.addEventListener('mouseleave', startAutoplay);
+            slider.addEventListener('touchend', function() {
+                setTimeout(startAutoplay, 3000);
+            }, { passive: true });
+        });
     });
     </script>
 </body>

@@ -439,4 +439,65 @@
     .areas-container {
         grid-template-columns: 1fr;
     }
+}
+
+/* 特色饮品卡片居中 */
+.drinks-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.drink-card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .drink-card {
+    width: 95%;
+  }
+}
+
+/* 价格信息的样式 */
+.event-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.event-meta > span:first-child {
+    margin-right: auto;
+    text-align: left;
+}
+
+.price-info {
+    text-align: right;
+    margin-left: 15px;
+}
+
+/* 针对移动端的双人版价格样式 */
+@media (max-width: 768px) {
+    .event-meta {
+        justify-content: flex-start;
+    }
+    
+    .event-meta > span {
+        margin-bottom: 8px;
+    }
+    
+    .price-info {
+        margin-left: 0;
+        margin-right: 20px;
+    }
+    
+    .duo-price {
+        display: block;
+        width: 100%;
+        margin-top: 0;
+    }
 } 
